@@ -1,0 +1,57 @@
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Arduino és Android bemutatása}{5}{chapter.1}%
+\select@language {magyar} \contentsline {section}{\numberline {1.1}Az Arduino}{5}{section.1.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.1}A platform felépítése}{5}{subsection.1.1.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.2}Elérhető alaplapok}{5}{subsection.1.1.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.3}Memória és Háttértár}{6}{subsection.1.1.3}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.4}Az IDE felépítése és használata}{6}{subsection.1.1.4}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.5}A C++ nyelv}{7}{subsection.1.1.5}%
+\select@language {magyar} \contentsline {section}{\numberline {1.2}Az Android}{7}{section.1.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.2.1}Az operációs rendszer története}{7}{subsection.1.2.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.2.2}Az Android Studio felépítése és használata}{9}{subsection.1.2.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {1.2.3}A Java nyelv}{9}{subsection.1.2.3}%
+\select@language {magyar} \contentsline {chapter}{\numberline {2}Követelményspecifikáció}{10}{chapter.2}%
+\select@language {magyar} \contentsline {section}{\numberline {2.1}Vágyálomrendszer leírása}{10}{section.2.1}%
+\select@language {magyar} \contentsline {section}{\numberline {2.2}Jelenlegi helyzet leírása}{10}{section.2.2}%
+\select@language {magyar} \contentsline {chapter}{\numberline {3}Funkcionális specifikáció}{11}{chapter.3}%
+\select@language {magyar} \contentsline {section}{\numberline {3.1}Arudino}{11}{section.3.1}%
+\select@language {magyar} \contentsline {section}{\numberline {3.2}Android}{12}{section.3.2}%
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Belső állapotok és felületterv}{13}{chapter.4}%
+\select@language {magyar} \contentsline {section}{\numberline {4.1}A robot belső állapotai}{13}{section.4.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.1.1}Kezdőállapot}{13}{subsection.4.1.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.1.2}Az irányítás folyamata}{14}{subsection.4.1.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.1.3}Automata követés folyamata}{15}{subsection.4.1.3}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.1.4}A naplózási folyamat}{16}{subsection.4.1.4}%
+\select@language {magyar} \contentsline {section}{\numberline {4.2}Android képernyőtervek}{16}{section.4.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.1}A kezdőképernyő}{16}{subsection.4.2.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.2}Súgó képernyő}{17}{subsection.4.2.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.3}Az automata követés képernyője}{17}{subsection.4.2.3}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.4}Bluetooth irányítás képernyője}{18}{subsection.4.2.4}%
+\select@language {magyar} \contentsline {subsection}{\numberline {4.2.5}Naplózási képernyő}{19}{subsection.4.2.5}%
+\select@language {magyar} \contentsline {chapter}{\numberline {5}A robot és az applikáció működése}{21}{chapter.5}%
+\select@language {magyar} \contentsline {section}{\numberline {5.1}A telefon és a robot összekapcsolása}{21}{section.5.1}%
+\select@language {magyar} \contentsline {section}{\numberline {5.2}A fő folyamatok eldöntése}{23}{section.5.2}%
+\select@language {magyar} \contentsline {section}{\numberline {5.3}Kód küldése a telefonról}{23}{section.5.3}%
+\select@language {magyar} \contentsline {section}{\numberline {5.4}Motorok kezelése}{24}{section.5.4}%
+\select@language {magyar} \contentsline {section}{\numberline {5.5}Akadályok érzékelése}{25}{section.5.5}%
+\select@language {magyar} \contentsline {section}{\numberline {5.6}A pályát jelölő vonal követése}{26}{section.5.6}%
+\select@language {magyar} \contentsline {section}{\numberline {5.7}Akadály kikerülése}{27}{section.5.7}%
+\select@language {magyar} \contentsline {section}{\numberline {5.8}A naplófájl feldolgozása és mentése}{28}{section.5.8}%
+\select@language {magyar} \contentsline {chapter}{\numberline {6}Fejlesztés közbeni tapasztalatok}{31}{chapter.6}%
+\select@language {magyar} \contentsline {section}{\numberline {6.1}Hardverrel kapcsolatos tapasztalatok}{31}{section.6.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {6.1.1}A robot építésekor szerzett tapasztalatok}{31}{subsection.6.1.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {6.1.2}A telefon hardverére vonatkozó tapasztalatok}{33}{subsection.6.1.2}%
+\select@language {magyar} \contentsline {chapter}{\numberline {7}Továbbfejlesztési lehetőségek}{34}{chapter.7}%
+\select@language {magyar} \contentsline {section}{\numberline {7.1}Hardverre vonatkozó fejlesztés}{34}{section.7.1}%
+\select@language {magyar} \contentsline {section}{\numberline {7.2}Android szoftverre vonatkozó fejlesztés}{34}{section.7.2}%
+\select@language {magyar} \contentsline {section}{\numberline {7.3}A hardver biztosítására vonatkozó fejlesztés}{35}{section.7.3}%
+\select@language {magyar} \contentsline {chapter}{\numberline {8}Felhasználói útmutató}{36}{chapter.8}%
+\select@language {magyar} \contentsline {section}{\numberline {8.1}A robothoz tartozó feladatok}{36}{section.8.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {8.1.1}Szükséges alkatrészek}{36}{subsection.8.1.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {8.1.2}A motorok csatlakoztatása}{37}{subsection.8.1.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {8.1.3}Szenzorok felhelyezése}{37}{subsection.8.1.3}%
+\select@language {magyar} \contentsline {subsection}{\numberline {8.1.4}Akkumulátor csatlakoztatása}{38}{subsection.8.1.4}%
+\select@language {magyar} \contentsline {subsection}{\numberline {8.1.5}A program telepítése az alaplapra}{38}{subsection.8.1.5}%
+\select@language {magyar} \contentsline {section}{\numberline {8.2}A telefonon elvégzendő lépések}{38}{section.8.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {8.2.1}Az alkalmazás telepítése}{39}{subsection.8.2.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {8.2.2}Bluetooth párosítás}{39}{subsection.8.2.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {8.2.3}Az alkalmazás első indítása}{39}{subsection.8.2.3}%

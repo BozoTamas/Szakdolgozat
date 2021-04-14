@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogActivity">
+
+    <!--Kezdőlap gomb dizájn-->
+    <ImageButton
+        android:id="@+id/homeButton"
+        android:layout_width="175dp"
+        android:layout_height="60dp"
+        android:background="@drawable/home_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/helpButton"
+        app:layout_constraintTop_toBottomOf="@id/logSaveButton"
+        />
+
+    <!--Súgó gomb dizájn-->
+    <ImageButton
+        android:id="@+id/helpButton"
+        android:layout_width="175dp"
+        android:layout_height="60dp"
+        android:background="@drawable/help_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/homeButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logDeleteButton"
+        />
+
+    <!--Log felület dizájn-->
+    <TextView
+        android:id="@+id/logTextView"
+        android:layout_width="370dp"
+        android:layout_height="400dp"
+        android:hint="Log felület"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/logGet"
+        />
+
+    <Button
+        android:id="@+id/logGet"
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:text="Log lekérése"
+        app:layout_constraintBottom_toTopOf="@id/logSaveButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logTextView"
+        />
+
+    <!--Log mentés gomb dizájn-->
+    <Button
+        android:id="@+id/logSaveButton"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:text="Log mentés"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logGet"
+        app:layout_constraintRight_toLeftOf="@id/logDeleteButton"
+        app:layout_constraintBottom_toTopOf="@id/homeButton"
+        />
+
+    <!--Log törlés gomb dizájn-->
+    <Button
+        android:id="@+id/logDeleteButton"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:text="Log törlés"
+        app:layout_constraintBottom_toTopOf="@id/helpButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/logSaveButton"
+        app:layout_constraintTop_toBottomOf="@id/logGet" />
+</androidx.constraintlayout.widget.ConstraintLayout>

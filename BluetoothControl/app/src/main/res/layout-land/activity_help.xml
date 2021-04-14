@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HelpActivity">
+
+    <!--Kezdőlap gomb dizájn-->
+    <ImageButton
+        android:id="@+id/homeButton"
+        android:layout_width="175dp"
+        android:layout_height="60dp"
+        android:background="@drawable/home_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/helpScreenTextView"
+        app:layout_constraintTop_toBottomOf="@id/helpOptionControl"
+        />
+
+    <!--Követés gomb dizájn-->
+    <Button
+        android:id="@+id/helpOptionFollow"
+        android:layout_width="175dp"
+        android:layout_height="60dp"
+        android:text="Követés"
+        app:layout_constraintLeft_toRightOf="@id/helpScreenTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/helpOptionControl"
+        />
+
+    <!--Irányítás gomb dizájn-->
+    <Button
+        android:id="@+id/helpOptionControl"
+        android:layout_width="175dp"
+        android:layout_height="60dp"
+        android:text="Irányítás"
+        app:layout_constraintLeft_toRightOf="@id/helpScreenTextView"
+        app:layout_constraintTop_toBottomOf="@id/helpOptionFollow"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/homeButton"
+        />
+
+    <!--Szöveg felület dizájn-->
+    <TextView
+        android:id="@+id/helpScreenTextView"
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:autoText="false"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/homeButton"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
