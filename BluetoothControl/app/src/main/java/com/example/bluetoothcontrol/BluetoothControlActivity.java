@@ -15,15 +15,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.UUID;
 
 public class BluetoothControlActivity extends Activity {
     private UUID mDeviceUUID;
     private BluetoothSocket mBTSocket;
-    private ReadInput mReadThread = null;
 
-    private boolean mIsUserInitiatedDisconnect = false;
     private boolean mIsBluetoothConnected = false;
 
     private BluetoothDevice mDevice;
@@ -37,7 +34,6 @@ public class BluetoothControlActivity extends Activity {
     final static char backwardAction = 'B';
     final static char testAction = 'T';
 
-
     Intent help;
 
     private ProgressDialog progressDialog;
@@ -50,8 +46,8 @@ public class BluetoothControlActivity extends Activity {
         setContentView(R.layout.activity_bluetooth_control);
 
         ActivityHelper.initialize(this);
-        helpButton = (ImageButton)findViewById(R.id.helpButton);
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        helpButton = findViewById(R.id.helpButton);
+        homeButton = findViewById(R.id.homeButton);
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
@@ -93,7 +89,7 @@ public class BluetoothControlActivity extends Activity {
     @SuppressLint("ClickableViewAccessibility")
     private void createControlButtons(){
 
-        ImageButton forward = (ImageButton) findViewById(R.id.forward);
+        ImageButton forward = findViewById(R.id.forward);
 
         forward.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -118,9 +114,9 @@ public class BluetoothControlActivity extends Activity {
             }
         });
 
-        ImageButton left = (ImageButton) findViewById(R.id.left);
-        ImageButton testMotors = (ImageButton) findViewById(R.id.testMotors);
-        ImageButton right = (ImageButton) findViewById(R.id.right);
+        ImageButton left = findViewById(R.id.left);
+        ImageButton testMotors = findViewById(R.id.testMotors);
+        ImageButton right = findViewById(R.id.right);
 
         left.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -179,7 +175,7 @@ public class BluetoothControlActivity extends Activity {
             }
         });
 
-        ImageButton reverse = (ImageButton) findViewById(R.id.reverse);
+        ImageButton reverse = findViewById(R.id.reverse);
 
         reverse.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -206,52 +202,6 @@ public class BluetoothControlActivity extends Activity {
 
     }
 
-    private class ReadInput implements Runnable {
-
-        private boolean bStop = false;
-        private Thread t;
-
-        public ReadInput() {
-            t = new Thread(this, "Input Thread");
-            t.start();
-        }
-
-        public boolean isRunning() {
-            return t.isAlive();
-        }
-
-        @Override
-        public void run() {
-            InputStream inputStream;
-
-            try {
-                inputStream = mBTSocket.getInputStream();
-                while (!bStop) {
-                    byte[] buffer = new byte[256];
-                    if (inputStream.available() > 0) {
-                        inputStream.read(buffer);
-                        int i = 0;
-
-                        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
-                        }
-                        final String strInput = new String(buffer, 0, i);
-                    }
-                    Thread.sleep(500);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        public void stop() {
-            bStop = true;
-        }
-
-    }
-
     //Amikor elnavigálunk az adott képernyőről a Bluetooth kapcsolat automatikusan megszakításra kerül.
     private class DisConnectBT extends AsyncTask<Void, Void, Void> {
 
@@ -261,15 +211,6 @@ public class BluetoothControlActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-
-            if (mReadThread != null) {
-                mReadThread.stop();
-                while (mReadThread.isRunning())
-                    ; // Wait until it stops
-                mReadThread = null;
-
-            }
-
             try {
                 mBTSocket.close();
             } catch (IOException e) {
@@ -283,6 +224,7 @@ public class BluetoothControlActivity extends Activity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             mIsBluetoothConnected = false;
+            boolean mIsUserInitiatedDisconnect = false;
             if (mIsUserInitiatedDisconnect) {
                 finish();
             }
@@ -355,7 +297,6 @@ public class BluetoothControlActivity extends Activity {
             } else {
                 msg("Csatlakozva eszközhöz!");
                 mIsBluetoothConnected = true;
-                mReadThread = new ReadInput();
                 try {
                     mBTSocket.getOutputStream().write(enableCode.getBytes()); //Amint végbemegye a csatlakozás elküldjük a vezérlés aktiváló kódját a robotnak
                 } catch (IOException e) {

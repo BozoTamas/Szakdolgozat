@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,7 +82,7 @@ public class MainActivity extends Activity {
                 mBTAdapter = BluetoothAdapter.getDefaultAdapter();
 
                 if (mBTAdapter == null) {
-                    Toast.makeText(getApplicationContext(), "A bluetooth nincs bekapcsolva", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Az eszköz nem rendelkezik megfelelő Bluetooth egységgel!", Toast.LENGTH_SHORT).show();
                 } else if (!mBTAdapter.isEnabled()) {
                     Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE); //Meghívjuk a bekapcsolási kérelmet
                     startActivityForResult(enableBT, BT_ENABLE_REQUEST);
@@ -139,13 +138,11 @@ public class MainActivity extends Activity {
     }
 
     protected void onPause() {
-// TODO Auto-generated method stub
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-// TODO Auto-generated method stub
         super.onStop();
     }
 
@@ -162,16 +159,14 @@ public class MainActivity extends Activity {
                 }
 
                 break;
-            case SETTINGS: //If the settings have been updated
+            case SETTINGS: //A telefon bluetooth moduljának adatait kimentjük
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 String uuid = prefs.getString("prefUuid", "Null");
                 mDeviceUUID = UUID.fromString(uuid);
-                Log.d(TAG, "UUID: " + uuid);
                 String bufSize = prefs.getString("prefTextBuffer", "Null");
                 mBufferSize = Integer.parseInt(bufSize);
 
                 String orientation = prefs.getString("prefOrientation", "Null");
-                Log.d(TAG, "Orientation: " + orientation);
                 if (orientation.equals("Landscape")) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 } else if (orientation.equals("Portrait")) {
@@ -207,7 +202,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected List<BluetoothDevice> doInBackground(Void... params) {
-            Set<BluetoothDevice> pairedDevices = mBTAdapter.getBondedDevices();
+            Set<BluetoothDevice> pairedDevices = mBTAdapter.getBondedDevices(); //Lekérjük a telefontól az összes párosított eszközt
             List<BluetoothDevice> listDevices = new ArrayList<BluetoothDevice>();
             for (BluetoothDevice device : pairedDevices) {
                 listDevices.add(device);

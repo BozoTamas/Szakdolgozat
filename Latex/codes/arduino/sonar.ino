@@ -7,27 +7,20 @@ if(distance < 10){
 
 void ObstacleAvoidance(){ 
   //Az akadály érzékelése után egy kicsit hátrál a robot
-  backwardAction();
+  backwardAction(100);
   delay(250);
-  stopAction();
-  delay(100);
-  
+  stopAction();  
   //Megvizsgáljuk, a jobb oldalt
   myservo.write(0);
-  delay(400);
+  delay(100);
   rightObstacle = measureDistance();
-  delay(200);
-
+  delay(100);
   //Megvizsgáljuk a bal oldalt is
   myservo.write(180);
-  delay(400);
+  delay(100);
   leftObstacle = measureDistance();
-  delay(200);
+  delay(100);
   
-  if(leftObstacle < rightObstacle){ //Ha a bal oldalon is van akadály
-    avoidObstacleToRight();
-  }
-  else{ //Ha a jobb oldalon is van akadály
-    avoidObstacleToLeft();
-  } 
+  if(leftObstacle < rightObstacle){ avoidObstacleToRight(); }
+  else{ avoidObstacleToLeft(); } 
 }

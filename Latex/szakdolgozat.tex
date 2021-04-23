@@ -39,16 +39,17 @@
 	\emph{,,There are an endless number of things to discover about robotics. A lot of it is just too fantastic for people to believe.'' -- Daniel H. Wilson}
 \end{flushright}
 
-A mai világban egyre több helyen alkalmaznak robotokat. Akár a munkahelyen a termelés felgyorsítására, az egészségügyben az orvosok segítésére, vagy csak az otthonunkban különböző feladatok elvégzésére. Azért választottam ezt a témát diplomamunkám elkészítéséhez, ugyanis az egyetemi tanulmányaim befejezése utáni célom általános iskolai tanárként elhelyezkedni lakóhelyemen és a diákokkal megismertetni a robotika világát.
+A mai világban egyre több helyen alkalmaznak robotokat. Akár a munkahelyen a termelés felgyorsítására, az egészségügyben az orvosok segítésére, vagy csak az otthonunkban különböző feladatok elvégzésére. Azért választottam ezt a témát diplomamunkám elkészítéséhez, ugyanis az egyetemi tanulmányaim befejezése utáni célom általános iskolai tanárként elhelyezkedni lakóhelyemen és a diákok ismereteit az alaptanterven túl bővíteni a robotika világában.
 
-Szakdolgozatom témája egy olyan robot építése és programozása, mely egy vonallal kirajzolt pályát képes követni, a pályán található esetleges akadályokat érzékelni és kikerülni, de okostelefon segítségével a felhasználó is képes irányítani. A fejlesztés során igyekeztem egy olyan autóhoz hasonló felépítésre törekedni, amit otthon hobbi felhasználók, de akár általános iskolások is képesek megépíteni a megfelelő felügyelet mellett (erről bővebben olvashatnak a későbbiekben), valamint egy olyan programkód írására, amit könnyen meg lehet érteni és esetleg változtatni/bővíteni.
+Szakdolgozatom témája egy olyan robot építése és programozása, mely egy vonallal kirajzolt pályát képes követni, a pályán található esetleges akadályokat érzékelni és kikerülni, valamint egy olyan android rendszerrel rendelkező készülékre telepíthető applikáció fejlesztése melynek segítségével a felhasználó is képes irányítani. A robot megtervezése során igyekeztem egy olyan felépítésre törekedni, amit otthon hobbi felhasználók, de akár általános iskolások is képesek megépíteni, valamint egy olyan programkód írására, amit könnyen meg lehet érteni és esetleg változtatni/bővíteni.
 
 A telefonos applikáció megvalósítására egy olyan kezelőfelületet akartam létrehozni, mely egyaránt biztosítja a lehetőséget a valós idejű irányításra, valamint a robot működésének monitorozására is.
+
 Programnyelvként a C++-t és a Java-t választottam. A Java egy széles körben elterjedt nyelv, melyet könnyen lehet értelmezni, a C++ pedig az Arduino által támogatott nyelv.
 
 Fejlesztői környezetnek az Arduino IDE és Android Studio nevű alkalmazásokat használtam. Ezen alkalmazásokról \az{\pageref{arduino-IDE}.} és \az{\pageref{android-studio}}.~oldalakon részletesebben olvashatnak.
 
-Jelen dokumentumban kitérek a robot megépítéséhez felhasznált hardverekre, a program megírása során használt fejlesztői környezetekre, valamint programozási nyelvekre, az egyes komponensek/funkciók feladataira, a fejlesztés során szerzett személyes tapasztalataimra, végül egy egyszerű összeszerelési/telepítési útmutatót is csatolok. /Kicsit bővebben kifejteni!!/
+Jelen dokumentumban kitérek a robot megépítéséhez felhasznált hardverekre, a program megírása során használt fejlesztői környezetekre, valamint programozási nyelvekre, az egyes komponensek/funkciók feladataira, a fejlesztés során szerzett személyes tapasztalataimra, végül egy egyszerű összeszerelési/telepítési útmutatót is csatolok.
 \chapter{Arduino és Android bemutatása}
 \emph{,,Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning'' -- Rick Cook, The Wizardry Compiled}
 \section{Az Arduino}
@@ -133,27 +134,73 @@ A Java nyelv a szintaxisát főleg a C és a C++ nyelvektől örökölte, viszon
 Bár a nyelv neve kezdetben Oak\footnote{James Gosling, a nyelv atyja nevezte így az irodája előtt növő tölgyfáról} volt, később kiderült, hogy ilyen elnevezésű nyelv már létezik, ezért végül Java néven vált ismertté. A Java szó a Oracle védjegye. Ennélfogva engedélye nélkül nem használható mások által kifejlesztett termékek megjelölésére; még például Java-szerű... stb. összetételben sem, mert ez a védjegyjogosult jogaiba ütközik.
 \chapter{Követelményspecifikáció}\label{kövspec}
 Ebben a fejezetben arról fogok beszámolni, hogy a projekt kigondolásakor, milyen célt tűztem ki magamnak, valamint ennek megvalósítására milyen komponenseket használtam.
-\section{Vágyálomrendszer leírása}\label{követelmény}
-A projekt megalkotásakor a célom egy olyan robot kifejlesztése volt, amit különböző életkorú diákok, illetve hobbi felhasználók is tudnak használni.
+\section{Vágyálomrendszer leírása}\label{vágyálom}
+A projekt megalkotásakor a célom egy olyan robot kifejlesztése volt, amely képes egy megadott pályát követni, a követés közben észlelt bármekkora méretű akadályt kikerül és ezután a követendő pályát újra megtalálni, valamint egy olyan telefonos alkalmazást kifejleszteni, mellyel a robotot irányítani tudjuk, a robot által vezetett napló tartalmának megtekintését lehetővé teszi, valamint a naplót a készülékre lehessen menteni.
 
-A projekttel szeretném elérhetővé tenni az általános iskolások számára a robotika világának megismerését, de lehetőséget akartam biztosítani azon középiskolás diákoknak is, akik a robotikán túl kihívásra vágynak. Nekik az Android applikáció egy új képesség elsajátítására ad lehetőséget.
+Szerettem volna ezeket úgy megvalósítani, hogy a végtermékkel különböző életkorú diákok oktatását lehessen segíteni, de otthoni felhasználáshoz is szórakoztató időtöltés legyen akár egyszerre több embernek is.
 
-Azon személyeknek, akik hobbiból szeretnének egy ilyen robotot megépíteni egy kellemes kikapcsolódás élményét próbáltam biztosítani, ahol maguk építhetik fel a robotot lépésről-lépésre.
+Mivel 2020-as Nemzeti Alaptantervben az általános iskolás diákok számára a Digitális Kultúra tárgy magába foglalja a robotika oktatását 5. és 6. osztályban 11 óra alkalmával, valamint 7-8. osztályosoknak 8 órában. Az órák alatt a diákok számára a javasolt tevékenység különböző programok megírása blokkprogramozással, ezért nekik lehetőséget akarok biztosítani egy másik programozási módszer megismerésére.
+
+Középiskolások részére a tárgyban megtalálható a Mobiltechnológiai ismeretek témakör, melyet 9. és 11. osztályban 4-4 órában tanulnak a diákok. Az ő részükre a telefonra fejlesztett applikációval szeretnék egy példát mutatni a mobiltechnológiai eszközök segítségével megvalósított együttműködésre.
+
+Hobbifelhasználóknak pedig egy olyan kikapcsolódási lehetőséget akartam biztosítani, mellyel maguk építhetnek meg egy olyan robotot, amit utána irányítani is tudnak.
+\section{Követelmények}\label{követelmény}
+Miután kitűztem a célt, amit el szeretnék érni meg kellett fogalmaznom néhány elvárást is.
+
+\textbf{A kód könnyen módosítható legyen.} Ahhoz, hogy az általános iskolai diákok számára ne legyen bonyolult a projekt, szükséges, hogy az alapoktól kezdve tudjuk megmutatni nekik hogyan is épül fel.
+
+\textbf{A projekt legyen érdekes.} A középiskolásoknak egy olyan példát kell biztosítani, mely felkelti az érdeklődésüket.
+
+\textbf{Sokoldalú felhasználás.} Mivel nem csak oktatási célra szánom a projektemet, szükségesnek tartottam, hogy a hétköznapi felhasználók is szórakoztatónak találják.
 \section{Jelenlegi helyzet leírása}\label{jelenlegi_helyzet}
+A projekt jelenlegi állapotában a \ref{vágyálom}.~fejezetben megfogalmazottaknak sikerült eleget tennem. A robot az alváz elején található infravörös szenzorok segítségével képes követni egy előre megadott pályát, ezen a kanyarokat be tudja venni (az éles, ~45-90°-os kanyarok néha problémát okozhatnak), majd ugyanezen szenzoroknak köszönhetően egy akadály kikerülése után a követendő pályát képes ismételten megtalálni.
+
+A felhasznált ultrahang szenzor biztosítja azt, hogy a robot nem fog akadálynak ütközni a pálya követése közben, a Bluetooth modulnak köszönhetően pedig a telefonos applikációval rá tudunk csatlakozni a robotra.
+
+A telefonos applikációban a robot vezérlésének több részét is el tudjuk végezni. Először is el tudjuk dönteni, hogy a robot kövesse-e a pályát vagy mi magunk szeretnénk irányítani. Másodszor a robot irányításakor mi tudjuk megmondani az irányt, amerre szeretnénk, ha a robot mozogna. Harmadszor pedig a robot által létrehozott naplófájlt meg tudjuk a telefonon tekinteni, a telefonra le tudjuk menteni, vagy a robot memóriájából ki tudjuk törölni.
 \chapter{Funkcionális specifikáció}
-A fejezetben a projekt felhasználási lehetőségeit mutatom be funkcionalitást tekintve, valamint \az{\ref{kövspec}.~fejezetben} \az{\pageref{követelmény}.~oldalon} megfogalmazottaknak feleltetem meg a termékemet.
-\section{Arudino}
-A robot és az Arduinohoz tartozó program komplexitása könnyen csökkenthető vagy növelhető, ezért többféle felhasználást biztosít.
+A fejezetben a projekt felhasználási lehetőségeit mutatom, valamint \az{\ref{kövspec}.~fejezetben} \az{\pageref{követelmény}.~oldalon} megfogalmazottaknak feleltetem meg a termékemet, majd bemutatom a fejlesztés során használt készüléket.
+\section{Használati esetek}
+A projektnek két felhasználója van, a robot és egy személy. A két felhasználó két különböző szoftverrel érintkezik. Mindkét felhasználó más funkciókat tud elérni a különböző szoftvereknek köszönhetően.
+
+A robot képes a naplófájlhoz új eseményeket hozzáadni, valamint képes a felhasználótól függetlenül egy pályát követni.
+
+A személy el tudja végezni a robot irányítását, a pályakövetési folyamatkor kényszerítheti a robotot a folyamat szüneteltetésére, valamint a robot által készített naplófájl tartalmát lekérheti, mentheti és törölheti.
+\section{Követelmény megfeleltetés}
+A következőkben részletezem, hogy a követelményspecifikációban megfogalmazottaknak hogyan tettem eleget.
+\subsection{Könnyű módosíthatóság}
+Az Arduino alaplapon futó kódban minden olyan egységet, mely egy szenzorról beérkező értéket használ fel egy feltétel vizsgálatához, vagy változó értékének módosításához igyekeztem külön metódusba építeni, így a kód gyorsan és biztonságosan módosítható.
+
+A módosíthatóságnak köszönhetően a diákok számára létre lehet hozni egy olyan struktúrát a projektben, melyben kezdetben csak az infravörös szenzorokat használjuk LED-el, majd lépésről-lépésre a LED-et lecseréljük a motorokra, valamint hozzáadjuk az ultrahang szenzort és végül ezeknek a működését hangoljuk össze.
+\subsection{Érdekes projekt}
+A projekt véleményem szerint a középiskolások számára kellő érdekességgel bír, ugyanis nem csak új ismeretet tudnak vele szerezni, hanem egy interaktív óra lehetőségét is magában hordozza.
+
+Amennyiben két robotot biztosítunk az órán két diákot kiválasztva egy robotok közötti 'verseny' is szimulálható, ahol a diákok képessége határozza meg, hogy melyik robot lesz a gyorsabb, továbbá szemléltetni tudjuk vele, hogy az egyes mobilkommunikáción alapuló eszközök együttműködése nem csak az eszközöktől függ, hanem az eszközt kezelő felhasználóktól is.
+\subsection{Sokoldalú felhasználás}
+A projekt nem csak az irányítás és a pályakövetés lehetőségét biztosítja. Ha szeretnénk a robotnak egyre összetettebb és nehezebb pályákat tudunk építeni, emelkedőkkel, nagyobb akadályokkal összetettebb kanyarokkal, ezzel tesztelve, hogy mi az amire a robot képes és mire nem. Más lehetőség az előzőekben említett több robot közötti 'verseny'.
+\section{A fejlesztés során használt telefonok}\label{telefonok}
+A teszteléshez több telefont is használtam, hogy az applikáció erőforrás igényét pontosabban fel tudjam mérni.
+\subsection{Samsung Galaxy A71}
 \begin{itemize}
-	\item \textbf{Általános iskola:} A projekt iskolások részére (7-8. osztály) biztosít betekintést a robotika világában. Amennyiben szeretnénk a robotot meg tudjuk építeni úgy, hogy vonalat kövessen, egyenesen mozogjon, de amint akadályt érzékel, egy másik irányba forduljon, vonalat kövessen, akadály kikerülésével. Ezekhez a kód, és a robot felépítését is könnyedén lehet változtatni.
-	\item \textbf{Középiskola:} Azon diákoknak javasolt, akik már dolgoztak Arduino-val, nekik az Android fejlesztésbe biztosít alapot. Kezdő Android szinten a projekt módosítható úgy, hogy csak a telefon küldjön adatot a robotnak, aminek hatására az elvégzi a feladatot, későbbiekben az oda-vissza kommunikáció (logolás) is bemutatható.
-	\item \textbf{Hobbi felhasználó:} A mellékelt felhasználói útmutató (7.fejezet) alapján a robot összeszerelése, illetve a programok telepítése lépésről-lépésre követhető, ezért nincs szükség előzetes ismeretre, a projekt csupán szórakozási/időtöltési funkciót lát el.
+	\item Processzor: Qualcomm Snapdragon 730
+	\item Processzormagok száma: 8
+	\item Processzor sebessége: 2.2 GHz
+	\item RAM mérete: 6 GB
+	\item Bluetooth: v5.00
+	\item Akkumulátor típusa: Li-Pol
+	\item Akkumulátor kapacitás: 4500 mAh
+	\item Android verzió: 10
 \end{itemize}
-\section{Android}
-Az applikáció a roboton található komponensektől függően maximum két felhasználási lehetőséget biztosít.
+\subsection{Alcatel OneTouch Pop D1}
 \begin{itemize}
-	\item \textbf{Automata követés:} A robot egy meghatározott pályát követ végig, amiről adatokat küld a telefonra (milyen irányba változott a pálya, akadályészlelés történt, ki lett kerülve az akadály, megállt a robot, elindult a robot), továbbá a felhasználó meg tudja állítani és újra el tudja indítani a robotot.
-	\item \textbf{Bluetooth vezérlés:} A felhasználó a képernyőn lévő gombok segítségével tudja irányítani a robot mozgását.
+	\item Processzor: ARM Cortex-A7
+	\item Processzormagok száma: 2
+	\item Processzor sebessége: 1 GHz
+	\item RAM mérete: 512 MB
+	\item Bluetooth: v4.00
+	\item Akkumulátor típusa: Li-Ion
+	\item Akkumulátor kapacitás: 1300 mAh
+	\item Android verzió: 4.4.2 KitKat
 \end{itemize}
 \chapter{Belső állapotok és felületterv}
 \emph{,,Any fool can write code that a computer can understand. Good programmers write code that humans can understand.'' -- Martin Fowler}
@@ -238,17 +285,17 @@ Az alkalmazás elindításakor a felhasználót ez a képernyő üdvözli, ahol 
 \end{figure}
 \subsection{Súgó képernyő}\label{help}
 A képernyő tartalmazza a funkciók rövid leírását.
-\begin{itemize}
-	\item \textbf{Home ikon:} A kezdőlapra navigálja a felhasználót.
-	\item \textbf{Szöveg felület:} A kiválasztott gomb által tartalmazott leírást jeleníti meg.
-	\item \textbf{Követés/irányítás gombok:} Az applikációban található funkciók leírását jeleníti meg a szöveg felületen.
-\end{itemize}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\columnwidth]{images/app_screen/help_screen}
 	\caption{Súgó képernyő}
 	\label{help-screen}
 \end{figure}
+\begin{itemize}
+	\item \textbf{Home ikon:} A kezdőlapra navigálja a felhasználót.
+	\item \textbf{Szöveg felület:} A kiválasztott gomb által tartalmazott leírást jeleníti meg.
+	\item \textbf{Követés/irányítás gombok:} Az applikációban található funkciók leírását jeleníti meg a szöveg felületen.
+\end{itemize}
 \subsection{Az automata követés képernyője}\label{auto-follow}
 Amint a felhasználó erre a képernyőre kerül, a robot megkezdi a pálya követését, valamint elérhetővé válnak \az{\ref{follow-screen}~ábrán} látható elemek.
 \begin{itemize}
@@ -315,10 +362,11 @@ Mivel a robot a telefonról kapott kód alapján kezdi el valamely folyamatot el
 A telefonos applikációban ennél összetettebb kódra van szükség. Először biztosítani kell azt, hogy az készüléken be legyen kapcsolva a Bluetooth modul, ezt úgy tudtam elérni, hogy egy erre beépített metódust használtam\cite{Bluetooth_active} (\ref{device_choose}~kód 9. sor), és amennyiben ez igaz értéket adott vissza jeleztem a felhasználónak, majd meghívtam a 'BluetoothAdapter.ACTION\_REQUEST\_ENABLE' metódust\cite{Bluetooth_enable}, mellyel a felhasználó engedélyezni tudja a bekapcsolást. 
 \lstinputlisting[caption=Eszköz kiválasztása\label{device_choose}]{codes/android/Connectbluetooth.java}
 
-Miután a Bluetooth be van kapcsolva és a felhasználó megnyomta a kezdőoldalon megtalálható gombok valamelyikét az ehhez tartozó megfelelő 'activity' kerül elindításra, valamint ennek paraméterként átadjuk az eszköz adatait is.
+Ahhoz, hogy a Bluetooth bekapcsolásához szükséges engedélyt az applikációból meg tudjuk adni az AndroidManifest fájlban használni kell a ,,<uses-permission android:name="android.permission.BLUETOOTH\_ADMIN"/>'' parancsot.
 
-A kiválasztott képernyőre való átnavigáláskor rögtön elindul a \ref{device_connect}~kódrészletben megtalálható metódus, mellyel egy előre csatlakoztatott Bluetooth eszközhöz kapcsolódunk. A kapcsolódás folyamata alatt egy állapotjelző látható a képernyőn, majd a csatlakozási folyamat végén a felhasználó  visszajelzést kap a kapcsolat állapotáról.
-\lstinputlisting[caption=Bluetooth kapcsolódás\label{device_connect}]{codes/android/BTConnecting.java}
+Amennyiben a Bluetooth be van kapcsolva a felhasználó egyszerűen meg tudja jeleníteni a párosított eszközök listáját, majd ebből ki tudja választani azt, melyhez csatlakozni szeretne. Ezek után a \ref{home-screen}~ábrán látható gombok valamelyikét kiválasztva egy új ablakba navigálhat.
+
+Amint a felhasználó megnyomja a gombot az applikáció eltárolja a kiválasztott készülék adatait, majd az új képernyő indulásakor a csatlakozás végbemegy az eltárolt adatok segítségével\cite{Bluetooth_connect}. A folyamat alatt a felhasználó egy általános állapotjelzőt lát, majd a csatlakozás végén visszajelzést adunk a végkimenetelről is.
 \section{A fő folyamatok eldöntése}
 Ahogy a \ref{start_allapot}~ábrán is látható a robot az indulás után három fő állapotba léphet át, melyek az applikációban való képernyőváltással idézhetők elő. Minden alkalommal, mikor a kezdőképernyőt elhagyjuk és a Bluetooth csatlakozás végbe ment az applikáció automatikusan kiküldi az aktív képernyőhöz tartozó aktiváló kódot a robot részére (lásd \ref{kezdokepernyo_allapot}~fejezet), valamint a képernyő elhagyásakor a megszakító kódot is.
 
@@ -330,32 +378,36 @@ Az alkalmazásban két módon kell kódot küldeni a robot számára.
 	\item Folyamatosan, míg az iránygombok valamelyikét nyomva tartjuk
 \end{itemize}
 
-A kód egyszeri kiküldését egyszerűen egy 'onClickListener' használatával el lehet érni, ahol a gomb lenyomásakor \az{mBTSocket} névvel példányosított BluetoothSocket 'getOutputStream().write()' metódusának segítségével elküldjük a kódot.
+A kód egyszeri kiküldését egyszerűen egy 'onClickListener' használatával el lehet érni, ahol a gomb lenyomásakor az mBTSocket névvel példányosított BluetoothSocket 'getOutputStream().write()' metódusának segítségével elküldjük a kódot.
 
-Az iránykód folyamatos küldéséhez az 'onClickListener' helyett 'onTouchListenert' kell használni. Az utóbbinál a gombtól kapott 'MotionEvent' alapján tudjuk eldönteni, hogy az adott gomb jelenleg le van-e nyomva (ACTION\_DOWN) vagy sem (ACTION\_UP). Ameddig a gomb nyomva van az 'mBTSocket.getOutputStream().write()' metódus segítségével az iránykódot küldjük a robotnak, majd mikor felengedésre kerül a gomb ugyanezen metódussal elküldjük a motorok leállítására szolgáló 'stopAction()' kódját.
+Az iránykód folyamatos küldéséhez az 'onClickListener' helyett 'onTouchListenert' kell használni. Az utóbbinál a gombtól kapott 'MotionEvent' alapján tudjuk eldönteni, hogy az adott gomb jelenleg le van-e nyomva (ACTION\_DOWN) vagy sem (ACTION\_UP). Ameddig a gomb nyomva van az 'mBTSocket.getOutputStream().write()' metódus segítségével az iránykódot küldjük a robotnak, majd mikor felengedésre kerül a gomb ugyanezen metódussal egyszer elküldjük a motorok leállítására szolgáló 'stopAction()' kódját.
 \section{Motorok kezelése}
-A roboton található 4db villanymotor és 1db szervo motor kezelésére egy motorvezérlő panelt használtam, mely L293D típusú motorvezérlőt tartalmaz. A kódban minden motort külön kell kezelni.
+A roboton található 4db villanymotor és 1db szervo motor kezelésére egy motorvezérlő panelt használtam, mely L293D típusú motorvezérlőt tartalmaz. A kódban minden motort külön kell példányosítani.
 \lstinputlisting[caption=Motorok kezelése\label{motor-shield}]{codes/arduino/motor-shield.ino}
 
-A kódban láthatóan ahhoz, hogy a panelt használni tudjuk meg kell hivatkozni az 'AFMotor' és 'Servo' könyvtárakat.
+A kódban láthatóan a villanymotorok példányosításakor meg kell adni, hogy a panelen melyik csatlakozóhoz vannak kötve, valamint a típust is.
 
-A könyvtárak hivatkozása után inicializáljuk a 4 motort, melyhez meg kell adnunk, hogy melyik porthoz csatlakozik, illetve azt is, hogy milyen típusú motorról van szó.
+Ezen felül a panelhez szükséges behivatkozni az 'AFMotor.h' könyvtárat, illetve a szervo motor kezeléséhez szükséges a 'Servo.h' könyvtár is.
 
 Miután a DC motorok példányosítása megtörtént, megtesszük ezt a szervo motorral is. A program 'setup()' részében a 'myservo.attach()' utasítással tudjuk megadni, hogy melyik port felel a szervo motorért. -- Jelen esetben ez a digitális 10-es port lesz.
 
 Amennyiben ezek megtörténtek a szervo motort a 'myservo.write()' utasításban paraméterként megadott értékkel tudjuk forgatni 0-180° között, a DC motort pedig \az{\ref{forward}~kódban} látható módon tudjuk kezelni. -- 'FORWARD' helyett használhatunk 'BACKWARD' parancsot, hogy hátra forgassuk a motort, illetve 'RELEASE' parancsot a motorok leállítására. 
 
-Az \ref{turndetect}~kódban látható 'rightAction()' és 'leftAction()' metódusok meghívásakor nem egy, hanem két értéket kell megadnunk, melyek az előre és a hátra forgó motorok sebességeiért felelnek, míg a 'stopAction()' metódusban nincs szükség érték megadására, ugyanis ez az összes DC motort leállítja, vagyis a sebesség minden esetben 0 lesz.
+A kódban található 'rightAction()', valamint 'leftAction()' metódusok meghívásakor nem egy, hanem két értéket kell megadnunk, melyek az előre és a hátra forgó motorok sebességeiért felelnek.
+
+Másrészről a 'forwardAction()' és 'backwardAction()' metódusoknál 1-1, míg a 'stopAction()' metódusban nincs szükség érték megadására, ugyanis utóbbi az összes DC motort leállítja, vagyis a sebesség minden esetben 0 lesz.
 \lstinputlisting[caption=Előrehaladás\label{forward}]{codes/arduino/forward.ino}
 \section{Akadályok érzékelése}
+Annak érdekében, hogy a robot ne ütközzön akadálynak a kijelölt pálya követése közben a szervo motorra egy tartóelem segítségével felhelyeztem egy HC-04 típusú ultrahang szenzort. Alábbiakban ennek működését fogom ismertetni.
 \begin{figure} [!h]
 	\includegraphics[width=\columnwidth]{images/ultrasonic}
 	\caption{HC-SR04}
 	\label{ultrahang}
 \end{figure}
-Ahogy \az{\ref{ultrahang}~ábra} is mutatja a roboton található ultrahang szenzor a jel kiküldése és annak visszaérkezése között eltelt idő alapján határozza meg a távolságot. Mivel tudjuk, hogy a hang levegőben való terjedési sebessége 0.034 cm/µs\footnote{centiméter/mikroszekundum}, a távolságot meg tudjuk határozni úgy, hogy a mért időt megszorozzuk ezzel a sebességgel, majd az így kapott értéket elosztjuk kettővel. -- A kettővel való osztásra azért van szükség, mert a kiküldött jelnek az akadály és a szenzor között oda-vissza meg kell tennie az utat.
 
-A programban ezt \az{\ref{ultrasonic-code}~kódrészletben} látható módon egy metódusba építettem annak érdekében, hogy a kód átlátható legyen.
+Ahogy \az{\ref{ultrahang}~ábra} is mutatja a roboton található ultrahang szenzor a jel kiküldése és annak visszaérkezése között eltelt idő alapján határozza meg a távolságot\cite{Ultrahang_Szenzor}. Mivel a hang levegőben való terjedési sebessége 0.034 cm/µs\footnote{centiméter/mikroszekundum}, a távolságot meg tudjuk határozni úgy, hogy a mért időt megszorozzuk ezzel a sebességgel, majd az így kapott értéket elosztjuk kettővel. -- A kettővel való osztásra azért van szükség, mert a kiküldött jelnek az akadály és a szenzor között oda-vissza meg kell tennie az utat.
+
+A programban ezt \az{\pageref{követelmény}.~oldalon} megfogalmazottaknak eleget téve \az{\ref{követelmény}~kódrészletben} látható módon egy metódusba építettem.
 \lstinputlisting[caption=Akadályérzékelés\label{ultrasonic-code}]{codes/arduino/ultrasonic.ino}
 \section{A pályát jelölő vonal követése}
 \lstinputlisting[caption=Pálya követése\label{turndetect}]{codes/arduino/linefollow.ino}
@@ -364,13 +416,12 @@ Ahhoz, hogy a robot követni tudja a pályát jelölő fekete vonalat kettő HW-
 
 A kódban látható 'forwardAction()', 'backwardAction()', 'leftAction()', 'rightAction()' és 'stopAction()' metódusokban megy végbe a motorok irányítása.
 \section{Akadály kikerülése}
-A robot programozása közben szükségesnek találtam azt, hogy az autó el tudja dönteni melyik irányba tudja kikerülni az érzékelt akadályt.
+A megfogalmazott követelmények alapján szükséges volt, hogy a robot mérettől függetlenül tudjon akadályt kikerülni.
 
 Erre \az{\ref{180°-sonar}~kódrészlet} tartalmazza a megoldást. A kódrészletben látható, hogy amint egy akadályt érzékelünk a motorok megállításra kerülnek, majd meghívásra kerül az 'ObstacleAvoidance()' metódus, melyben az alábbi módon történik az akadály kikerülése.
 \lstinputlisting[caption=Pásztázás\label{180°-sonar}]{codes/arduino/sonar.ino}
-Először meghívjuk a 'backwardAction()' metódust annak érdekében, hogy a kerekek egyike se ütközzön neki az akadálynak.
 
-Ezután megvizsgáljuk a bal és jobb oldalakat és eltároljuk a szenzorral kapott értékeket, amik alapján el lehet dönteni melyik irányba kell kikerülni az akadályt. Az 'if' és 'else' ágakban található metódusok felelnek ezért.
+Először a robot hátrál, hogy véletlenül se ütközzön az akadálynak kikerülés közben. Ezután megvizsgáljuk a bal és jobb oldalakat és eltároljuk a szenzorral kapott értékeket, amik alapján el lehet dönteni melyik irányba kell kikerülni az akadályt. Az 'if' és 'else' ágakban található metódusok felelnek ezért.
 
 Az akadály kikerülésekor fontos, hogy a robot el tudja dönteni, hogy mikor érte el az akadály szélét. Ennek elérésére egy egyszerű do-while ciklust használtam, melyben a robot addig halad előre, míg az akadály aktuális távolsága maximum 5cm-el haladja meg az eredeti mért távolságot.
 
@@ -378,10 +429,12 @@ Ezek után ismételten meg kellett találni az akadály szélét, hogy széltéb
 
 Az akadály kikerülése után a robotnak ismételten meg kell találnia a követendő vonalat. Ezt úgy tudtam elérni, hogy a robot egyenesen halad mindaddig, míg valamely infravörös szenzor jelzést nem ad a vonal érzékeléséről és a robot a jelzést leadó szenzorral ellentétes irányba fordul.
 \section{A naplófájl feldolgozása és mentése}
-A robot működés közben az adott eseményeket egy 'string' típusú változóban tárolja el a \ref{log_process}~kódrészletben látható módon. Az adat átküldésre a telefonra a 'println()' metódussal történik az applikáció pedig a 'getInputStream()' metódussal fogadja ezt és ezek után már feldolgozhatjuk az adatot, hogy a kívánt módon tudjuk megjeleníteni azt.
+A robot működés közben az adott eseményeket egy 'string' típusú változóban tárolja el a \ref{log_process}~kódrészletben látható módon. Az adat átküldése a telefonra a 'println()' metódussal történik az applikáció pedig a 'getInputStream()' metódussal fogadja ezt és ezek után a while() cikluson belül feldolgozza azt.
+
+A feldolgozás megvalósításának szükségességéről részletesebben if olvashatnak a \ref{log_fogadás}.~fejezetben.
 \lstinputlisting[caption=Naplófájl feldolgozása\label{log_process}]{codes/android/LogProcess.java}
 
-Miután az adatot fogadtuk, feldolgoztuk és megjelenítettük a felhasználónak lehetősége van menteni is ezt. A mentést a \ref{log_screen}~ábrán látható 'Log mentése' gombbal tudja megtenni a felhasználó. A naplófájl neve az adott dátum lesz másodperc pontossággal, amelynek megvalósítását a \ref{log_save}~kódban láthatnak.
+Miután az adatot fogadtuk, feldolgoztuk és megjelenítettük a felhasználónak lehetősége van menteni is ezt. A mentést a \ref{log_screen}~ábrán látható 'Log mentése' gombbal tudja megtenni a felhasználó. A naplófájl neve az adott dátum lesz másodperc pontossággal, amelynek megvalósítását a \ref{log_save}~kódban láthatják.
 
 A fájlnév eltárolása után példányosítunk egy új 'FileOutputStream' egyedet, majd ennek paraméterben megadjuk a mentendő fájl nevét és mentési módját.
 
@@ -392,12 +445,12 @@ Ahhoz, hogy a fájlt létre lehessen hozni és módosítani tudjuk a tartalmát 
 
 Ehhez engedélyt kell kérni a felhasználótól, hogy az alkalmazás hozzáférhessen a telefon tárhelyéhez. Az engedély megadásához először ellenőriznünk kell, hogy az alkalmazás rendelkezik-e az engedéllyel. Ezt a \ref{storage_permission}~kódrészletben látható beépített metódussal lehet megtenni, majd a kérés után fel is kell dolgozni a felhasználó által hozott döntést, amire az 'onRequestPermissionsResult' metódust kell használni.
 
-Amennyiben a felhasználó nem adja meg az engedélyt a naplófájl mentése nem megy végbe, helyette egy üzenet jelenik meg a képernyőn, mely 
+Amennyiben a felhasználó nem adja meg az engedélyt a naplófájl mentése nem megy végbe, helyette egy üzenet jelenik meg a képernyőn, mely figyelmeztetést ad az engedély hiányáról, majd a felhasználó számára egy útmutatást ad arról, hogy a hiányzó engedélyt miképp tudja megadni.
 \lstinputlisting[caption=Engedély kérés\label{storage_permission}]{codes/android/StoragePermission.java}
 \chapter{Fejlesztés közbeni tapasztalatok}
 A fejlesztés közben több hardver és szoftverszintű új tapasztalatot is szereztem. Hardver szinten előfordultak problémák is elsősorban a robotnál az egyes elemek rögzítése kapcsán.
 \section{Hardverrel kapcsolatos tapasztalatok}
-Nem csak a robot hardvere jelentett néha problémát, hanem a használt telefoné is. A \ref{label}~fejezetben bővebben olvashatnak arról, hogyan befolyásolja a telefon hardvere a projekt teljesének működését.
+Nem csak a robot hardvere jelentett néha problémát, hanem a használt telefoné is. A \ref{phone_hardware}~fejezetben bővebben olvashatnak arról, hogyan befolyásolja a telefon hardvere a projekt teljesének működését.
 \subsection{A robot építésekor szerzett tapasztalatok}
 A robot fejlesztése közben a legnagyobb problémát a megfelelő alváz megtalálása jelentette.
 Amikor eldöntöttem, hogy milyen robotot szeretnék építeni meglátogattam különböző fórumokat, hogy nagyjából megtudjam milyen mennyiségű szenzorra, illetve motorra lesz szükségem.
@@ -429,8 +482,46 @@ Mivel nincs birtokomban 3D nyomtató mellyel egy olyan alvázat tudnék nyomtatn
 Miután az alvázat kiválasztottam a használt kábelek elvezetésére/védelmére kellett megoldást találnom. Ezt azért tartottam fontosnak, mert ha szabadon vannak a kábelek előfordulhat, hogy a robot olyan helyen halad át, ahol valami ezekbe beleakadhat, így kimozdítva a helyéről, vagy a tüskét, melyhez csatlakozik elhajlíthatja.
 
 Ennek megoldására az alvázra több lyukat is fúrtam, melyek segítségével a kábeleket az alváz alján tudom elvezetni a szenzortól/motortól az alaplapig, továbbá nem használtam hosszabb kábelt, mint amire szükségem volt.
-\subsection{A telefon hardverére vonatkozó tapasztalatok}
-A fejlesztés során a \pageref{label}~oldalon található specifikációkkal rendelkező telefont használtam, melynél nem tapasztaltam problémát, azonban egy régebbi készüléken az alkalmazás Memoria és energiafogyasztása is jelentősen megnőtt.
+\subsection{A telefon hardverére vonatkozó tapasztalatok}\label{phone_hardware}
+A fejlesztés során a \pageref{telefonok}~oldalon található specifikációkkal rendelkező telefonokat használtam. A modernebb és erősebb hardverrel ellátott Smasung Galaxy A71 esetében nem volt probléma, azonban egy régebbi készüléken az alkalmazás memória és energiafogyasztása is jelentősen megnőtt. A megnövekedett energiafogyasztás a készülék gyorsabb merülését eredményezni.
+
+A memóriafelhasználás mértéke nem a felhasznált memória mennyiségében, hanem a teljes memóriához viszonyított százalékában emelkedett. Amíg a teszteléshez használt A71 készüléken a program a \ref{ram_usage}~ábrán látható módon a telefon memóriájának megközelítőleg 3\%-át használta, addig ez a szám a régebbi típusú 512 MB memóriával rendelkező Alcatel OneTouch Pop D1 telefon esetében már 30-40\% közötti érték volt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth]{images/ram_usage}
+	\caption{A71 memóriafelhasználása}
+	\label{ram_usage}
+\end{figure}
+
+További tapasztalatom a telefonban található hardverre nézve a Bluetooth modul típusához köthető. A modernebb A71 támogatja a Bluetooth 5-ös specifikációit, azonban a Pop D1 csak a 4.0-t.
+
+A legjelentősebb különbséget a távoli irányításban tapasztaltam. Az A71 esetében akár egy teljes emelet távolság is lehetett a telefon és a robot között a csatlakozás és az irányítás is minden probléma nélkül végbement, azonban a Pop D1 esetében ilyen távolságról a csatlakozás sikertelen volt.
+
+A Bluetooth modulhoz köthető másik észrevételem a kezdeti irányítás tesztelésekor a parancs telefonról való kiküldése és a robot mozdulása között eltelt idő mértékében volt. Az A71 esetében ez az érték nagyjából 300ms volt egy szoftveres hiba következtében melyről a \pageref{lag}.~oldalon bővebben olvashatnak, a Pop D1 esetében pedig ez az érték közel kétszeresre nőtt.
+
+A várakozási idő szoftveres okának kijavítása után az A71-nél már nem volt probléma a parancs kiadása és a végrehajtás között minimális idő telt el, azonban a Pop D1-nél egy megközelítőleg 40-50ms késleltetést tapasztaltam, mely a készülékben megtalálható Bluetooth modul miatt következett be.
+
+További hardverhez köthető észrevételem volt, hogy az A71-ben található több maggal és magasabb órajellel rendelkező processzornak köszönhetően a program futása közben a képernyők közötti váltás, valamint az adott képernyő orientációjában betörtént változáskor is a program gyors és sima átmenettel működött, a kevesebb magszámú és alacsonyabb órajelű Pop D1-nél pedig akadásokra, esetenként a program összeomlására lettem figyelmes.
+
+A másik észrevételem a telefonok melegedésében volt. Az A71 esetében a processzor kihasználtsága 2\% alatt volt és az orientáció váltásakor emelkedett 4-5\%-ra, viszont a Pop D1-nél az érték 30-50\% között mozgott, valamint az orientáció váltásakor a 60-70\%-ot is elérte.
+\section{Szoftveres észrevételek}
+A fejlesztés közben a szoftverrel kapcsolatban két olyan esettel találkoztam, ahol a probléma megoldása hosszabb keresést kellett végrehajtanom. Ezek:
+\begin{itemize}
+	\item A robot irányításakor fellépő késleltetés
+	\item A naplófájl fogadása
+\end{itemize}
+\subsection{A késleltetéssel kapcsolatos probléma megoldása}\label{lag}
+A fejlesztés elején amint a telefon és a robot közötti kapcsolódást megoldottam az adatokat először a telefonról String változóban eltárolt számsorozatokként küldtem a robot részére, majd a roboton futó kódban a fogadáskor egy parseInt() függvényt használtam arra, hogy ezt tényleges számkóddá alakítsam, azonban ezek után jelentős késleltetést tapasztaltam.
+
+Első gondolatként azt hittem, hogy a használt HC-05 modul okozza a problémát, azonban fórumokon talált projektekben is ilyen modult használták és gyorsan működött, ezért elkezdtem kísérletezni az átküldött adatok méretével és típusával, majd észrevettem, hogy amikor egy-egy karaktert küldtem át és fogadtam read() metódussal a késleltetés megszűnt.
+\subsection{Naplófájl fogadásának megvalósítása}\label{log_fogadás}
+A fejlesztés során a naplófájl fogadása jelentette a legnagyobb kihívást, ugyanis a legtöbb már létező projektben nem használtak naplózási funkciót, ezért utánakerestem, hogy egy csatlakoztatott eszközről hogyan tudunk bejövő adatot fogadni\cite{Data_Recieve}.
+
+Miután egy olyan kódot találtam, amelyet értelmezni is tudtam úgy döntöttem, hogy megpróbálom implementálni is, azonban ez is kihívást jelentett. A mintaként talált kódon módosításokat kellett elvégeznem. Első sorban azt terveztem, hogy a naplózási eseményeket a megtörténés után rögtön meg is jelenítem a telefonon, azonban ez az applikáció összeomlását okozta, melynek okára nem tudtam rájönni se kísérletezéssel, se fórumon való kereséssel.
+
+Ezek fényében úgy döntöttem, hogy a napló feldolgozását egy külön képernyőn végzem el ezzel azt akartam biztosítani, hogy a naplózás alatt ne legyen más folyamat. Miután ezt megtettem szerettem volna biztosítani azt is, hogy csak akkor menjen végbe a beolvasás, amikor van bejövő jel, amit el is tudtam érni egy egyszerű 'if' segítségével. Ezek után néhány esetben az adat egyes részei felülírták egymás, aminek javítását egy 'for' ciklussal tudtam megoldani.
+
+Miután az adatot fogadtam nem voltam kész, ugyanis ezt még formáznom is kellett, hogy az általam elképzelt módon jelenjen meg a naplózási felületen. Ennek eléréséhez nem kellett mást tennem, mint a String típusú változókhoz beépített replaceAll() metódust meghívni és az eredeti szövegben a jelölő karaktereket, sortörésre és '>' jelre cserélnem.
 \chapter{Továbbfejlesztési lehetőségek}
 \emph{,,Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live'' -- John Woods}
 \section{Hardverre vonatkozó fejlesztés}
@@ -588,5 +679,7 @@ Ezek után az applikáció minden funkciója használható.
 	\textsc{\url{https://stackoverflow.com/questions/3806536/how-to-enable-disable-bluetooth-programmatically-in-android}}
 	\bibitem{Bluetooth_connect}
 	\textsc{\url{https://stackoverflow.com/questions/5171248/programmatically-connect-to-paired-bluetooth-device}}
+	\bibitem{Data_Recieve}
+	\textsc{\url{https://stackoverflow.com/questions/45140098/how-to-send-receive-messages-via-bluetooth-android-studio}}
 \end{thebibliography}
 \end{document}

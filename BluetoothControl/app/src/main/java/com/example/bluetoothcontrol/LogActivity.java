@@ -39,11 +39,9 @@ public class LogActivity extends Activity {
     private BluetoothSocket mBTSocket;
     private ReadInput mReadThread = null;
 
-    private boolean mIsUserInitiatedDisconnect = false;
     private boolean mIsBluetoothConnected = false;
 
     private static String File_name;
-    private boolean permission = true;
     private String displayedLog = "";
 
     private BluetoothDevice mDevice;
@@ -57,6 +55,7 @@ public class LogActivity extends Activity {
 
     private ProgressDialog progressDialog;
     ImageButton helpButton, homeButton;
+    TextView logTextView;
 
 
     @Override
@@ -72,8 +71,9 @@ public class LogActivity extends Activity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss", Locale.getDefault());
         File_name = "Naplófájl: " + sdf.format(new Date()) + ".txt";
 
-        helpButton = (ImageButton)findViewById(R.id.helpButton);
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        helpButton = findViewById(R.id.helpButton);
+        homeButton = findViewById(R.id.homeButton);
+        logTextView = findViewById(R.id.logTextView);
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
@@ -107,7 +107,6 @@ public class LogActivity extends Activity {
                 if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     //Ha az engedélyt nem adja meg a felhasználó egy Toast üzenet jelzi ezt
                     msg("Hozzáférés megtagadva!",0);
-                    permission = false; //Biztosítjuk azt, hogy ténylegesen meg legyen adva az engedély
                 }
                 else{
                     //Az engedély megadását is jelzi üzenet
@@ -117,10 +116,10 @@ public class LogActivity extends Activity {
     }
 
     private void manageComponents(){
-        Button logDeleteButton = (Button) findViewById(R.id.logDeleteButton);
-        Button logSaveButton = (Button) findViewById(R.id.logSaveButton);
-        Button logGetButton = (Button) findViewById(R.id.logGet);
-        TextView logTextView = (TextView) findViewById(R.id.logTextView);
+        Button logDeleteButton = findViewById(R.id.logDeleteButton);
+        Button logSaveButton = findViewById(R.id.logSaveButton);
+        Button logGetButton = findViewById(R.id.logGet);
+
 
         logGetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,8 +129,7 @@ public class LogActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                displayedLog = displayedLog.replaceAll("_", "\n" + "> ");
-                logTextView.setText(displayedLog);
+
             }
         });
 
@@ -281,7 +279,6 @@ public class LogActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     //Ellenőrizzük, hogy a felhasználó ténylegesen megadta-e az engedélyt
-                    permission = true;
                     dialog.cancel();
                 }
                 else showPermissionDeniedAlert();
@@ -355,21 +352,21 @@ public class LogActivity extends Activity {
                     byte[] buffer = new byte[256];
                     if (inputStream.available() > 0) {
                         inputStream.read(buffer);
-                        int i = 0;
+                        int i;
 
                         for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
+                            displayedLog = new String(buffer, 0, i);
                         }
-                        final String strInput = new String(buffer, 0, i);
-                        displayedLog = strInput;
+                        displayedLog = displayedLog.replaceAll("_", "\n" + "> ");
+                        logTextView.setText(displayedLog);
                     }
-                    Thread.sleep(500);
+                    t.sleep(500);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
 
         public void stop() {
@@ -403,6 +400,7 @@ public class LogActivity extends Activity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             mIsBluetoothConnected = false;
+            boolean mIsUserInitiatedDisconnect = false;
             if (mIsUserInitiatedDisconnect) {
                 finish();
             }
@@ -420,7 +418,7 @@ public class LogActivity extends Activity {
     }
 
     /*Amikor a képernyőről elnavigálunk, de nem kerül bezárásra a képernyő (pl. a telefon 'home' gombját nyomjuk meg, vagy lezárjuk a telefont)
-      akkor a bluetooth kapcsolat megszakításra kerül, viszont amint vissszatérünk erre a képernyőre a csatléakozás automatikus újból végbemegy.*/
+      akkor a bluetooth kapcsolat szüneteltetésre kerül, viszont amint vissszatérünk erre a képernyőre a csatlakozás automatikusan végbemegy az ereedetileg eltárolt adatokkal.*/
 
     @Override
     protected void onPause() {

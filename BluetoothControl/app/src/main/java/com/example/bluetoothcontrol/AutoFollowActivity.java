@@ -1,5 +1,6 @@
 package com.example.bluetoothcontrol;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -8,22 +9,18 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.UUID;
 
 public class AutoFollowActivity extends Activity {
     private UUID mDeviceUUID;
     private BluetoothSocket mBTSocket;
-    private ReadInput mReadThread = null;
 
-    private boolean mIsUserInitiatedDisconnect = false;
     private boolean mIsBluetoothConnected = false;
 
     private BluetoothDevice mDevice;
@@ -45,8 +42,8 @@ public class AutoFollowActivity extends Activity {
         setContentView(R.layout.activity_auto_follow);
 
         ActivityHelper.initialize(this);
-        helpButton = (ImageButton)findViewById(R.id.helpButton);
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        helpButton = findViewById(R.id.helpButton);
+        homeButton = findViewById(R.id.homeButton);
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
@@ -84,8 +81,8 @@ public class AutoFollowActivity extends Activity {
     }
 
     private void manageComponents() {
-        Button startButton = (Button) findViewById(R.id.startButton);
-        Button stopButton = (Button) findViewById(R.id.stopButton);
+        Button startButton = findViewById(R.id.startButton);
+        Button stopButton = findViewById(R.id.stopButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
 
@@ -111,63 +108,12 @@ public class AutoFollowActivity extends Activity {
         });
 
     }
-    private class ReadInput implements Runnable {
 
-        private boolean bStop = false;
-        private Thread t;
-
-        public ReadInput() {
-            t = new Thread(this, "Input Thread");
-            t.start();
-        }
-
-        public boolean isRunning() {
-            return t.isAlive();
-        }
-
-        @Override
-        public void run() {
-            InputStream inputStream;
-
-            try {
-                inputStream = mBTSocket.getInputStream();
-                while (!bStop) {
-                    byte[] buffer = new byte[256];
-                    if (inputStream.available() > 0) {
-                        inputStream.read(buffer);
-                        int i = 0;
-
-                        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
-                        }
-                        final String strInput = new String(buffer, 0, i);
-                    }
-                    Thread.sleep(500);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        public void stop() {
-            bStop = true;
-        }
-
-    }
-
+    @SuppressLint("StaticFieldLeak")
     private class DisConnectBT extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
-
-            if (mReadThread != null) {
-                mReadThread.stop();
-                while (mReadThread.isRunning()) ;
-                mReadThread = null;
-            }
-
             try {
                 mBTSocket.close();
             } catch (IOException e) {
@@ -182,6 +128,7 @@ public class AutoFollowActivity extends Activity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             mIsBluetoothConnected = false;
+            boolean mIsUserInitiatedDisconnect = false;
             if (mIsUserInitiatedDisconnect) {
                 finish();
             }
@@ -223,6 +170,7 @@ public class AutoFollowActivity extends Activity {
     }
 
     //A bluetooth csatlakozási folyamat
+    @SuppressLint("StaticFieldLeak")
     private class ConnectBT extends AsyncTask<Void, Void, Void> {
         private boolean mConnectSuccessful = true;
 
@@ -258,7 +206,6 @@ public class AutoFollowActivity extends Activity {
             } else {
                 msg("Csatlakozva eszközhöz!");
                 mIsBluetoothConnected = true;
-                mReadThread = new ReadInput();
                 try {
                     mBTSocket.getOutputStream().write(autoFollowCode.getBytes()); //Amint megtörténik a csatlakozás elküldünk a robotnak egy adatot, amivel jelezzük, hogy milyen módban kell futnia
                 } catch (IOException e) {

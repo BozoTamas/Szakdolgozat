@@ -1,10 +1,10 @@
-void forwardAction() {
+void forwardAction(int sebesseg) {
   leftFront.run(FORWARD);
-  leftFront.setSpeed(90);
+  leftFront.setSpeed(sebesseg);
   rightFront.run(FORWARD);
-  rightFront.setSpeed(90);
+  rightFront.setSpeed(sebesseg);
   rightRear.run(FORWARD);
-  rightRear.setSpeed(90);
+  rightRear.setSpeed(sebesseg);
   leftRear.run(FORWARD);
-  leftRear.setSpeed(90);
+  leftRear.setSpeed(sebesseg);
 }

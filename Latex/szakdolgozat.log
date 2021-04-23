@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.3.3)  14 APR 2021 14:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.3.3)  15 APR 2021 16:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -627,7 +627,7 @@ Package caption Info: End \AtBeginDocument code.
 LaTeX Info: Redefining \cal on input line 577.
 LaTeX Info: Redefining \mit on input line 578.
 )
-<eszterhazy-logo-hu.pdf, id=238, 256.07469pt x 84.78476pt>
+<eszterhazy-logo-hu.pdf, id=278, 256.07469pt x 84.78476pt>
 File: eszterhazy-logo-hu.pdf Graphic file (type pdf)
 <use eszterhazy-logo-hu.pdf>
 Package pdftex.def Info: eszterhazy-logo-hu.pdf  used on input line 35.
@@ -639,103 +639,99 @@ Package pdftex.def Info: eszterhazy-logo-hu.pdf  used on input line 35.
 /texmf-dist/tex/latex/thesis-ekf/eszterhazy-logo-hu.pdf>] (./szakdolgozat.toc [
 2
 
-])
+] [3])
 \tf@toc=\write5
 \openout5 = `szakdolgozat.toc'.
 
- [3] [4
+ [4] [5
 
 ]
 1. fejezet.
-[5
+[6
 
-] [6] [7] [8] [9]
+] [7] [8] [9] [10]
 2. fejezet.
-[10
-
-]
-3. fejezet.
 [11
 
-] [12]
-4. fejezet.
-<images/grafok/fomenu_graf.jpg, id=367, 824.07875pt x 241.90375pt>
-File: images/grafok/fomenu_graf.jpg Graphic file (type jpg)
-<use images/grafok/fomenu_graf.jpg>
-Package pdftex.def Info: images/grafok/fomenu_graf.jpg  used on input line 165.
-
-(pdftex.def)             Requested size: 441.01773pt x 129.45967pt.
+]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
+56.
+ (c:/texlive/2020/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [12]
+3. fejezet.
 [13
 
+] [14] [15]
+4. fejezet.
+<images/grafok/fomenu_graf.jpg, id=432, 824.07875pt x 241.90375pt>
+File: images/grafok/fomenu_graf.jpg Graphic file (type jpg)
+<use images/grafok/fomenu_graf.jpg>
+Package pdftex.def Info: images/grafok/fomenu_graf.jpg  used on input line 212.
+
+(pdftex.def)             Requested size: 441.01773pt x 129.45967pt.
+[16
+
  <./images/grafok/fomenu_graf.jpg>]
-<images/grafok/iranyitas_graf.jpg, id=374, 611.28375pt x 387.4475pt>
+<images/grafok/iranyitas_graf.jpg, id=438, 611.28375pt x 387.4475pt>
 File: images/grafok/iranyitas_graf.jpg Graphic file (type jpg)
 <use images/grafok/iranyitas_graf.jpg>
-Package pdftex.def Info: images/grafok/iranyitas_graf.jpg  used on input line 1
-90.
+Package pdftex.def Info: images/grafok/iranyitas_graf.jpg  used on input line 2
+37.
 (pdftex.def)             Requested size: 441.01773pt x 279.52362pt.
- [14 <./images/grafok/iranyitas_graf.jpg>]
-<images/grafok/kovetes_graf.jpg, id=380, 678.535pt x 588.1975pt>
+ [17 <./images/grafok/iranyitas_graf.jpg>]
+<images/grafok/kovetes_graf.jpg, id=444, 678.535pt x 588.1975pt>
 File: images/grafok/kovetes_graf.jpg Graphic file (type jpg)
 <use images/grafok/kovetes_graf.jpg>
-Package pdftex.def Info: images/grafok/kovetes_graf.jpg  used on input line 203
+Package pdftex.def Info: images/grafok/kovetes_graf.jpg  used on input line 250
 .
 (pdftex.def)             Requested size: 441.01773pt x 382.29692pt.
- [15 <./images/grafok/kovetes_graf.jpg>]
-<images/grafok/log_graf.jpg, id=386, 550.055pt x 206.7725pt>
+ [18 <./images/grafok/kovetes_graf.jpg>]
+<images/grafok/log_graf.jpg, id=451, 550.055pt x 206.7725pt>
 File: images/grafok/log_graf.jpg Graphic file (type jpg)
 <use images/grafok/log_graf.jpg>
-Package pdftex.def Info: images/grafok/log_graf.jpg  used on input line 214.
+Package pdftex.def Info: images/grafok/log_graf.jpg  used on input line 261.
 (pdftex.def)             Requested size: 441.01773pt x 165.79051pt.
- [16 <./images/grafok/log_graf.jpg>]
-<images/app_screen/home_screen.jpg, id=397, 2409.0pt x 1084.05pt>
+ [19 <./images/grafok/log_graf.jpg>]
+<images/app_screen/home_screen.jpg, id=463, 2409.0pt x 1084.05pt>
 File: images/app_screen/home_screen.jpg Graphic file (type jpg)
 <use images/app_screen/home_screen.jpg>
 Package pdftex.def Info: images/app_screen/home_screen.jpg  used on input line 
-235.
+282.
 (pdftex.def)             Requested size: 441.01773pt x 198.44537pt.
-<images/app_screen/help_screen.jpg, id=398, 2409.0pt x 1084.05pt>
+<images/app_screen/help_screen.jpg, id=464, 2409.0pt x 1084.05pt>
 File: images/app_screen/help_screen.jpg Graphic file (type jpg)
 <use images/app_screen/help_screen.jpg>
 Package pdftex.def Info: images/app_screen/help_screen.jpg  used on input line 
-248.
+290.
 (pdftex.def)             Requested size: 441.01773pt x 198.44537pt.
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[17 <./images/app_screen/home_screen.jpg>]
-<images/app_screen/follow_screen.jpg, id=407, 2409.0pt x 1084.05pt>
+[20 <./images/app_screen/home_screen.jpg> <./images/app_screen/help_screen.jpg>
+]
+<images/app_screen/follow_screen.jpg, id=473, 2409.0pt x 1084.05pt>
 File: images/app_screen/follow_screen.jpg Graphic file (type jpg)
 <use images/app_screen/follow_screen.jpg>
 Package pdftex.def Info: images/app_screen/follow_screen.jpg  used on input lin
-e 262.
+e 309.
 (pdftex.def)             Requested size: 441.01773pt x 198.44537pt.
- [18 <./images/app_screen/help_screen.jpg> <./images/app_screen/follow_screen.j
-pg>]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
-73.
-
-(c:/texlive/2020/texmf-dist/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-<images/app_screen/control_screen.jpg, id=415, 2409.0pt x 1084.05pt>
+ [21 <./images/app_screen/follow_screen.jpg>]
+<images/app_screen/control_screen.jpg, id=481, 2409.0pt x 1084.05pt>
 File: images/app_screen/control_screen.jpg Graphic file (type jpg)
 <use images/app_screen/control_screen.jpg>
 Package pdftex.def Info: images/app_screen/control_screen.jpg  used on input li
-ne 286.
+ne 333.
 (pdftex.def)             Requested size: 441.01773pt x 198.44537pt.
- [19 <./images/app_screen/control_screen.jpg>]
-<images/app_screen/log_screen.jpg, id=422, 2409.0pt x 1084.05pt>
+ [22 <./images/app_screen/control_screen.jpg>]
+<images/app_screen/log_screen.jpg, id=487, 2409.0pt x 1084.05pt>
 File: images/app_screen/log_screen.jpg Graphic file (type jpg)
 <use images/app_screen/log_screen.jpg>
-Package pdftex.def Info: images/app_screen/log_screen.jpg  used on input line 2
-99.
+Package pdftex.def Info: images/app_screen/log_screen.jpg  used on input line 3
+46.
 (pdftex.def)             Requested size: 441.01773pt x 198.44537pt.
- [20 <./images/app_screen/log_screen.jpg>]
+ [23 <./images/app_screen/log_screen.jpg>]
 5. fejezet.
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 313.
+nput line 360.
 (c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
 File: latin2.def 2020/08/01 v1.3d Input encoding file
 )
@@ -744,157 +740,156 @@ File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
 )
 (c:/texlive/2020/texmf-dist/tex/generic/stringenc/se-iso-8859-2.def
 File: se-iso-8859-2.def 2019/11/29 v1.12 stringenc: ISO-8859-2
-) [21
+) [24
 
 ]
 (c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
 File: latin2.def 2020/08/01 v1.3d Input encoding file
-) [22]
-(c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
-File: latin2.def 2020/08/01 v1.3d Input encoding file
-)
-Overfull \hbox (2.7299pt too wide) in paragraph at lines 325--326
+) [25]
+Overfull \hbox (2.7299pt too wide) in paragraph at lines 373--374
 []\T1/lmr/m/n/12 Ahhoz, hogy a te-le-fon-ról ké-pe-sek le-gyünk ada-tok kül-dé-
 sé-re az 'And-ro-id-Ma-ni-fest.xml'
  []
 
 
-Overfull \hbox (6.94093pt too wide) in paragraph at lines 325--326
+Overfull \hbox (6.94093pt too wide) in paragraph at lines 373--374
 \T1/lmr/m/n/12 fájl-já-ban en-ge-dé-lyez-nünk kell a Blu-e-to-oth mo-dul hasz-n
 á-la-tát me-lyet a ,,<uses-permission
  []
 
-[23] (c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
-File: latin2.def 2020/08/01 v1.3d Input encoding file
-) [24]
-(c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
-File: latin2.def 2020/08/01 v1.3d Input encoding file
-)
-<images/ultrasonic.jpg, id=533, 710.655pt x 288.07625pt>
-File: images/ultrasonic.jpg Graphic file (type jpg)
-<use images/ultrasonic.jpg>
-Package pdftex.def Info: images/ultrasonic.jpg  used on input line 352.
-(pdftex.def)             Requested size: 441.01773pt x 178.77684pt.
- [25 <./images/ultrasonic.jpg>] (c:/texlive/2020/texmf-dist/tex/latex/base/lati
-n2.def
-File: latin2.def 2020/08/01 v1.3d Input encoding file
-)
-(c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
-File: latin2.def 2020/08/01 v1.3d Input encoding file
-) [26]
-(c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
+[26] (c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
 File: latin2.def 2020/08/01 v1.3d Input encoding file
 ) [27]
 (c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
 File: latin2.def 2020/08/01 v1.3d Input encoding file
-) [28]
+)
+<images/ultrasonic.jpg, id=585, 710.655pt x 288.07625pt>
+File: images/ultrasonic.jpg Graphic file (type jpg)
+<use images/ultrasonic.jpg>
+Package pdftex.def Info: images/ultrasonic.jpg  used on input line 403.
+(pdftex.def)             Requested size: 441.01773pt x 178.77684pt.
+
 (c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
+File: latin2.def 2020/08/01 v1.3d Input encoding file
+) [28 <./images/ultrasonic.jpg>] (c:/texlive/2020/texmf-dist/tex/latex/base/lat
+in2.def
 File: latin2.def 2020/08/01 v1.3d Input encoding file
 ) [29]
 (c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
 File: latin2.def 2020/08/01 v1.3d Input encoding file
 ) [30]
+(c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
+File: latin2.def 2020/08/01 v1.3d Input encoding file
+) [31]
+(c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
+File: latin2.def 2020/08/01 v1.3d Input encoding file
+)
+(c:/texlive/2020/texmf-dist/tex/latex/base/latin2.def
+File: latin2.def 2020/08/01 v1.3d Input encoding file
+) [32]
 6. fejezet.
-
-LaTeX Warning: Reference `label' on page 31 undefined on input line 400.
-
-<images/robot_build/2_wheel_car.jpg, id=674, 192.72pt x 192.72pt>
+<images/robot_build/2_wheel_car.jpg, id=717, 192.72pt x 192.72pt>
 File: images/robot_build/2_wheel_car.jpg Graphic file (type jpg)
 <use images/robot_build/2_wheel_car.jpg>
 Package pdftex.def Info: images/robot_build/2_wheel_car.jpg  used on input line
- 406.
+ 459.
 (pdftex.def)             Requested size: 176.40439pt x 176.4047pt.
-[31
+[33
 
- <./images/robot_build/2_wheel_car.jpg>]
-
-LaTeX Warning: Reference `label' on page 32 undefined on input line 433.
-
-[32] [33]
+ <./images/robot_build/2_wheel_car.jpg>] [34]
+<images/ram_usage.jpg, id=732, 1073.51062pt x 618.81187pt>
+File: images/ram_usage.jpg Graphic file (type jpg)
+<use images/ram_usage.jpg>
+Package pdftex.def Info: images/ram_usage.jpg  used on input line 491.
+(pdftex.def)             Requested size: 441.01773pt x 254.21495pt.
+ [35 <./images/ram_usage.jpg>]
+[36] [37]
 7. fejezet.
-[34
+[38
 
-] [35]
+] [39]
 8. fejezet.
-<images/robot_build/motor-no-cable.jpg, id=702, 578.16pt x 578.16pt>
+<images/robot_build/motor-no-cable.jpg, id=760, 578.16pt x 578.16pt>
 File: images/robot_build/motor-no-cable.jpg Graphic file (type jpg)
 <use images/robot_build/motor-no-cable.jpg>
 Package pdftex.def Info: images/robot_build/motor-no-cable.jpg  used on input l
-ine 497.
+ine 588.
 (pdftex.def)             Requested size: 142.26378pt x 142.26357pt.
-<images/robot_build/motor-with-cable.jpg, id=703, 578.16pt x 578.16pt>
+<images/robot_build/motor-with-cable.jpg, id=761, 578.16pt x 578.16pt>
 File: images/robot_build/motor-with-cable.jpg Graphic file (type jpg)
 <use images/robot_build/motor-with-cable.jpg>
 Package pdftex.def Info: images/robot_build/motor-with-cable.jpg  used on input
- line 498.
+ line 589.
 (pdftex.def)             Requested size: 142.26378pt x 142.26357pt.
-[36
+[40
 
 ]
-<images/robot_build/shieldre-bekotes.jpg, id=709, 609.77812pt x 609.77812pt>
+<images/robot_build/shieldre-bekotes.jpg, id=767, 609.77812pt x 609.77812pt>
 File: images/robot_build/shieldre-bekotes.jpg Graphic file (type jpg)
 <use images/robot_build/shieldre-bekotes.jpg>
 Package pdftex.def Info: images/robot_build/shieldre-bekotes.jpg  used on input
- line 507.
+ line 598.
 (pdftex.def)             Requested size: 142.26378pt x 142.26508pt.
- [37 <./images/robot_build/motor-no-cable.jpg> <./images/robot_build/motor-with
+ [41 <./images/robot_build/motor-no-cable.jpg> <./images/robot_build/motor-with
 -cable.jpg> <./images/robot_build/shieldre-bekotes.jpg>]
-<images/robot_build/akku-connect.png, id=718, 1066.7353pt x 1066.7353pt>
+<images/robot_build/akku-connect.png, id=776, 1066.7353pt x 1066.7353pt>
 File: images/robot_build/akku-connect.png Graphic file (type png)
 <use images/robot_build/akku-connect.png>
 Package pdftex.def Info: images/robot_build/akku-connect.png  used on input lin
-e 524.
+e 615.
 (pdftex.def)             Requested size: 142.26378pt x 142.2614pt.
- [38 <./images/robot_build/akku-connect.png>]
-<images/app_screen/permission_grant.jpg, id=727, 2409.0pt x 1084.05pt>
+ [42 <./images/robot_build/akku-connect.png>]
+<images/app_screen/permission_grant.jpg, id=785, 2409.0pt x 1084.05pt>
 File: images/app_screen/permission_grant.jpg Graphic file (type jpg)
 <use images/app_screen/permission_grant.jpg>
 Package pdftex.def Info: images/app_screen/permission_grant.jpg  used on input 
-line 566.
+line 657.
 (pdftex.def)             Requested size: 441.01773pt x 198.44537pt.
- [39] [40 <./images/app_screen/permission_grant.jpg>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5
-73.
+ [43] [44 <./images/app_screen/permission_grant.jpg>]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 6
+64.
 (c:/texlive/2020/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Underfull \hbox (badness 10000) in paragraph at lines 584--585
+Underfull \hbox (badness 10000) in paragraph at lines 675--676
 [][]$\T1/lmtt/m/sc/12 https : / / create . arduino . cc / projecthub / abdularb
 i17 /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 586--587
+Underfull \hbox (badness 10000) in paragraph at lines 677--678
 [][]$\T1/lmtt/m/sc/12 https : / / stackoverflow . com / questions / 7672334 /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 588--589
+Underfull \hbox (badness 10000) in paragraph at lines 679--680
 [][]$\T1/lmtt/m/sc/12 https : / / stackoverflow . com / questions / 3806536 /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 590--591
+Underfull \hbox (badness 10000) in paragraph at lines 681--682
 [][]$\T1/lmtt/m/sc/12 https : / / stackoverflow . com / questions / 5171248 /
  []
 
-[41
+
+Underfull \hbox (badness 10000) in paragraph at lines 683--684
+[][]$\T1/lmtt/m/sc/12 https : / / stackoverflow . com / questions / 45140098 /
+ []
+
+[45
 
 ] (./szakdolgozat.aux)
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `szakdolgozat.out' has not changed.
-(rerunfilecheck)             Checksum: B4658BD7ABC5E9F3A8E5D3071495F3FD;12936.
+(rerunfilecheck)             Checksum: AFAD4D59517E3FE882D5BF774142E644;15454.
  ) 
 Here is how much of TeX's memory you used:
- 17088 strings out of 479023
- 259436 string characters out of 5863351
+ 17092 strings out of 479023
+ 259395 string characters out of 5863351
  976411 words of memory out of 5000000
- 33872 multiletter control sequences out of 15000+600000
+ 33885 multiletter control sequences out of 15000+600000
  484926 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 86i,7n,88p,668b,2299s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,7n,88p,675b,2295s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/texlive/2020/tex
 mf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{c:/texlive/2020/texmf-dist/fonts/enc/dvi
 ps/lm/lm-mathsy.enc}{c:/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathit.en
@@ -908,10 +903,10 @@ m/lmr8.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/tex
 live/2020/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/texlive/2020/texmf-di
 st/fonts/type1/public/lm/lmsy10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/pub
 lic/lm/lmtcsc10.pfb>
-Output written on szakdolgozat.pdf (41 pages, 5698221 bytes).
+Output written on szakdolgozat.pdf (45 pages, 5788577 bytes).
 PDF statistics:
- 879 PDF objects out of 1000 (max. 8388607)
- 793 compressed objects within 8 object streams
- 304 named destinations out of 1000 (max. 500000)
- 562 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 937 PDF objects out of 1000 (max. 8388607)
+ 845 compressed objects within 9 object streams
+ 297 named destinations out of 1000 (max. 500000)
+ 647 words of extra memory for PDF output out of 10000 (max. 10000000)
 

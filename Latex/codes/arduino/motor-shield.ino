@@ -9,9 +9,9 @@ AF_DCMotor rightRear(4, MOTOR12_1KHZ); //M4 port
 Servo myservo;
 
 void setup() {
-  myservo.attach(9);
+  myservo.attach(10);
 }
 
 void loop() {
-  forwardAction();
+  forwardAction(100);
 }

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.preference.PreferenceManager;
 
-public class ActivityHelper {
+public class ActivityHelper { //A telefon orientációjához(álló/fekvő) tartozó layout megjelenítése
     public static void initialize(Activity activity) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 
