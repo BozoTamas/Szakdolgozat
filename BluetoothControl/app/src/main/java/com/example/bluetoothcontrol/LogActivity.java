@@ -76,6 +76,8 @@ public class LogActivity extends Activity {
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
 
+        mDevice = b.getParcelable(MainActivity.DEVICE_EXTRA);
+        mDeviceUUID = UUID.fromString(b.getString(MainActivity.DEVICE_UUID));
 
         manageComponents();
 
