@@ -8,13 +8,12 @@ while (!bStop) {
     byte[] buffer = new byte[256];
     if (inputStream.available() > 0) {
         inputStream.read(buffer);
-        int i = 0;
-        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {}
-        final String strInput = new String(buffer, 0, i);
-        displayedLog = strInput;
+        int i;
+        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
+            displayedLog = new String(buffer, 0, i);
+        }
+        displayedLog = displayedLog.replaceAll("_", "\n" + "> ");
+        logTextView.setText(displayedLog);//A fogadott adat formázása és megjelenítése
     }
-    Thread.sleep(500);
-} //A bejövő adat fogadása
-
-displayedLog = displayedLog.replaceAll("_", "\n" + "> "); //A napló formázása és megejelenítése
-logTextView.setText(displayedLog);
+    t.sleep(500);
+}//A bejövő adat fogadása

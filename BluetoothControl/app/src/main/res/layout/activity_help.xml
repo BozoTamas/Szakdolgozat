@@ -25,7 +25,8 @@
         android:text="Követés"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/helpOptionControl"
+        app:layout_constraintRight_toLeftOf="@id/helpOptionLog"
+        app:layout_constraintBottom_toTopOf="@id/helpScreenTextView"
         />
 
     <!--Irányítás gomb dizájn-->
@@ -34,9 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Irányítás"
-        app:layout_constraintLeft_toRightOf="@id/helpOptionFollow"
+        app:layout_constraintLeft_toRightOf="@id/helpOptionLog"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/helpScreenTextView"
         />
 
     <!--Szöveg felület dizájn-->
@@ -50,5 +52,16 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/helpOptionControl" />
+
+    <Button
+        android:id="@+id/helpOptionLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Naplózás"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/helpOptionFollow"
+        app:layout_constraintRight_toLeftOf="@id/helpOptionControl"
+        app:layout_constraintBottom_toTopOf="@id/helpScreenTextView"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

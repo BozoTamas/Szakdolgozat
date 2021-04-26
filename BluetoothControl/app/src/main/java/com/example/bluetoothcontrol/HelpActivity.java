@@ -24,7 +24,7 @@ public class HelpActivity extends Activity {
     }
 
     private void createHomeButton(){
-        ImageButton homeButton = (ImageButton) findViewById(R.id.homeButton);
+        ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,9 +35,10 @@ public class HelpActivity extends Activity {
     }
 
     private void createComponents(){
-        Button followOption = (Button) findViewById(R.id.helpOptionFollow);
-        Button controlOption = (Button) findViewById(R.id.helpOptionControl);
-        TextView helpScreenTextView = (TextView) findViewById(R.id.helpScreenTextView);
+        Button followOption = findViewById(R.id.helpOptionFollow);
+        Button controlOption = findViewById(R.id.helpOptionControl);
+        Button logOption = findViewById(R.id.helpOptionLog);
+        TextView helpScreenTextView = findViewById(R.id.helpScreenTextView);
 
         followOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +51,13 @@ public class HelpActivity extends Activity {
             @Override
             public void onClick(View v) {
                 helpScreenTextView.setText(instructions.getControlInstruction());
+            }
+        });
+
+        logOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helpScreenTextView.setText(instructions.getLogInstruction());
             }
         });
 

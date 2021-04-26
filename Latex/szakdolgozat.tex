@@ -26,10 +26,10 @@
 \renewcommand{\lstlistingname}{kód}
 
 \begin{document}
-\institute{Természettudományi Kar - TTK}
+\institute{Informatikai Kar -- IK}
 \title{Arduino robotfejlesztés android alkalmazás használatával}
-\author{Bozó Tamás Dániel\\Programtervező informatikus}
-\supervisor{Balla Tamás\\}
+\author{Bozó Tamás Dániel\\Programtervező informatikus BSc}
+\supervisor{Balla Tamás\\Tanársegéd}
 \city{Eger}
 \date{2021}
 \maketitle
@@ -45,101 +45,108 @@ Szakdolgozatom témája egy olyan robot építése és programozása, mely egy v
 
 A telefonos applikáció megvalósítására egy olyan kezelőfelületet akartam létrehozni, mely egyaránt biztosítja a lehetőséget a valós idejű irányításra, valamint a robot működésének monitorozására is.
 
-Programnyelvként a C++-t és a Java-t választottam. A Java egy széles körben elterjedt nyelv, melyet könnyen lehet értelmezni, a C++ pedig az Arduino által támogatott nyelv.
+Programozási nyelvként a C++-t és a Java-t választottam. A Java egy széles körben elterjedt nyelv, melyet könnyen lehet értelmezni, a C++ pedig az Arduino által támogatott nyelv, fejlesztői környezetnek pedig az Arduino IDE és Android Studio nevű alkalmazásokat használtam.
 
-Fejlesztői környezetnek az Arduino IDE és Android Studio nevű alkalmazásokat használtam. Ezen alkalmazásokról \az{\pageref{arduino-IDE}.} és \az{\pageref{android-studio}}.~oldalakon részletesebben olvashatnak.
-
-Jelen dokumentumban kitérek a robot megépítéséhez felhasznált hardverekre, a program megírása során használt fejlesztői környezetekre, valamint programozási nyelvekre, az egyes komponensek/funkciók feladataira, a fejlesztés során szerzett személyes tapasztalataimra, végül egy egyszerű összeszerelési/telepítési útmutatót is csatolok.
-\chapter{Arduino és Android bemutatása}
+A dokumentumban olvashatunk a diplomamunkám elkészítéséhez választott technológiákról és programozási nyelvekről \az{\ref{fejezet_1}.}~fejezetben, a téma választása után kitűzött célokról és követelményekről \az{\ref{fejezet_2}.}~fejezetben, a fejlesztés és tesztelés során használt hardverekről \az{\ref{fejezet_3}.}~fejezetben, az Android applikáció felületterveiről és a robot belső állapotairól, valamint ezek működéséről \az{\ref{fejezet_4}. és \ref{fejezet_5}.}~fejezetekben, a fejlesztés során szerzett személyes tapasztalataimról \az{\ref{fejezet_6}.}~fejezetben. A \ref{fejezet_7}. és \ref{fejezet_8}.~fejezetekben pedig a projekt összeállításához tartózó útmutatóról és a továbbfejlesztési lehetőségekről.
+\chapter{Arduino és Android bemutatása}\label{fejezet_1}
 \emph{,,Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning'' -- Rick Cook, The Wizardry Compiled}
 \section{Az Arduino}
-Az Arduino egy szabad szoftveres, nyílt forráskódú elektronikai fejlesztőplatform. Széles tömegek számára elérhető, mivel olcsó, könnyen beszerezhető, egyszerűen programozható és csatlakoztatható más eszközökhöz.
-\subsection{A platform felépítése}
-A fejlesztői platform az úgynevedett "IDE"-ből és egy Arduino Board-ból áll. Az előbbi segítségével programokat írhatunk és tesztelhetünk a számítógépen, utóbbi pedig egy hardver eszköz, amelyre az elkészített programokat feltölthetjük a számítógépen keresztül, majd az eszközöket vezérelhetünk a segítségével. Az Arduinonak két fő eleme van, ezek a szoftver és a hardver. A szoftvert képezi az IDE, a hardvert pedig a különböző Board-ok és a Shield-ek, melyekről több információt találnak \az{\ref{arduino-boards}}~fejezetben.
+Az Arduino\cite{Arduino} egy szabad szoftveres, nyílt forráskódú elektronikai fejlesztőplatform. Széles tömegek számára elérhető, mivel olcsó, könnyen beszerezhető, egyszerűen programozható és csatlakoztatható más eszközökhöz. A fejlesztői platform az úgynevezett "IDE"-ből és egy Arduino Board-ból áll. Az előbbi segítségével programokat írhatunk és tesztelhetünk a számítógépen, utóbbi pedig egy hardver eszköz, amelyre az elkészített programokat feltölthetjük a számítógépen keresztül, majd az eszközöket vezérelhetjük a segítségével.
 
 Az Arduino lap kereskedelmi forgalomban kapható, előre összeszerelt, vagy otthon összeszerelhető alkatrészcsomagként. Mivel nyílt forráskódú a hardver is, bárki készíthet magának saját változatot belőle, vagy az eredetivel kompatibilis klónt.
-\subsection{Elérhető alaplapok}\label{arduino-boards}
-Az Arduino Board-ok többféle változatban készülnek, amelyek méretben, a mikrovezérlő típusában, a belső memóriában, a be- és kimenetek számában különböznek. Vannak amelyek rendelkeznek beépített Ethernet, Bluetooth, Wi-Fi csatlakozási lehetőséggel. Jelenleg több Board van forgalomban, ezekből néhány:
+\subsection{A fejlesztéshez választott alaplap}\label{arduino_alaplap}
+A fejlesztés megkezdése előtt szükséges volt kiválasztanom azon hardverelemeket, melyek a robot mozgását, és vezérlését biztosítják, ezek:
 \begin{itemize}
-	\item Arduino/Genuino UNO
-	\item Arduino/Genuino 101
-	\item Arduino/Genuino Micro
+	\item 4 db villanymotor
+	\item 2 db HW-201 típusú infravörös szenzor
+	\item 1 db HC-SR04 típusú ultrahang szenzor
+	\item 1 db HC-05 típusú Bluetooth modul
+	\item 1 db SG90 típusú szervo motor
+	\item 1 db Adafruit Motorvezérlő Shield
 \end{itemize}
-\subsection{Memória és Háttértár}
-Egy Arduino három memóriatípussal rendelkezik, melyek különböző feladatokat látnak el.
 
-\textbf{Flashmemória:} A Flashmemória számít az Arduino-k "fő" memóriájának, ez tárolja a letöltött programot, és kikapcsolás után is megőrzi a tartalmát, azaz a programot elegendő csak egyszer letölteni ide, az minden ismételt bekapcsolás esetén "magától" újraindul. Programozás során nem számolhatunk a teljes memóriával, mivel a letöltőprogram (bootloader) és például a különböző kommunikációk is innen "csípnek le" részeket.
+Miután a hardverelemeket kiválasztottam, szükségem volt egy alaplapra is, mely a robot központi része lesz. A választásom az Arduino UNO-ra esett, mivel ez rendelkezik megfelelő számú be- és kimenettel, valamint a motorok vezérléséhez használt shield-el is kompatibilis.
 
-\textbf{SRAM:} Az SRAM tárolja a programban definiált belső változókat. Az SRAM - szemben a flash-memóriával - árammentes állapotban nem őrzi meg a tartalmát, ezért minden bekapcsolást követően a program újradefiniálja a változókat és azok az ott meghatározott "alapértelmezett" értékükkel kerülnek az SRAM-ba.
-
-\textbf{EEPROM:} Az EEPROM a board-ok nem felejtő változómemóriája. Ez - hasonlóan a Flash-hez - kikapcsolás során is megőrzi a tartalmát, de - és szintúgy, mint a Flash esetén - "csak" 100.000 írásciklusra van hitelesítve, azaz például a ciklikus adatírásra nem igazán alkalmas. Ráadásul egy kicsit lassabb is a kezelése, mint a "normál" SRAM-é. Ezekből a technikai jellemzőkből adódóan az EEPROM az alábbi funkciókra alkalmazható:
-\begin{itemize}
-	\item konfiguráció(k) letárolása
-	\item indulási alapbeállítások mentése
-	\item újraindításoktól független számlálók, értékek, gyűjtött értékek mentése
-\end{itemize}
+Az UNO egy ATmega328P mikrokontrollerrel van felszerelve, valamint 32 KB Flash memóriával rendelkezik, melyben a feltöltött program tárolódik. Csatlakozók szempontjából 6db analóg és 14db digitális tüske, valamint egy USB port található rajta (a kiosztást az \ref{uno_pins}~ábrán láthatjuk).
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/arduino/Uno_Pins}
+	\caption{Az UNO tüskekiosztása}
+	\label{uno_pins}
+\end{figure}
 \subsection{Az IDE felépítése és használata}\label{arduino-IDE}
-Az Arduino IDE segítségével írt programokat vázlatnak nevezzük. Ezek a vázlatok a szövegszerkesztőben vannak megírva, és az ,,.ino'' kiterjesztéssel kerülnek mentésre. Az IDE teljes felépítése megtekinthető az Arduino hivatalos honlapján\cite{Arduino IDE}.
+A programok írását és alaplapra való feltöltését az Arduino IDE segítségével tehetjük meg (\ref{IDE_felépítés}~ábra), mely egy felhasználóbarát fejlesztőkörnyezet.
 
-Az üzenetterület mentés és exportálás közben ad visszajelzést, és megjeleníti a hibákat is. A konzol megjeleníti az Arduino IDE szöveges kimenetét, beleértve a teljes hibaüzeneteket és egyéb információkat. Az ablak jobb alsó sarkában megjelenik a beállított alaplap és soros port.
+Használatakor láthatjuk a használt USB port sorszámát és az ehhez csatlakoztatott alaplat típusát, továbbá a programunk nevét is.
 
-Az eszköztárban található gombokkal ellenőrizhetjük és feltölthetjük a kódot, új vázlatot hozhatunk létre, valamint megnyithatjuk a soros monitort is.
+A szerkesztőfelületen írhatjuk a programot és az alatta található üzenetfelületen kap a felhasználó visszajelzést arról, hogy a program feltöltése sikeres volt-e, illetve az előforduló problémákról is.
 
-További parancsok találhatók az öt menüben: \textbf{Fájl, Szerkesztés, Vázlat, Eszközök, Súgó}. A menük kontextusra érzékenyek, ami azt jelenti, hogy csak a jelenleg elvégzett munka szempontjából releváns elemek állnak rendelkezésre.
+A program feltöltésén kívül lehetőségünk van az ellenőrzésre is, továbbá az eszköztárban található menüpontok segítségével megnyithatjuk a soros monitort, létrehozhatunk új projektet, de akár a használt alaplap és USB port is megváltoztatható, így egyszerre akár több alaplapot is csatlakoztathatunk a számítógéphez.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/arduino/IDE_felépítés}
+	\caption{Az IDE felülete}
+	\label{IDE_felépítés}
+\end{figure}
+
+Az IDE teljes felépítése megtekinthető az Arduino hivatalos honlapján\cite{Arduino IDE}.
 \subsection{A C++ nyelv}
-A C++ egy általános célú, magas szintű programozási nyelv. Támogatja a procedurális, az objektumorientált és a generikus programozást, valamint az adatabsztrakciót. Napjainkban szinte minden operációs rendszer alá létezik C++ fordító.
+A C++\cite{CPP} egy általános célú, magas szintű programozási nyelv. Támogatja a procedurális, az objektumorientált és a generikus programozást, valamint az adatabsztrakciót. Napjainkban szinte minden operációs rendszer alá létezik C++ fordító.
 
-A nyelv a C programozási nyelv hatékonyságának megőrzése mellett törekszik a könnyebben megírható, karbantartható és újrahasznosítható kód írására, ez azonban sok kompromisszummal jár, erre utal, hogy általánosan elterjedt a mid-level minősítése is, bár szigorú értelemben véve egyértelműen magas szintű.
+A nyelv a C programozási nyelv hatékonyságának megőrzése mellett törekszik a könnyebben megírható, karbantartható és újrahasznosítható kód írására, ez azonban sok kompromisszummal jár. Erre utal, hogy általánosan elterjedt a mid-level minősítése is, bár szigorú értelemben véve egyértelműen magas szintű.
 
 Bjarne Stroustrup kezdte el a C++ programozási nyelv fejlesztését a C programozási nyelv kiterjesztéseként, más nyelvekből véve át megoldásokat (Simula67, Algol68), ötleteket (ADA).
 
 A nyelv első, nem kísérleti körülmények közt való használatára 1983-ban került sor, 1987-ben pedig nyilvánvalóvá vált, hogy a C++ szabványosítása elkerülhetetlen. Ez a folyamat 1991 júniusában kezdődött el, amikor az ISO szabványosítási kezdeményezés részévé vált.
 
 A C++ programozási nyelv szabványát 1998-ban hagyták jóvá ISO/IEC 14882:1998 néven, az aktuális, 2017-es változat kódjelzése ISO/IEC 14882:2017.
-\section{Az Android}
-Az Android egy Linux kernelt használó mobil operációs rendszer, elsősorban érintőképernyős mobil eszközökre (okostelefon, táblagép) tervezve. Fejlesztését az ’Android, Inc.’ kezdte el, melyet a Google 2005-ben felvásárolt, majd az Open Handset Alliance folytatta.
-
-A fejlesztők Java vagy Kotlin nyelven írhatnak rá menedzselt kódot, az eszközt a Google által fejlesztett Java programkönyvtárakon keresztül vezérelve.
-\subsection{Az operációs rendszer története}
-Az Android 1.0 platform 2008. október 21-én került kiadásra Apache licenc alatt, mely nem nyerte el igazán az átlagfelhasználók tetszését, ennek oka a használhatóság nehézsége, illetve a kinézete volt az oka.
-\begin{itemize}
-	\item 2010-ben a Google bemutatta a Nexus referenciakészülék-termékcsaládját, amit külsős cégek gyártanak. A Google összeállt a HTC-vel, és bemutatták a Nexus One mobiltelefont, amin már az Android 2.1 volt elérhető. Még ebben az évben bejelentették az utódot, amit már a Samsung gyártott, a Nexus S-t, ami már az újabb 2.3-as Androidot futtatja.
-	\item 2011 év végén jött az újabb Galaxy Nexus, szintén a Samsung műhelyéből. Ezen már az Android 4.0 Ice Cream Sandwich futott.
-	\item 2012 júniusában megjelent az első Nexus tablet, a Nexus 7, majd ezt követte a Nexus 10. Mindkét tableten az Android 4.1 volt megtalálható.
-	\item 2012 novemberében jelent meg a Nexus 4, amit az LG gyártott, Android 4.2-vel.
-	\item 2013-ban jött az újabb Nexus 5, szintén LG-gyártmány. Ezen az akkor legújabb, Android 4.4 KitKat futott.
-	\item 2014 októberében mutatták be a jelenleg legújabb Nexus-t, a Nexus 6-ot (Motorola) és a Nexus 9-et (HTC), amiken az Android 5.0 Lollipop található
-	\item 2015 szeptemberében 2 új modell mutatkozott be: az LG által gyártott Nexus 5X és a Huawei által gyártott Nexus 6P, amelyek Android 6.0 Marshmallow-al érkeztek. Ezek után már nem mutattak be újabb Nexus telefonokat, helyüket a Pixel telefonok vették át.
-	\item 2016 októberében jelentette be a Google a Pixel és Pixel XL telefonokat, amelyeket a HTC gyártott.
-	\item 2017-ben szintén októberben mutatta be a Google a Pixel 2-t, amit újra a HTC gyártott és a Pixel 2 XL-t, amelyet az LG készített.
-	\item 2018-ban az eddigiek alapján újra októberben mutatta be a Google a Pixel 3-at és a Pixel 3 XL-t.
-\end{itemize}
-\newpage
-
-\subsection{Az Android Studio felépítése és használata}\label{android-studio}
-Az Android Studio egy integrált fejlesztőkörnyezet (IDE) az Android platformra való fejlesztéshez. 2013. május 16-án jelentette be a Google I/O konferencián Google termékmenedzsere Katherine Chou. Az Android Studio szabadon elérhető Apache License 2.0 alatt.
-
-Az Android Studio első korai szakaszának elérhetősége a 0.1-gyel kezdődött 2013. májusában, majd belépett a béta szakaszba a 2014. júniusában kiadott 0.8 verzióval. Az stabil verziók a 2014. decemberében az 1.0-s verziótól számíthatók.
-
-A JetBrains IntelliJ IDEAján alapuló szoftvert, az Android Studiot kifejezetten androidos fejlesztésre tervezték. Letölthető Windowsra, Mac OS Xre és Linuxra is egyaránt, és teljes egészében helyettesíti az Eclipse Android Development Tools (ADT)-ját. A Google elsődleges IDE-jének választott a natív Android alkalmazás fejlesztésre.
-
-Az új funkciók folyamatosan jelennek meg az Android Studio új kiadásaiban. Minden verzió lehetőséget ad arra, hogy a fejlesztett programot egy virtuális okostelefon segítségével használjuk a számítógépen vagy a csatlakoztatott telefonra telepítsük.
-\subsection{A Java nyelv}
-A Java általános célú, objektumorientált programozási nyelv, amelyet a Sun Microsystems fejlesztett a ’90-es évek elejétől kezdve egészen 2009-ig, amikor a céget felvásárolta az Oracle. 2011-ben a Java 1.7-es verzióját az új tulajdonos gondozásában adták ki.
+\section{A Java nyelv és az Android}
+A Java\cite{Java} általános célú, objektumorientált programozási nyelv, amelyet a Sun Microsystems fejlesztett a ’90-es évek elejétől kezdve egészen 2009-ig, amikor a céget felvásárolta az Oracle. 2011-ben a Java 1.7-es verzióját az új tulajdonos gondozásában adták ki.
 
 A Java alkalmazásokat jellemzően bájtkód formátumra alakítják, de közvetlenül natív (gépi) kód is készíthető Java forráskódból. A bájtkód futtatása a Java virtuális géppel történik, ami vagy interpretálja a bájtkódot, vagy natív gépi kódot készít belőle, és azt futtatja az adott operációs rendszeren. Létezik közvetlenül Java bájtkódot futtató hardver is, az úgynevezett Java processzor.
 
-A Java nyelv a szintaxisát főleg a C és a C++ nyelvektől örökölte, viszont sokkal egyszerűbb objektummodellel rendelkezik, mint a C++. A JavaScript szintaxisa és neve hasonló ugyan a Java-hoz, de a két nyelv nem áll olyan szoros rokonságban, mint azt ezekből a hasonlóságokból gondolhatnánk.
+A Java nyelv a szintaxisát főleg a C és a C++ nyelvektől örökölte, viszont sokkal egyszerűbb objektummodellel rendelkezik, mint a C++.
+\subsection{Miért pont Android?}
+A modern világban szinte minden ember rendelkezik, vagy találkozott már olyan telefonnal, mely valamilyen mobil OS-t\footnote{mobil operációs rendszer} futtat, melyek közül a legjobban elterjedt az Android\cite{Android} és az iOS.
 
-Bár a nyelv neve kezdetben Oak\footnote{James Gosling, a nyelv atyja nevezte így az irodája előtt növő tölgyfáról} volt, később kiderült, hogy ilyen elnevezésű nyelv már létezik, ezért végül Java néven vált ismertté. A Java szó a Oracle védjegye. Ennélfogva engedélye nélkül nem használható mások által kifejlesztett termékek megjelölésére; még például Java-szerű... stb. összetételben sem, mert ez a védjegyjogosult jogaiba ütközik.
-\chapter{Követelményspecifikáció}\label{kövspec}
+Az Android-ot kezdetben az Android Inc. fejlesztette, azonban 2005-ben a Google felvásárolta és a fejlesztést az Open Handset Alliance folytatta, melyet ~82 cég alkot, köztük az Intel, a HTC, a Samsung és az eBay is.
+
+Az Android-ot futtató telefonok a felhasználók számára nagy rendszer-testreszabási lehetőségeket nyújtanak, valamint széleskörű kompatibilitást különféle kiegészítőkkel, például vezeték nélküli eszközök, okos óra/tv.
+
+Android-ra a fejlesztők Java vagy Kotlin programozási nyelv segítségével tudnak programokat írni, fejlesztőkörnyezetnek pedig legelterjedtebb az Android Studio, melyről a következő oldalon részletesen is olvashatunk.
+\subsection{Az Android Studio felépítése és használata}\label{android-studio}
+Az Android Studio\cite{Android} egy integrált fejlesztőkörnyezet (IDE) az Android platformra való fejlesztéshez. 2013. május 16-án jelentette be a Google I/O konferencián a Google termékmenedzsere Katherine Chou. Az Android Studio szabadon elérhető Apache License 2.0 alatt.
+
+A JetBrains IntelliJ IDEA-ján alapuló szoftvert, az Android Studiot kifejezetten androidos fejlesztésre tervezték. Letölthető Windowsra, Mac OS X-re és Linuxra is egyaránt, és teljes egészében helyettesíti az Eclipse Android Development Tools (ADT)-ját. A Google elsődleges IDE-jének választott a natív Android alkalmazás fejlesztésre.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/android/android_ide}
+	\caption{Az Android Studio}
+	\label{android_ide}
+\end{figure}
+
+Az IDE használata hamar megtanulható, ugyanis felhasználóbarát felépítéssel rendelkezik(\ref{android_ide}~ábra). Az alkalmazás dizájnjának megalkotására egy beépített felületet biztosít az Android Studio, ami WYSIWYG\footnote{What you see is what you get/Azt kapod, amit látsz} alapon működik.
+
+Az IDE tartalmaz továbbá egy beépített navigációs felületet, ahol a felhasználó a megnyitott projekt elemeit találja meg. A projektben megtalálható fájlok mappaszerkezetét látja a felhasználó, így a dizájnért felelős .xml kiterjesztésű fájlok a 'res/layout' mappában találhatóak és az ugyanazon képernyőhöz tartozó fekvő és álló elrendezés pedig a képernyő mappájában.
+
+A navigációs sávon kívül a felhasználó több, a projekt állapotához tartozó információt is kap, mint például a projekt futtatásakor az ablak alján megjelenő Event Log, ami a programmal kapcsolatban ad visszajelzést (pl: sikeres volt-e a build), vagy az eszköztár alatt látható a készülék, vagy AVD\footnote{Android Virtual Device} neve, amelyen a program futtatása fog történni.
+
+További hasznos tulajdonság, hogy amennyiben a fejlesztő hibát követ el a forráskód írása közben az IDE figyelmeztet erről, valamint az ebből eredő összes hibát megjelöli és a hiba megoldására is tanácsot ad a felhasználónak (\ref{ide_hiba}~ábra), valamint a projektben történő refaktorálást is könnyen megtehetjük a Shift+F6 billentyűkombinációval, aminek hatására az IDE nem csak az adott sorban, hanem minden használati esetnél is módosítja az általunk kijelölt objektumot.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/android/ide_hibaérzékelés}
+	\caption{Hiba jelzése az IDE-ben}
+	\label{ide_hiba}
+\end{figure}
+
+\chapter{Követelményspecifikáció}\label{fejezet_2}
 Ebben a fejezetben arról fogok beszámolni, hogy a projekt kigondolásakor, milyen célt tűztem ki magamnak, valamint ennek megvalósítására milyen komponenseket használtam.
 \section{Vágyálomrendszer leírása}\label{vágyálom}
 A projekt megalkotásakor a célom egy olyan robot kifejlesztése volt, amely képes egy megadott pályát követni, a követés közben észlelt bármekkora méretű akadályt kikerül és ezután a követendő pályát újra megtalálni, valamint egy olyan telefonos alkalmazást kifejleszteni, mellyel a robotot irányítani tudjuk, a robot által vezetett napló tartalmának megtekintését lehetővé teszi, valamint a naplót a készülékre lehessen menteni.
 
 Szerettem volna ezeket úgy megvalósítani, hogy a végtermékkel különböző életkorú diákok oktatását lehessen segíteni, de otthoni felhasználáshoz is szórakoztató időtöltés legyen akár egyszerre több embernek is.
 
-Mivel 2020-as Nemzeti Alaptantervben az általános iskolás diákok számára a Digitális Kultúra tárgy magába foglalja a robotika oktatását 5. és 6. osztályban 11 óra alkalmával, valamint 7-8. osztályosoknak 8 órában. Az órák alatt a diákok számára a javasolt tevékenység különböző programok megírása blokkprogramozással, ezért nekik lehetőséget akarok biztosítani egy másik programozási módszer megismerésére.
+A 2020-as Nemzeti Alaptantervben\cite{NAT} az általános iskolás diákok számára a Digitális Kultúra tárgy magába foglalja a robotika oktatását 5. és 6. osztályban 11 óra alkalmával, valamint 7-8. osztályosoknak 8 órában. Az órák alatt a diákok számára a javasolt tevékenység különböző programok megírása blokkprogramozással, ezért nekik lehetőséget akarok biztosítani egy másik programozási módszer megismerésére.
 
 Középiskolások részére a tárgyban megtalálható a Mobiltechnológiai ismeretek témakör, melyet 9. és 11. osztályban 4-4 órában tanulnak a diákok. Az ő részükre a telefonra fejlesztett applikációval szeretnék egy példát mutatni a mobiltechnológiai eszközök segítségével megvalósított együttműködésre.
 
@@ -149,7 +156,7 @@ Miután kitűztem a célt, amit el szeretnék érni meg kellett fogalmaznom néh
 
 \textbf{A kód könnyen módosítható legyen.} Ahhoz, hogy az általános iskolai diákok számára ne legyen bonyolult a projekt, szükséges, hogy az alapoktól kezdve tudjuk megmutatni nekik hogyan is épül fel.
 
-\textbf{A projekt legyen érdekes.} A középiskolásoknak egy olyan példát kell biztosítani, mely felkelti az érdeklődésüket.
+\textbf{A projekt legyen érdekes.} A diákok számára egy olyan példát kell biztosítani, mely felkelti az érdeklődésüket.
 
 \textbf{Sokoldalú felhasználás.} Mivel nem csak oktatási célra szánom a projektemet, szükségesnek tartottam, hogy a hétköznapi felhasználók is szórakoztatónak találják.
 \section{Jelenlegi helyzet leírása}\label{jelenlegi_helyzet}
@@ -158,51 +165,71 @@ A projekt jelenlegi állapotában a \ref{vágyálom}.~fejezetben megfogalmazotta
 A felhasznált ultrahang szenzor biztosítja azt, hogy a robot nem fog akadálynak ütközni a pálya követése közben, a Bluetooth modulnak köszönhetően pedig a telefonos applikációval rá tudunk csatlakozni a robotra.
 
 A telefonos applikációban a robot vezérlésének több részét is el tudjuk végezni. Először is el tudjuk dönteni, hogy a robot kövesse-e a pályát vagy mi magunk szeretnénk irányítani. Másodszor a robot irányításakor mi tudjuk megmondani az irányt, amerre szeretnénk, ha a robot mozogna. Harmadszor pedig a robot által létrehozott naplófájlt meg tudjuk a telefonon tekinteni, a telefonra le tudjuk menteni, vagy a robot memóriájából ki tudjuk törölni.
-\chapter{Funkcionális specifikáció}
-A fejezetben a projekt felhasználási lehetőségeit mutatom, valamint \az{\ref{kövspec}.~fejezetben} \az{\pageref{követelmény}.~oldalon} megfogalmazottaknak feleltetem meg a termékemet, majd bemutatom a fejlesztés során használt készüléket.
+\chapter{Funkcionális specifikáció}\label{fejezet_3}
+A fejezetben a projekt használati lehetőségeit mutatom, valamint \az{\ref{fejezet_2}.~fejezetben} megfogalmazottaknak feleltetem meg a termékemet, majd ismertetem a fejlesztéshez és teszteléshez használt hardverelemek néhány tulajdonságát.
 \section{Használati esetek}
-A projektnek két felhasználója van, a robot és egy személy. A két felhasználó két különböző szoftverrel érintkezik. Mindkét felhasználó más funkciókat tud elérni a különböző szoftvereknek köszönhetően.
+A projektnek egy felhasználója van, egy személy. A felhasználó két különböző szoftverrel érintkezik és ezek más-más funkciókkal rendelkeznek.
 
-A robot képes a naplófájlhoz új eseményeket hozzáadni, valamint képes a felhasználótól függetlenül egy pályát követni.
+A roboton futó szoftver képes a naplófájlhoz új eseményeket hozzáadni, eseményeket törölni, a naplófájlt a telefonra elküldeni, valamint képes a pálya követésére.
 
-A személy el tudja végezni a robot irányítását, a pályakövetési folyamatkor kényszerítheti a robotot a folyamat szüneteltetésére, valamint a robot által készített naplófájl tartalmát lekérheti, mentheti és törölheti.
+Az okostelefonon futó szoftver el tudja végezni a robot irányítását, a vonal követését szüneteltetheti/indíthatja el és a robot által készített naplófájl tartalmát lekérheti és mentheti.
 \section{Követelmény megfeleltetés}
-A következőkben részletezem, hogy a követelményspecifikációban megfogalmazottaknak hogyan tettem eleget.
+A következőkben részletezem, hogy a \ref{követelmény} pontban megfogalmazottaknak hogyan tettem eleget.
 \subsection{Könnyű módosíthatóság}
 Az Arduino alaplapon futó kódban minden olyan egységet, mely egy szenzorról beérkező értéket használ fel egy feltétel vizsgálatához, vagy változó értékének módosításához igyekeztem külön metódusba építeni, így a kód gyorsan és biztonságosan módosítható.
 
 A módosíthatóságnak köszönhetően a diákok számára létre lehet hozni egy olyan struktúrát a projektben, melyben kezdetben csak az infravörös szenzorokat használjuk LED-el, majd lépésről-lépésre a LED-et lecseréljük a motorokra, valamint hozzáadjuk az ultrahang szenzort és végül ezeknek a működését hangoljuk össze.
 \subsection{Érdekes projekt}
-A projekt véleményem szerint a középiskolások számára kellő érdekességgel bír, ugyanis nem csak új ismeretet tudnak vele szerezni, hanem egy interaktív óra lehetőségét is magában hordozza.
-
-Amennyiben két robotot biztosítunk az órán két diákot kiválasztva egy robotok közötti 'verseny' is szimulálható, ahol a diákok képessége határozza meg, hogy melyik robot lesz a gyorsabb, továbbá szemléltetni tudjuk vele, hogy az egyes mobilkommunikáción alapuló eszközök együttműködése nem csak az eszközöktől függ, hanem az eszközt kezelő felhasználóktól is.
+A projekt véleményem szerint a diákok számára kellő érdekességgel bír, ugyanis nem csak új ismeretet tudnak vele szerezni, hanem egy interaktív óra lehetőségét is magában hordozza.
 \subsection{Sokoldalú felhasználás}
-A projekt nem csak az irányítás és a pályakövetés lehetőségét biztosítja. Ha szeretnénk a robotnak egyre összetettebb és nehezebb pályákat tudunk építeni, emelkedőkkel, nagyobb akadályokkal összetettebb kanyarokkal, ezzel tesztelve, hogy mi az amire a robot képes és mire nem. Más lehetőség az előzőekben említett több robot közötti 'verseny'.
-\section{A fejlesztés során használt telefonok}\label{telefonok}
-A teszteléshez több telefont is használtam, hogy az applikáció erőforrás igényét pontosabban fel tudjam mérni.
-\subsection{Samsung Galaxy A71}
-\begin{itemize}
-	\item Processzor: Qualcomm Snapdragon 730
-	\item Processzormagok száma: 8
-	\item Processzor sebessége: 2.2 GHz
-	\item RAM mérete: 6 GB
-	\item Bluetooth: v5.00
-	\item Akkumulátor típusa: Li-Pol
-	\item Akkumulátor kapacitás: 4500 mAh
-	\item Android verzió: 10
-\end{itemize}
-\subsection{Alcatel OneTouch Pop D1}
-\begin{itemize}
-	\item Processzor: ARM Cortex-A7
-	\item Processzormagok száma: 2
-	\item Processzor sebessége: 1 GHz
-	\item RAM mérete: 512 MB
-	\item Bluetooth: v4.00
-	\item Akkumulátor típusa: Li-Ion
-	\item Akkumulátor kapacitás: 1300 mAh
-	\item Android verzió: 4.4.2 KitKat
-\end{itemize}
-\chapter{Belső állapotok és felületterv}
+A projekt nem csak az irányítás és a pályakövetés lehetőségét biztosítja. Ha szeretnénk a robotnak egyre összetettebb és nehezebb pályákat tudunk építeni, emelkedőkkel, nagyobb akadályokkal összetettebb kanyarokkal, ezzel tesztelve, hogy mi az amire a robot képes és mire nem. Más lehetőség, hogy az otthoni felhasználás során a roboton található modulok, vagy a telefonos alkalmazás átalakításával a projekt továbbfejlesztésére is van lehetőség.
+\section{A fejlesztéshez használt hardver}\label{telefonok}
+Az \ref{arduino_alaplap}~fejezetben olvashattunk az alaplap adatairól, most bemutatom a további hardverelemeket, illetve a teszteléshez felhasznált telefonokat.
+
+\textbf{A robothoz tartozó hardverelemek}
+\begin{center}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{Megnevezés}}&\textbf{Csatlakozás}&\textbf{Működési feszültség}\\
+		\hline
+		Villanymotor&2 db digitális port/motor&3-6 Volt\\
+		\hline
+		SG90 szervo motor&1 db analóg port&4.8-6 Volt\\
+		\hline
+		HC-SR04 szenzor&2 db digitális port&5 Volt\\
+		\hline
+		HW-201 szenzor&1 db analóg port&5 Volt\\
+		\hline
+		HC-05 Bluetooth modul&2 db digitális port&3.3-5 Volt\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\textbf{A telefonok adatai}
+\begin{center}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{}}&\textbf{Samsung Galaxy A71}&\textbf{Alcatel Pop D1}\\
+		\hline
+		\textbf{Processzor}&Qualcomm Snapdragon 730&ARM Cortex-A7\\
+		\hline
+		\textbf{Processzormagok száma}&8&2\\
+		\hline
+		\textbf{Processzor sebessége}&2.2 GHz&1 GHz\\
+		\hline
+		\textbf{RAM mérete}&6 GB&512 MB\\
+		\hline
+		\textbf{Akkumulátor típusa}&Lithium-Polymer&Lithium-Ion\\
+		\hline
+		\textbf{Akkumulátor kapacitás}&4500 mAh&1300 mAh\\
+		\hline
+		\textbf{Android verzió}&10&4.4.2 KitKat\\
+		\hline
+		\textbf{Bluetooth verzió}&v5.00&v4.00\\
+		\hline
+	\end{tabular}
+\end{center}
+\chapter{Belső állapotok és felületterv}\label{fejezet_4}
 \emph{,,Any fool can write code that a computer can understand. Good programmers write code that humans can understand.'' -- Martin Fowler}
 \section{A robot belső állapotai}
 A robot működése során többször is változik a belső állapota, a változást a telefonos applikációból kapott adat, valamint a roboton található szenzorok idézik elő.
@@ -210,10 +237,10 @@ A robot működése során többször is változik a belső állapota, a változ
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\columnwidth]{images/grafok/fomenu_graf}
-	\caption{Kezdőállapot}
+	\caption{Fő állapotok közötti átmenet}
 	\label{start_allapot}
 \end{figure}
-A robot indulásakor a kezdőállapotból minden alkalommal a telefonról kapott jel fogja kimozdítani. Amint van csatlakoztatott eszköz a robot elkezdi várni az utasítást. A telefonról érkező utasítás 3 számkód lehet. Minden számkód egy-egy folyamatért felel, mely lehet:
+A robot indulását követően a kezdőállapotból minden alkalommal a telefonról kapott jel fogja kimozdítani. Amint van csatlakoztatott eszköz a robot elkezdi várni az utasítást. A telefonról érkező utasítás 3 számkód lehet. Minden számkód egy-egy folyamatért felel, mely lehet:
 \begin{itemize}
 	\item Irányítás folyamata = 111-es kód
 	\item Pályakövetés folyamata = 222-es kód
@@ -229,6 +256,7 @@ Ha a kapott utasításból származó kód az 'F', 'L', 'R', 'B', 'S' betűk val
 	\item R = Jobb kanyar
 	\item B = Tolatás
 	\item S = Állj
+	\item T = Teszt folyamat
 \end{itemize}
 
 A telefon a kódot mindaddig küldi ki a robotnak, amíg az adott gomb lenyomva van. Amint a gombot felengedjük a telefon elküldi a robot megállítására szolgáló 'S' kódot.
@@ -243,7 +271,7 @@ Amennyiben a kezdőképernyőn a ’követés’ gombot nyomja meg a felhasznál
 Ekkor a robot a váz elején található Infravörös szenzorok által érzékelt vonal követését hajtja végre és ebből az állapotából két esetben lép ki:
 \begin{itemize}
 	\item Valamelyik IR szenzor jelzést ad a vonal kanyarodásáról
-	\item Az 'autó' elején található UH szenzor akadályt érzékel
+	\item A robot elején található UH szenzor akadályt érzékel
 \end{itemize}
 \begin{figure}[h]
 	\centering
@@ -254,28 +282,39 @@ Ekkor a robot a váz elején található Infravörös szenzorok által érzékel
 
 Mindaddig, míg a robot nem érzékel akadályt vagy kanyart a motorok egyforma sebességgel forognak előre. Amennyiben kanyarról ad jelzést valamely IR szenzor a robot korrigálást hajt végre a megfelelő motorok paramétereinek megváltoztatásával (nyomaték, irány). Amint a korrigálás megtörtént és a jelzést leadó szenzor visszaáll eredeti értékére, a robot visszatér a követő állapotba.
 
-Amennyiben akadály érzékelése történik minden motor leállításra kerül, majd a robot elvégez egy pásztázást a váz elején található szervó motor és UH szenzor segítségével. A pásztázás befejezését követően az akadály megkerülése történik jobb vagy bal irányba, majd a pálya megtalálását követően a robot ismét követi azt.
+Amennyiben akadály érzékelése történik minden motor leállításra kerül, majd a robot elvégez egy pásztázást a váz elején található szervó motor és UH szenzor segítségével. A pásztázás befejezését követően az akadály megkerülése történik jobb vagy bal irányba, majd a pálya megtalálását követően a robot ismét követi azt (erről bővebben olvashatunk a \ref{180°-sonar}.~fejezetben).
 \subsection{A naplózási folyamat}\label{naplokepernyo_allapot}
-A naplózási folyamat során a robot csak kommunikációs folyamatokat hajt végre a Bluetooth modul segítségével.\begin{figure}[h]
+A naplózási folyamat során a robot nem végez mozgást, csak a telefonnal kommunikál és az onnan kapott kód alapján három feladatot tud elvégezni:
+\begin{itemize}
+	\item A folyamatból kilép, ha a bejövő kód 'B'
+	\item A telefonra küldi a naplófájl jelenlegi tartalmát, ha a kód 'G'
+	\item A naplófájl tartalmát üríti a memóriájából, ha a kód 'D'
+\end{itemize}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=\columnwidth]{images/grafok/log_graf}
 	\caption{Naplózási állapotok}
 	\label{log_graf}
 \end{figure}
-
-Amennyiben a telefonról kapott jel 'B' a robot kilép a folyamatból és \az{\ref{start_allapot}}~állapotba lép.
-
-Ha a bejövő jel 'G' a robot elküldi a telefon részére a Naplófájl tartalmát, ha pedig a jel 'D' törli azt.
 \section{Android képernyőtervek}
-Az applikációnak négy képernyője van.
-\subsection{A kezdőképernyő}
-Az alkalmazás elindításakor a felhasználót ez a képernyő üdvözli, ahol öt gomb közül választhatunk, melyek különböző funkciókért felelnek, ezek:
+Az applikációnak négy képernyője van, ezek:
 \begin{itemize}
-	\item \textbf{Eszközök:} A megnyomása után a képernyőn megjelenik a párosított Bluetooth-eszközök listája, melyből ki tudjuk választani a számunkra megfelelőt.
-	\item \textbf{Súgó:} Az applikációba beépített ’Súgó’ képernyő (\ref{help}) válik aktívvá ahol a felhasználó minden funkciót megismerhet.
-	\item \textbf{Követés:} Átirányítja a felhasználót az ’Automata követés’ képernyőjére (\ref{auto-follow}).
-	\item \textbf{Irányítás:} A felhasználó a ’Bluetooth irányítás’ képernyőre kerül (\ref{bluetooth-control}), ahol a robotot tudjuk vezérelni.
-	\item \textbf{Log:} A naplófájl megtekintésére és mentésére szolgáló képernyőre kerül a felhasználó. (\ref{log_screen})
+	\item Kezdőképernyő
+	\item Súgó képernyő
+	\item Automata követés képernyő
+	\item Bluetooth irányítás képernyő
+	\item Naplózási képernyő
+\end{itemize}
+
+A képernyők között az alkalmazásban megtalálható gombok segítségével navigálhatunk.
+
+\textbf{Kezdőképernyő:} Az alkalmazás elindításakor a felhasználót ez a képernyő üdvözli, ahol öt gomb közül választhatunk, melyek különböző funkciókért felelnek, ezek:
+\begin{itemize}
+	\item \underline{Eszközök:} A megnyomása után a képernyőn megjelenik a párosított Bluetooth-eszközök listája, melyből ki tudjuk választani a számunkra megfelelőt.
+	\item \underline{Súgó:} Az applikációba beépített ’Súgó’ képernyő válik aktívvá ahol a felhasználó minden funkciót megismerhet.
+	\item \underline{Követés:} Átirányítja a felhasználót az ’Automata követés’ képernyőjére.
+	\item \underline{Irányítás:} A felhasználó a ’Bluetooth irányítás’ képernyőre kerül, ahol a robotot tudjuk vezérelni.
+	\item \underline{Log:} A naplófájl megtekintésére és mentésére szolgáló képernyőre kerül a felhasználó.
 \end{itemize}
 \begin{figure}[h]
 	\centering
@@ -283,8 +322,8 @@ Az alkalmazás elindításakor a felhasználót ez a képernyő üdvözli, ahol 
 	\caption{Kezdőképernyő}
 	\label{home-screen}
 \end{figure}
-\subsection{Súgó képernyő}\label{help}
-A képernyő tartalmazza a funkciók rövid leírását.
+
+\textbf{Súgó képernyő:} A képernyő tartalmazza a funkciók rövid leírását.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\columnwidth]{images/app_screen/help_screen}
@@ -292,17 +331,17 @@ A képernyő tartalmazza a funkciók rövid leírását.
 	\label{help-screen}
 \end{figure}
 \begin{itemize}
-	\item \textbf{Home ikon:} A kezdőlapra navigálja a felhasználót.
-	\item \textbf{Szöveg felület:} A kiválasztott gomb által tartalmazott leírást jeleníti meg.
-	\item \textbf{Követés/irányítás gombok:} Az applikációban található funkciók leírását jeleníti meg a szöveg felületen.
+	\item \underline{Home ikon:} A kezdőlapra navigálja a felhasználót.
+	\item \underline{Szöveg felület:} A kiválasztott gomb által tartalmazott leírást jeleníti meg.
+	\item \underline{Követés/irányítás gombok:} Az applikációban található funkciók leírását jeleníti meg a szöveg felületen.
 \end{itemize}
-\subsection{Az automata követés képernyője}\label{auto-follow}
-Amint a felhasználó erre a képernyőre kerül, a robot megkezdi a pálya követését, valamint elérhetővé válnak \az{\ref{follow-screen}~ábrán} látható elemek.
+
+\textbf{Automata követés képernyő:} Amint a felhasználó erre a képernyőre kerül, a robot megkezdi a pálya követését, valamint elérhetővé válnak \az{\ref{follow-screen}~ábrán} látható elemek.
 \begin{itemize}
-	\item \textbf{’START’ gomb:} Ennek megnyomására a robot elkezdi követni a pályát.
-	\item \textbf{'STOP' gomb:} A robot megállítására szolgál.
-	\item \textbf{HOME gomb:} A kezdőlapra navigálja a felhasználót, a robot befejezi a pálya követését.
-	\item \textbf{SÚGÓ gomb:} Megjelenik a Súgó oldal képernyője.
+	\item \underline{’START’ gomb:} Ennek megnyomására a robot elkezdi követni a pályát.
+	\item \underline{'STOP' gomb:} A robot megállítására szolgál.
+	\item \underline{HOME gomb:} A kezdőlapra navigálja a felhasználót, a robot befejezi a pálya követését.
+	\item \underline{SÚGÓ gomb:} Megjelenik a Súgó oldal képernyője.
 \end{itemize}
 \begin{figure}[h]
 \centering
@@ -310,12 +349,14 @@ Amint a felhasználó erre a képernyőre kerül, a robot megkezdi a pálya köv
 \caption{Követés képernyő}
 \label{follow-screen}
 \end{figure}
-\subsection{Bluetooth irányítás képernyője}\label{bluetooth-control}
-Az ablakon \az{\ref{bluetooth-screen}~ábrán} látható gombok szerepelnek.
+
+\textbf{Bluetooth irányítás képernyő:} Az ablakon \az{\ref{bluetooth-screen}~ábrán} látható gombok szerepelnek.
 \begin{itemize}
-	\item \textbf{Előre:} A motorok mindegyike előre halad, megegyező nyomatékkal.
-	\item \textbf{Balra: }A roboton található motorok megegyező nyomatékkal, a bal oldaliak hátra, a jobb oldaliak előre forognak, így a robot az óramutató járásával ellentétes irányba fordul.
-	\item \textbf{Test car:} A roboton egy előre megírt teszt mozgást futtat le, melynek segítségével a felhasználó ellenőrizni tudja, hogy a motorok működnek-e. A tesztmozgás során a robot minden motorokat érintő mozgást elvégez, melyek:
+	\item \underline{Előre:} A motorok mindegyike előre halad, megegyező nyomatékkal.
+	\item \underline{Balra: }A roboton található motorok megegyező nyomatékkal, a bal oldaliak hátra, a jobb oldaliak előre forognak, így a robot az óramutató járásával ellentétes irányba fordul.
+	\item \underline{Jobbra:} A roboton található motorok megegyező nyomatékkal, a jobb oldaliak hátra, a bal oldaliak előre forognak, így a robot az óramutató járásával megegyező irányba fordul.
+	\item \underline{Hátra:} A motorok hátra forognak megegyező nyomatékkal.
+	\item \underline{Test car:} A roboton egy előre megírt teszt mozgást futtat le, melynek segítségével a felhasználó ellenőrizni tudja, hogy a motorok működnek-e. A tesztmozgás során a robot minden motorokat érintő mozgást elvégez, melyek:
 	\begin{itemize}
 		\item Előrehaladás
 		\item Tolatás
@@ -323,10 +364,8 @@ Az ablakon \az{\ref{bluetooth-screen}~ábrán} látható gombok szerepelnek.
 		\item Bal kanyar
 		\item Pásztázás
 	\end{itemize}
-	\item \textbf{Jobbra:} A roboton található motorok megegyező nyomatékkal, a jobb oldaliak hátra, a bal oldaliak előre forognak, így a robot az óramutató járásával megegyező irányba fordul.
-	\item \textbf{Hátra:} A motorok hátra forognak megegyező nyomatékkal.
-	\item \textbf{Home:} A kezdőlapra navigálja a felhasználót.
-	\item \textbf{Súgó:} A felhasználó a SÚGÓ oldalra kerül.
+	\item \underline{Home:} A kezdőlapra navigálja a felhasználót.
+	\item \underline{Súgó:} A felhasználó a SÚGÓ oldalra kerül.
 \end{itemize}
 \begin{figure}[h]
 	\centering
@@ -334,12 +373,12 @@ Az ablakon \az{\ref{bluetooth-screen}~ábrán} látható gombok szerepelnek.
 	\caption{Irányítás képernyő}
 	\label{bluetooth-screen}
 \end{figure}
-\subsection{Naplózási képernyő}\label{log}
-Ezen a képernyőn tudjuk lekérni a robot által rögzített naplót, valamint ezt tudjuk menteni és törölni is.
+
+\textbf{Naplózási képernyő:} Ezen a képernyőn tudjuk lekérni a robot által rögzített naplót, valamint ezt tudjuk menteni és törölni is.
 \begin{itemize}
-	\item \textbf{Log lekérése:} A robottól bekérjük a log fájl jelenlegi tartalmát, majd ezt megjelenítjük a 'Log felület'-en.
-	\item \textbf{Log mentés:} A megjelenített napló fájlt a telefonra mentjük a jelenlegi dátumot és időt felhasználva fájlnévként.
-	\item \textbf{Log törlés:} A log tartalma törlésre kerül a 'Log felület'-ről, valamint a robot memóriájából is.
+	\item \underline{Log lekérése:} A robottól bekérjük a log fájl jelenlegi tartalmát, majd ezt megjelenítjük a 'Log felület'-en.
+	\item \underline{Log mentés:} A megjelenített napló fájlt a telefonra mentjük a jelenlegi dátumot és időt felhasználva fájlnévként.
+	\item \underline{Log törlés:} A log tartalma törlésre kerül a 'Log felület'-ről, valamint a robot memóriájából is.
 \end{itemize}
 \begin{figure}[h]
 	\centering
@@ -351,16 +390,14 @@ Ezen a képernyőn tudjuk lekérni a robot által rögzített naplót, valamint 
 A képernyőn megtalálható \textbf{Home} és \textbf{Súgó} gombok megnyomásakor egy üzenet jelenik meg, mely azt biztosítja, hogy a felhasználó ne felejtse el menteni a log fájlt.
 
 Minden képernyő elérhető horizontális és vertikális elrendezésben, ezzel biztosítva a felhasználó számára a lehetőséget, hogy a neki legkényelmesebb módon tudja tartani készülékét az applikáció használata közben.
-\chapter{A robot és az applikáció működése}
-\emph{,,In some ways, programming is like painting. You start with a blank canvas and certain basic raw materials. You use a combination of science, art, and craft to determine what to do with them.'' -- Andrew Hunt}
-
+\chapter{A robot és az applikáció működése}\label{fejezet_5}
 Ebben a fejezetben bemutatom a robot és a telefonos applikáció működését.
 \section{A telefon és a robot összekapcsolása}
-Mivel a robot a telefonról kapott kód alapján kezdi el valamely folyamatot először szükséges a kettő közötti kapcsolatot biztosítani. A robot kódjában ehhez nem kell mást tenni, csak \az{\ref{arduino_bt_connection}~kódban} látható módon mindaddig, míg a HC-05-ös modulon nincs csatlakozás érzékelve a robotot váratjuk egy while() ciklus segítségével.
+Mivel a robot a telefonról kapott kód alapján kezdi el valamely folyamatot, először szükséges a kettő közötti kapcsolatot biztosítani. A robot kódjában ehhez nem kell mást tenni, csak \az{\ref{arduino_bt_connection}~kódban} látható módon mindaddig, míg a HC-05-ös modulon nincs csatlakozás érzékelve a robotot váratjuk egy while() ciklus segítségével.
 \lstinputlisting[caption=Bluetooth csatlakozás\label{arduino_bt_connection}]{codes/arduino/connection.ino}
 
 A telefonos applikációban ennél összetettebb kódra van szükség. Először biztosítani kell azt, hogy az készüléken be legyen kapcsolva a Bluetooth modul, ezt úgy tudtam elérni, hogy egy erre beépített metódust használtam\cite{Bluetooth_active} (\ref{device_choose}~kód 9. sor), és amennyiben ez igaz értéket adott vissza jeleztem a felhasználónak, majd meghívtam a 'BluetoothAdapter.ACTION\_REQUEST\_ENABLE' metódust\cite{Bluetooth_enable}, mellyel a felhasználó engedélyezni tudja a bekapcsolást. 
-\lstinputlisting[caption=Eszköz kiválasztása\label{device_choose}]{codes/android/Connectbluetooth.java}
+\lstinputlisting[caption=Eszköz kiválasztása\label{device_choose}]{codes/android/ChooseDevice.java}
 
 Ahhoz, hogy a Bluetooth bekapcsolásához szükséges engedélyt az applikációból meg tudjuk adni az AndroidManifest fájlban használni kell a ,,<uses-permission android:name="android.permission.BLUETOOTH\_ADMIN"/>'' parancsot.
 
@@ -372,56 +409,52 @@ Ahogy a \ref{start_allapot}~ábrán is látható a robot az indulás után háro
 
 Ahhoz, hogy a telefonról képesek legyünk adatok küldésére az 'AndroidManifest.xml' fájljában engedélyeznünk kell a Bluetooth modul használatát melyet a ,,<uses-permission android:name="android.permission.BLUETOOTH" />'' paranccsal tudunk megtenni.
 \section{Kód küldése a telefonról}
-Az alkalmazásban két módon kell kódot küldeni a robot számára.
-\begin{itemize}
-	\item Adott gomb lenyomásakor egy alkalommal
-	\item Folyamatosan, míg az iránygombok valamelyikét nyomva tartjuk
-\end{itemize}
+Ahhoz, hogy a telefonról képesek legyünk bármilyen kódot küldeni, először is létre kell hoznunk egy új BluetoothDevice példányt, mely az a kezdőképernyőn kiválasztott eszköz, melyhez csatlakozni szeretnénk és egy BluetoothSocket példányt, mellyel a telefon és a BluetoothDevice példány közötti folyamatokat tudjuk kezelni (\ref{BTSocket}~kódrészlet).
+\lstinputlisting[caption=Kapcsolathoz szükséges példányosítás\label{BTSocket}]{codes/android/BTSocketInstantiation.java}
 
-A kód egyszeri kiküldését egyszerűen egy 'onClickListener' használatával el lehet érni, ahol a gomb lenyomásakor az mBTSocket névvel példányosított BluetoothSocket 'getOutputStream().write()' metódusának segítségével elküldjük a kódot.
+A kód egyszeri kiküldését a lenyomott gombhoz tartozó 'onClickListener' használatával el lehet érni, ahol a gomb lenyomásakor a példányosított BluetoothSocket 'getOutputStream().write()' metódusát hívjuk meg a kód elküldéséhez.
 
-Az iránykód folyamatos küldéséhez az 'onClickListener' helyett 'onTouchListenert' kell használni. Az utóbbinál a gombtól kapott 'MotionEvent' alapján tudjuk eldönteni, hogy az adott gomb jelenleg le van-e nyomva (ACTION\_DOWN) vagy sem (ACTION\_UP). Ameddig a gomb nyomva van az 'mBTSocket.getOutputStream().write()' metódus segítségével az iránykódot küldjük a robotnak, majd mikor felengedésre kerül a gomb ugyanezen metódussal egyszer elküldjük a motorok leállítására szolgáló 'stopAction()' kódját.
+Az iránykód folyamatos küldéséhez az 'onClickListener' helyett 'onTouchListenert' kell használni. Az utóbbinál a gombtól kapott 'MotionEvent' alapján tudjuk eldönteni, hogy az adott gomb jelenleg le van-e nyomva (ACTION\_DOWN) vagy sem (ACTION\_UP). Ameddig a gomb nyomva van az 'mBTSocket.getOutputStream().write()' metódus segítségével az iránykódot küldjük a robotnak, majd mikor felengedésre kerül a gomb ugyanezen metódussal egyszeri alkalommal küldünk adatot.
+\lstinputlisting[caption=Kód küldése telefonról\label{command_sending}]{codes/android/Commandsend.java}
 \section{Motorok kezelése}
 A roboton található 4db villanymotor és 1db szervo motor kezelésére egy motorvezérlő panelt használtam, mely L293D típusú motorvezérlőt tartalmaz. A kódban minden motort külön kell példányosítani.
 \lstinputlisting[caption=Motorok kezelése\label{motor-shield}]{codes/arduino/motor-shield.ino}
 
-A kódban láthatóan a villanymotorok példányosításakor meg kell adni, hogy a panelen melyik csatlakozóhoz vannak kötve, valamint a típust is.
+A kódban láthatóan a 4db villanymotor példányosításakor meg kell adni, hogy a panelen melyik csatlakozóhoz vannak kötve, valamint a típust is.
 
-Ezen felül a panelhez szükséges behivatkozni az 'AFMotor.h' könyvtárat, illetve a szervo motor kezeléséhez szükséges a 'Servo.h' könyvtár is.
+Ezen felül a panelhez szükséges behivatkozni az 'AFMotor.h' könyvtárat, illetve az 1db szervo motor kezeléséhez szükséges a 'Servo.h' könyvtár is.
 
-Miután a DC motorok példányosítása megtörtént, megtesszük ezt a szervo motorral is. A program 'setup()' részében a 'myservo.attach()' utasítással tudjuk megadni, hogy melyik port felel a szervo motorért. -- Jelen esetben ez a digitális 10-es port lesz.
+Miután a 4db villanymotor példányosítása megtörtént, megtesszük ezt az 1db szervo motorral is. A program 'setup()' részében a 'myservo.attach()' utasítással tudjuk megadni, hogy melyik port felel ezért a motorért. -- Jelen esetben ez a digitális 10-es port lesz.
 
-Amennyiben ezek megtörténtek a szervo motort a 'myservo.write()' utasításban paraméterként megadott értékkel tudjuk forgatni 0-180° között, a DC motort pedig \az{\ref{forward}~kódban} látható módon tudjuk kezelni. -- 'FORWARD' helyett használhatunk 'BACKWARD' parancsot, hogy hátra forgassuk a motort, illetve 'RELEASE' parancsot a motorok leállítására. 
+Amennyiben ezek megtörténtek a szervo motort a 'myservo.write()' utasításban paraméterként megadott értékkel tudjuk forgatni 0-180° között, a 4db villanymotort pedig \az{\ref{forward}~kódban} látható módon tudjuk kezelni itt paraméterként a motorok forgásának sebességét kell megadnunk. -- 'FORWARD' helyett használhatunk 'BACKWARD' parancsot, hogy hátra forgassuk a motort, illetve 'RELEASE' parancsot a motorok leállítására. 
 
-A kódban található 'rightAction()', valamint 'leftAction()' metódusok meghívásakor nem egy, hanem két értéket kell megadnunk, melyek az előre és a hátra forgó motorok sebességeiért felelnek.
-
-Másrészről a 'forwardAction()' és 'backwardAction()' metódusoknál 1-1, míg a 'stopAction()' metódusban nincs szükség érték megadására, ugyanis utóbbi az összes DC motort leállítja, vagyis a sebesség minden esetben 0 lesz.
+Az egyes irányokhoz írt metódusok csak a 4db villanymotor forgásának irányában különböznek, illetve kanyarodáskor két paraméterre van szükség, melyek azt konkretizálják, hogy a motorok milyen sebességgel forognak előre és hátra, megálláskor pedig nincs szükség paraméterre, ugyanis ekkor a motorok sebessége 0.
 \lstinputlisting[caption=Előrehaladás\label{forward}]{codes/arduino/forward.ino}
 \section{Akadályok érzékelése}
-Annak érdekében, hogy a robot ne ütközzön akadálynak a kijelölt pálya követése közben a szervo motorra egy tartóelem segítségével felhelyeztem egy HC-04 típusú ultrahang szenzort. Alábbiakban ennek működését fogom ismertetni.
+Annak érdekében, hogy a robot ne ütközzön akadálynak a kijelölt pálya követése közben a szervo motorra egy tartóelem segítségével felhelyeztem egy HC-04 típusú ultrahang szenzort, mely két részből áll, egy bemenetből és egy kimenetből. A bemenet olvasása az Echo tüskén, a kimenet írása pedig a Trig tüskén megy végbe. Alábbiakban ennek működését fogom ismertetni.
 \begin{figure} [!h]
 	\includegraphics[width=\columnwidth]{images/ultrasonic}
 	\caption{HC-SR04}
 	\label{ultrahang}
 \end{figure}
 
-Ahogy \az{\ref{ultrahang}~ábra} is mutatja a roboton található ultrahang szenzor a jel kiküldése és annak visszaérkezése között eltelt idő alapján határozza meg a távolságot\cite{Ultrahang_Szenzor}. Mivel a hang levegőben való terjedési sebessége 0.034 cm/µs\footnote{centiméter/mikroszekundum}, a távolságot meg tudjuk határozni úgy, hogy a mért időt megszorozzuk ezzel a sebességgel, majd az így kapott értéket elosztjuk kettővel. -- A kettővel való osztásra azért van szükség, mert a kiküldött jelnek az akadály és a szenzor között oda-vissza meg kell tennie az utat.
+Ahogy \az{\ref{ultrahang}~ábra} is mutatja a roboton található ultrahang szenzor a jel kiküldése és annak visszaérkezése között eltelt idő alapján határozza meg a távolságot\cite{Ultrahang_Szenzor}. Mivel a hang levegőben való terjedési sebessége 0.034 cm/µs\footnote{centiméter/mikroszekundum}, a távolságot meg tudjuk határozni úgy, hogy a mért időt megszorozzuk ezzel a sebességgel, majd az így kapott értéket elosztjuk kettővel. A kettővel való osztásra azért van szükség, mert a kiküldött jelnek az akadály és a szenzor között oda-vissza meg kell tennie az utat.
 
-A programban ezt \az{\pageref{követelmény}.~oldalon} megfogalmazottaknak eleget téve \az{\ref{követelmény}~kódrészletben} látható módon egy metódusba építettem.
+A programban ezt \az{\ref{követelmény}.~fejezetben} megfogalmazottaknak eleget téve \az{\ref{ultrasonic-code}~kódrészletben} látható módon egy metódusba építettem, ahol a szenzor Trig tüskéjén kiküldök egy jelet 10µs\footnote{mikroszekundum} ideig, majd az Echo tüskén olvasott értéket eltárolom egy változóban, ami a jel kiküldése és visszaérkezése között eltelt időt jelöli. Ahhoz, hogy a távolságot megkapjuk ezt az értéket a \ref{ultrahang}~ábrán láthatóan meg kell szorozni 0.034-el, majd osztani 2-vel.
 \lstinputlisting[caption=Akadályérzékelés\label{ultrasonic-code}]{codes/arduino/ultrasonic.ino}
 \section{A pályát jelölő vonal követése}
 \lstinputlisting[caption=Pálya követése\label{turndetect}]{codes/arduino/linefollow.ino}
 
 Ahhoz, hogy a robot követni tudja a pályát jelölő fekete vonalat kettő HW-201 típusú infravörös szenzort használtam. Abban az esetben, ha a szenzorok valamelyike jelez a vonal kanyarodásáról a robot a megfelelő irányba történő korrigálással reagál, melynek kódja \az{\ref{turndetect}~kódrészleten} látható.
 
-A kódban látható 'forwardAction()', 'backwardAction()', 'leftAction()', 'rightAction()' és 'stopAction()' metódusokban megy végbe a motorok irányítása.
+Amennyiben egyik szenzor se ad le jelzést a robot előre halad, amikor az egyik infravörös szenzor jelzést ad le, akkor a szenzorral egy oldalon (bal vagy jobb) található motorok hátra, az ellentétes oldalon lévők pedig előre forognak, így a robot korrigálást hajt végre, ha pedig mindkét szenzor jelez, a motorokat megállítjuk.
 \section{Akadály kikerülése}
 A megfogalmazott követelmények alapján szükséges volt, hogy a robot mérettől függetlenül tudjon akadályt kikerülni.
 
 Erre \az{\ref{180°-sonar}~kódrészlet} tartalmazza a megoldást. A kódrészletben látható, hogy amint egy akadályt érzékelünk a motorok megállításra kerülnek, majd meghívásra kerül az 'ObstacleAvoidance()' metódus, melyben az alábbi módon történik az akadály kikerülése.
 \lstinputlisting[caption=Pásztázás\label{180°-sonar}]{codes/arduino/sonar.ino}
 
-Először a robot hátrál, hogy véletlenül se ütközzön az akadálynak kikerülés közben. Ezután megvizsgáljuk a bal és jobb oldalakat és eltároljuk a szenzorral kapott értékeket, amik alapján el lehet dönteni melyik irányba kell kikerülni az akadályt. Az 'if' és 'else' ágakban található metódusok felelnek ezért.
+Először a robot hátrál, hogy véletlenül se ütközzön az akadálynak kikerülés közben. Ezután az ultrahang szenzor segítségével megvizsgáljuk a bal és jobb oldalakat, hogy merre tudjuk kikerülni az akadályt. Amikor a szenzort elfordítjuk valamelyik oldalra egy mérést hajtunk végre és a kapott értéket eltároljuk, majd amelyik irányból nagyobb értéket kaptunk vissza, arra kerüljük meg az akadályt. Az 'if' és 'else' ágakban található metódusok felelnek ezért.
 
 Az akadály kikerülésekor fontos, hogy a robot el tudja dönteni, hogy mikor érte el az akadály szélét. Ennek elérésére egy egyszerű do-while ciklust használtam, melyben a robot addig halad előre, míg az akadály aktuális távolsága maximum 5cm-el haladja meg az eredeti mért távolságot.
 
@@ -429,10 +462,10 @@ Ezek után ismételten meg kellett találni az akadály szélét, hogy széltéb
 
 Az akadály kikerülése után a robotnak ismételten meg kell találnia a követendő vonalat. Ezt úgy tudtam elérni, hogy a robot egyenesen halad mindaddig, míg valamely infravörös szenzor jelzést nem ad a vonal érzékeléséről és a robot a jelzést leadó szenzorral ellentétes irányba fordul.
 \section{A naplófájl feldolgozása és mentése}
+\lstinputlisting[caption=Naplófájl feldolgozása\label{log_process}]{codes/android/LogProcess.java}
 A robot működés közben az adott eseményeket egy 'string' típusú változóban tárolja el a \ref{log_process}~kódrészletben látható módon. Az adat átküldése a telefonra a 'println()' metódussal történik az applikáció pedig a 'getInputStream()' metódussal fogadja ezt és ezek után a while() cikluson belül feldolgozza azt.
 
-A feldolgozás megvalósításának szükségességéről részletesebben if olvashatnak a \ref{log_fogadás}.~fejezetben.
-\lstinputlisting[caption=Naplófájl feldolgozása\label{log_process}]{codes/android/LogProcess.java}
+A feldolgozás megvalósításának szükségességéről részletesebben is olvashatunk a \ref{log_fogadás}.~fejezetben.
 
 Miután az adatot fogadtuk, feldolgoztuk és megjelenítettük a felhasználónak lehetősége van menteni is ezt. A mentést a \ref{log_screen}~ábrán látható 'Log mentése' gombbal tudja megtenni a felhasználó. A naplófájl neve az adott dátum lesz másodperc pontossággal, amelynek megvalósítását a \ref{log_save}~kódban láthatják.
 
@@ -443,14 +476,13 @@ Ezek után szükség van egy 'OutputStreamWriter' példányra, hogy a létrehozo
 
 Ahhoz, hogy a fájlt létre lehessen hozni és módosítani tudjuk a tartalmát a megfelelő engedély biztosítása szükséges.
 
-Ehhez engedélyt kell kérni a felhasználótól, hogy az alkalmazás hozzáférhessen a telefon tárhelyéhez. Az engedély megadásához először ellenőriznünk kell, hogy az alkalmazás rendelkezik-e az engedéllyel. Ezt a \ref{storage_permission}~kódrészletben látható beépített metódussal lehet megtenni, majd a kérés után fel is kell dolgozni a felhasználó által hozott döntést, amire az 'onRequestPermissionsResult' metódust kell használni.
+Ehhez engedélyt kell kérni a felhasználótól, hogy az alkalmazás hozzáférhessen a telefon tárhelyéhez. Az engedély megadásához először ellenőriznünk kell, hogy az alkalmazás rendelkezik-e az engedéllyel. Ezt az \ref{storage_permission}~kódrészletben látható beépített metódussal lehet megtenni, majd a kérés után fel is kell dolgozni a felhasználó által hozott döntést, amire az 'onRequestPermissionsResult' metódust kell használni.
 
 Amennyiben a felhasználó nem adja meg az engedélyt a naplófájl mentése nem megy végbe, helyette egy üzenet jelenik meg a képernyőn, mely figyelmeztetést ad az engedély hiányáról, majd a felhasználó számára egy útmutatást ad arról, hogy a hiányzó engedélyt miképp tudja megadni.
-\lstinputlisting[caption=Engedély kérés\label{storage_permission}]{codes/android/StoragePermission.java}
-\chapter{Fejlesztés közbeni tapasztalatok}
+\chapter{Fejlesztés közbeni tapasztalatok}\label{fejezet_6}
 A fejlesztés közben több hardver és szoftverszintű új tapasztalatot is szereztem. Hardver szinten előfordultak problémák is elsősorban a robotnál az egyes elemek rögzítése kapcsán.
 \section{Hardverrel kapcsolatos tapasztalatok}
-Nem csak a robot hardvere jelentett néha problémát, hanem a használt telefoné is. A \ref{phone_hardware}~fejezetben bővebben olvashatnak arról, hogyan befolyásolja a telefon hardvere a projekt teljesének működését.
+Nem csak a robot hardvere jelentett néha problémát, hanem a használt telefoné is. A \ref{phone_hardware}~fejezetben bővebben olvashatunk arról, hogyan befolyásolja a telefon hardvere a projekt teljesének működését.
 \subsection{A robot építésekor szerzett tapasztalatok}
 A robot fejlesztése közben a legnagyobb problémát a megfelelő alváz megtalálása jelentette.
 Amikor eldöntöttem, hogy milyen robotot szeretnék építeni meglátogattam különböző fórumokat, hogy nagyjából megtudjam milyen mennyiségű szenzorra, illetve motorra lesz szükségem.
@@ -472,6 +504,12 @@ Miután nem találtam egy fórumon se konkrét választ erre a kérdésemre úgy
 A robot első verziójának megépítése után azonban rájöttem arra, hogy az alváznak merevnek is kell lennie. Az első tesztek során arra lettem figyelmes, hogy vannak alkalmak amikor a robot minden probléma nélkül képes bevenni egy kanyart, majd a következő alkalommal amikor ehhez a kanyarhoz ér már nem.
 
 Ennek oka az volt, hogy a műanyag alváz rugalmassága és a középen elhelyezkedő akkumulátor súlya miatt a kerekek nem teljes felületükkel érintkeztek a talajjal és ezért a tapadásuk is csökkent.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/robot_build/robot_base}
+	\caption{A robot alváza}
+	\label{alváz}
+\end{figure}
 
 Mivel nincs birtokomban 3D nyomtató mellyel egy olyan alvázat tudnék nyomtatni, mely merevsége és mérete is megfelelő úgy döntöttem, hogy egy plexi lemezt fogok használni (másik alternatíva lehet a plexi lemeznél olcsóbb SAN\footnote{sztirol-akril-nitril} lemez is). A plexi használatát több okból is jó választásnak tartom.
 \begin{itemize}
@@ -483,21 +521,19 @@ Miután az alvázat kiválasztottam a használt kábelek elvezetésére/védelm�
 
 Ennek megoldására az alvázra több lyukat is fúrtam, melyek segítségével a kábeleket az alváz alján tudom elvezetni a szenzortól/motortól az alaplapig, továbbá nem használtam hosszabb kábelt, mint amire szükségem volt.
 \subsection{A telefon hardverére vonatkozó tapasztalatok}\label{phone_hardware}
-A fejlesztés során a \pageref{telefonok}~oldalon található specifikációkkal rendelkező telefonokat használtam. A modernebb és erősebb hardverrel ellátott Smasung Galaxy A71 esetében nem volt probléma, azonban egy régebbi készüléken az alkalmazás memória és energiafogyasztása is jelentősen megnőtt. A megnövekedett energiafogyasztás a készülék gyorsabb merülését eredményezni.
-
-A memóriafelhasználás mértéke nem a felhasznált memória mennyiségében, hanem a teljes memóriához viszonyított százalékában emelkedett. Amíg a teszteléshez használt A71 készüléken a program a \ref{ram_usage}~ábrán látható módon a telefon memóriájának megközelítőleg 3\%-át használta, addig ez a szám a régebbi típusú 512 MB memóriával rendelkező Alcatel OneTouch Pop D1 telefon esetében már 30-40\% közötti érték volt.
+A fejlesztés során a \ref{telefonok}~fejezetben található specifikációkkal rendelkező telefonokat használtam. A modernebb és erősebb hardverrel ellátott Smasung Galaxy A71 esetében nem volt probléma, azonban egy régebbi készüléken az alkalmazás memória és energiafogyasztása is jelentősen megnőtt. A megnövekedett energiafogyasztás a készülék gyorsabb merülését eredményezni.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\columnwidth]{images/ram_usage}
+	\includegraphics[width=0.8\columnwidth]{images/ram_usage}
 	\caption{A71 memóriafelhasználása}
 	\label{ram_usage}
 \end{figure}
 
-További tapasztalatom a telefonban található hardverre nézve a Bluetooth modul típusához köthető. A modernebb A71 támogatja a Bluetooth 5-ös specifikációit, azonban a Pop D1 csak a 4.0-t.
+A memóriafelhasználás mértéke nem a felhasznált memória mennyiségében, hanem a teljes memóriához viszonyított százalékában emelkedett. Amíg a teszteléshez használt A71 készüléken a program a \ref{ram_usage}~ábrán látható módon a telefon memóriájának megközelítőleg 3\%-át használta, addig ez a szám a régebbi típusú 512 MB memóriával rendelkező Alcatel OneTouch Pop D1 telefon esetében már 30-40\% közötti érték volt.
 
-A legjelentősebb különbséget a távoli irányításban tapasztaltam. Az A71 esetében akár egy teljes emelet távolság is lehetett a telefon és a robot között a csatlakozás és az irányítás is minden probléma nélkül végbement, azonban a Pop D1 esetében ilyen távolságról a csatlakozás sikertelen volt.
+További tapasztalatom a telefonban található hardverre nézve a Bluetooth modul típusához köthető. A legjelentősebb különbséget a távoli irányításban tapasztaltam. Az A71 esetében akár egy teljes emelet távolság is lehetett a telefon és a robot között a csatlakozás és az irányítás is minden probléma nélkül végbement, azonban a Pop D1 esetében ilyen távolságról a csatlakozás sikertelen volt.
 
-A Bluetooth modulhoz köthető másik észrevételem a kezdeti irányítás tesztelésekor a parancs telefonról való kiküldése és a robot mozdulása között eltelt idő mértékében volt. Az A71 esetében ez az érték nagyjából 300ms volt egy szoftveres hiba következtében melyről a \pageref{lag}.~oldalon bővebben olvashatnak, a Pop D1 esetében pedig ez az érték közel kétszeresre nőtt.
+A Bluetooth modulhoz köthető másik észrevételem a kezdeti irányítás tesztelésekor a parancs telefonról való kiküldése és a robot mozdulása között eltelt idő mértékében volt. Az A71 esetében ez az érték nagyjából 300ms volt egy szoftveres hiba következtében melyről a \ref{lag}.~fejezetben bővebben olvashatunk, a Pop D1 esetében pedig ez az érték közel kétszeresre nőtt.
 
 A várakozási idő szoftveres okának kijavítása után az A71-nél már nem volt probléma a parancs kiadása és a végrehajtás között minimális idő telt el, azonban a Pop D1-nél egy megközelítőleg 40-50ms késleltetést tapasztaltam, mely a készülékben megtalálható Bluetooth modul miatt következett be.
 
@@ -505,7 +541,7 @@ További hardverhez köthető észrevételem volt, hogy az A71-ben található t
 
 A másik észrevételem a telefonok melegedésében volt. Az A71 esetében a processzor kihasználtsága 2\% alatt volt és az orientáció váltásakor emelkedett 4-5\%-ra, viszont a Pop D1-nél az érték 30-50\% között mozgott, valamint az orientáció váltásakor a 60-70\%-ot is elérte.
 \section{Szoftveres észrevételek}
-A fejlesztés közben a szoftverrel kapcsolatban két olyan esettel találkoztam, ahol a probléma megoldása hosszabb keresést kellett végrehajtanom. Ezek:
+A fejlesztés közben a szoftverrel kapcsolatban két olyan esettel találkoztam, ahol a probléma megoldásához hosszabb keresést kellett végrehajtanom. Ezek:
 \begin{itemize}
 	\item A robot irányításakor fellépő késleltetés
 	\item A naplófájl fogadása
@@ -513,39 +549,23 @@ A fejlesztés közben a szoftverrel kapcsolatban két olyan esettel találkoztam
 \subsection{A késleltetéssel kapcsolatos probléma megoldása}\label{lag}
 A fejlesztés elején amint a telefon és a robot közötti kapcsolódást megoldottam az adatokat először a telefonról String változóban eltárolt számsorozatokként küldtem a robot részére, majd a roboton futó kódban a fogadáskor egy parseInt() függvényt használtam arra, hogy ezt tényleges számkóddá alakítsam, azonban ezek után jelentős késleltetést tapasztaltam.
 
-Első gondolatként azt hittem, hogy a használt HC-05 modul okozza a problémát, azonban fórumokon talált projektekben is ilyen modult használták és gyorsan működött, ezért elkezdtem kísérletezni az átküldött adatok méretével és típusával, majd észrevettem, hogy amikor egy-egy karaktert küldtem át és fogadtam read() metódussal a késleltetés megszűnt.
+Első gondolatként azt hittem, hogy a használt HC-05 modul okozza a problémát, azonban fórumokon talált projektekben is ilyen modult használtak és gyorsan működött, ezért elkezdtem kísérletezni az átküldött adatok méretével és típusával, majd észrevettem, hogy amikor egy-egy karaktert küldtem át és fogadtam read() metódussal a késleltetés megszűnt.
 \subsection{Naplófájl fogadásának megvalósítása}\label{log_fogadás}
 A fejlesztés során a naplófájl fogadása jelentette a legnagyobb kihívást, ugyanis a legtöbb már létező projektben nem használtak naplózási funkciót, ezért utánakerestem, hogy egy csatlakoztatott eszközről hogyan tudunk bejövő adatot fogadni\cite{Data_Recieve}.
 
-Miután egy olyan kódot találtam, amelyet értelmezni is tudtam úgy döntöttem, hogy megpróbálom implementálni is, azonban ez is kihívást jelentett. A mintaként talált kódon módosításokat kellett elvégeznem. Első sorban azt terveztem, hogy a naplózási eseményeket a megtörténés után rögtön meg is jelenítem a telefonon, azonban ez az applikáció összeomlását okozta, melynek okára nem tudtam rájönni se kísérletezéssel, se fórumon való kereséssel.
+A mintaként talált kódon módosításokat kellett elvégeznem. Első sorban azt terveztem, hogy a naplózási eseményeket a megtörténés után rögtön meg is jelenítem a telefonon, azonban ez az applikáció összeomlását okozta, melynek okára nem tudtam rájönni se hibakereséssel, se fórumon nem találtam megoldást.
 
 Ezek fényében úgy döntöttem, hogy a napló feldolgozását egy külön képernyőn végzem el ezzel azt akartam biztosítani, hogy a naplózás alatt ne legyen más folyamat. Miután ezt megtettem szerettem volna biztosítani azt is, hogy csak akkor menjen végbe a beolvasás, amikor van bejövő jel, amit el is tudtam érni egy egyszerű 'if' segítségével. Ezek után néhány esetben az adat egyes részei felülírták egymás, aminek javítását egy 'for' ciklussal tudtam megoldani.
 
 Miután az adatot fogadtam nem voltam kész, ugyanis ezt még formáznom is kellett, hogy az általam elképzelt módon jelenjen meg a naplózási felületen. Ennek eléréséhez nem kellett mást tennem, mint a String típusú változókhoz beépített replaceAll() metódust meghívni és az eredeti szövegben a jelölő karaktereket, sortörésre és '>' jelre cserélnem.
-\chapter{Továbbfejlesztési lehetőségek}
-\emph{,,Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live'' -- John Woods}
-\section{Hardverre vonatkozó fejlesztés}
-Ahogy \az{\ref{jelenlegi_helyzet}~fejezetben} is olvasható a robot jelenleg nem képes az éles kanyarok precíz bevételére. Ennek megoldását nyújthatja, ha a vonal érzékelésére másfajta szenzort használunk (pl.: Digitális Vonalkövető szenzor), mely pontosabban képes érzékelni a pálya vonalában végbemenő változást.
-Lehetséges megoldási módszer a motorok más formában való kezelése az IR szenzorról kapott jelzéskor (nagyobb nyomaték azokra a motorokra melyeknek előre kell mozdulni).
-
-További hardver fejlesztés lehet egy kamera beépítése a robot elejére és ezt felhasználva az irányításért felelős okostelefonon élő képet kaphatunk arról, hogy a robot éppen merre jár. Ennek segítségével a telefonnal való irányításkor nincs szükség arra, hogy a robotot ténylegesen lássuk, hanem a kamera képére hivatkozva ki tudjuk kerülni az akadályokat, valamint egy jobb felhasználói élményt biztosít. Ehhez szükséges egy olyan telefon, amely kellő hardverrel rendelkezik egy ilyen program futtatásához, valamint a külső akkumulátor is gyorsabban fog merülni.
-\section{Android szoftverre vonatkozó fejlesztés}
-A szoftverben két nagy fejlesztési lehetőségre lettem figyelmes:
-\begin{itemize}
-	\item Logolás fejlesztése (hardver fejlesztése is szükséges)
-	\item Súgó felület bővítése
-\end{itemize}
-Amennyiben beépítésre kerül a robotra egy Giroszkóp meg lehet mondani, hogy az egyes kanyarok elvégzésekor a robot milyen szögben fordult jobbra/balra, illetve az is, hogy a felületben milyen változás történik (a robot emelkedőn halad felfele, vagy lejtőn lefele).
-
-Ezeket az adatokat felhasználva el lehet készíteni egy statisztikát, valamint automata követéskor a kanyarodások közötti időeltérés és a kanyarok szögének ismeretében a pálya vizualizálása is lehetségessé válhat.
-
-Továbbá amennyiben a felhasználó nincs birtokában a felhasználói útmutatónak (\ref{felhaszn-útmutató}.~fejezet) a robot összeszerelésekor nem tudhatja, hogy az adott szenzort/motort hova kell csatlakoztatnia. Erre megoldást nyújt az említett dokumentum integrálása az applikáció 'Súgó' felületére.
-\section{A hardver biztosítására vonatkozó fejlesztés}
-A projekt jelenlegi állapotában fedetlenül található meg az összes szenzor, kábel, motor és a mikrokontroller is, ezért fenáll az esélye annak, hogy valamely komponens megsérül, ezzel meggátolva a robot megfelelő működését.
-
-Ennek kijavítása lehetséges egy olyan váz megtervezése és 3D nyomtatása, mely védelmet biztosít a hardver elemeinek, illetve így egy olyan kinézetet lehet adni a robotnak, ami ténylegesen egy autó vázára hasonlít.
-\chapter{Felhasználói útmutató}\label{felhaszn-útmutató}
-\section{A robothoz tartozó feladatok}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\columnwidth]{images/log_transform}
+	\caption{Naplófájl átalakítása}
+	\label{log_transform}
+\end{figure}
+\chapter{Felhasználói útmutató}\label{fejezet_7}
+\section{A robot megépítésének lépései}
 A következő rész tartalmazza a robot megépítéséhez szükséges alkatrészek listáját, ezek bekötési módját, valamint a program telepítésének lépéseit. Fontos megjegyezni, hogy amennyiben a felhasználó hibásan köti be valamely alkatrészt, úgy a robot nem megfelelően fog működni!
 
 \subsection{Szükséges alkatrészek}
@@ -556,33 +576,33 @@ A robothoz szükséges elemek.
 	\hline
 	\multicolumn{1}{|c|}{\textbf{Megnevezés}}&\textbf{Mennyiség}\\
 	\hline
-	Arduino Uno mikrokontroller&1db\\
+	Arduino Uno mikrokontroller&1 db\\
 	\hline
-	Alaplappal kompatibilis L293D-t tartalmazó shield&1db\\
+	Motorvezérlő shield&1 db\\
 	\hline
-	HC-SR04 ultrahang szenzor&1db\\
+	HC-SR04 ultrahang szenzor&1 db\\
 	\hline
-	HW-201 infravörös szenzor&2db\\
+	HW-201 infravörös szenzor&2 db\\
 	\hline
-	SG90 szervo motor&1db\\
+	SG90 szervo motor&1 db\\
 	\hline
-	Bluetooth modul&1db\\
+	Bluetooth modul&1 db\\
 	\hline
-	Villanymotor&4db\\
+	Villanymotor&4 db\\
 	\hline
-	Kapcsolóval ellátott akkumulátor tartó&1db\\
+	Kapcsolóval ellátott akkumulátor tartó&1 db\\
 	\hline
-	18650-es akkumulátor&2db\\
+	18650-es akkumulátor&2 db\\
 	\hline
-	Anya-anya jumper kábel&15db\\
+	Anya-anya jumper kábel&15 db\\
 	\hline
-	1mm átmérőjű sodort rézvezeték ~12-17 cm hosszú&8db\\
+	1mm átmérőjű sodort rézvezeték 12-17 cm hosszú&8 db\\
 	\hline
 \end{tabular}
 \end{center}
-Szükséges továbbá 1db tartóelem az ultrahang szenzor szervó motorra való rögzítéséhez, 1db minimum 15x20cm méretű merev műanyag lap az alváznak, valamint a forrasztáshoz szükséges eszközök.
-\subsection{A motorok csatlakoztatása}
-Helyezzünk a 4db villanymotor közül egyet magunk elé úgy, hogy a csatlakozási pontok felfele nézzenek, majd ezekhez forraszunk hozzá egy-egy vezetéket. Ha végeztünk ismételjük meg a lépést a többi motorral is. (lehetőség szerint a bal oldali csatlakozóhoz fekete, a jobb oldalihoz piros vezeték kerüljön).
+Szükséges továbbá 1 db tartóelem az ultrahang szenzor szervó motorra való rögzítéséhez, 1 db minimum 15x20cm méretű merev műanyag lap az alváznak, valamint a forrasztáshoz szükséges eszközök.
+\subsection{A motorok és az akkumulátor tartó felhelyezése}
+Helyezzünk a 4 db villanymotor közül egyet magunk elé úgy, hogy a csatlakozási pontok felfele nézzenek, majd ezekhez forraszunk hozzá egy-egy vezetéket. Ha végeztünk ismételjük meg a lépést a többi motorral is. (a pozitív pólushoz piros, a negatív pólushoz fekete vezeték kerüljön).
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=5cm]{images/robot_build/motor-no-cable}
@@ -591,48 +611,48 @@ Helyezzünk a 4db villanymotor közül egyet magunk elé úgy, hogy a csatlakoz�
 	\label{motor-handling}
 \end{figure}
 
-Ezek után a motorokat felhelyezhetjük az alvázra, majd a vezetékeket \az{\ref{shieldre-bekotes}~ábrán} látható módon csatlakoztassuk a motorvezérlő shield-hez.
-/Shield-en jelzett M1 – Jobb első, M2 – Bal első, M3 – Bal hátsó, M4 – Jobb hátsó kerékért felelős motor./
+Ezek után a motorokat rögzítsük az alváz aljához, majd az akkumulátort az alváz tetejére és a hozzájuk tartozó vezetékeket \az{\ref{shieldre-bekotes}~ábrán} látható módon csatlakoztassuk a motorvezérlő shield-hez. /Shield-en jelzett M1 – Jobb első, M2 – Bal első, M3 – Bal hátsó, M4 – Jobb hátsó kerékért felelős motor./
+
+Miután a motorokat és az akkumulátor tartót rögzítettük a motorokra tegyük fel a kerekeket.
 \begin{figure}[h]
 	\centering
+	\includegraphics[width=5cm]{images/robot_build/akku-connect}
 	\includegraphics[width=5cm]{images/robot_build/shieldre-bekotes}
 	\caption{A shield-re való bekötés}
 	\label{shieldre-bekotes}
 \end{figure}
 
 \subsection{Szenzorok felhelyezése}
-Helyezzük fel az ’autó’ elejére a 2db Infravörös szenzort úgy, hogy a szenzorok között legalább 2-4 cm távolság legyen (a szenzorok közötti távolság méretét a követendő vonal vastagsága határozza meg), majd jumper kábel segítségével csatlakoztassuk ezeket a shield-en található A0 és A1-es, valamint az ehhez tartozó GND és VCC jelölésű portokhoz. (szemből nézve jobb oldali szenzor A0, bal oldali A1).
+Helyezzük fel a robot elejére a 2 db infravörös szenzort úgy, hogy a szenzorok között legalább 2-4 cm távolság legyen (a szenzorok közötti távolság méretét a követendő vonal vastagsága határozza meg), majd jumper kábel segítségével csatlakoztassuk ezeket a shield-en található A0 és A1-es, valamint az ehhez tartozó GND és VCC jelölésű portokhoz. (szemből nézve jobb oldali szenzor A0, bal oldali A1).
 
 Ezek után helyezzük fel a szervó motort a szenzorok közé, majd erre a tartóelemet, a hozzá rögzített ultrahang szenzorral. Az ultrahang szenzor ’Trig’ és ’Echo’ jelzéssel ellátott tüskéit csatlakoztassuk a digitális 0 és 1 portokhoz, valamint GND és VCC tüskéit egy-egy GND és VCC porthoz. A szervó motor vezetékét csatlakoztassuk a shield-en található SERVO\_2 jelzésű tüskesorhoz.
 
 A korábbi lépések elvégzése után helyezzük fel a Bluetooth modult, majd csatlakoztassuk a TX -- Transmitter és RX -- Receiver tüskéket a digitális 3 és 13 portokra, valamint a VCC és GND tüskéket a szenzorokhoz hasonlóan a shield VCC és GND tüskéihez.
-\subsection{Akkumulátor csatlakoztatása}
-Helyezzük fel és rögzítsük az alvázon az akkumulátor tartót, majd ebbe helyezzük bele az akkumulátorokat, ügyelve a pólusok helyességére.
-
-Amennyiben ez megtörtént a shield-en található +M csatlakozóhoz kerüljön az akkumulátor piros vezetéke, a GND csatlakozóhoz pedig a fekete. (lásd \ref{akku}~ábra)
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=5cm]{images/robot_build/akku-connect}
-	\caption{Bekötés}
-	\label{akku}
-\end{figure}
 
 \subsection{A program telepítése az alaplapra}
-Csatlakoztassuk a mikrokontrollert a számtógéphez. Nyissuk meg a letöltött mappában található ’.ino’ kiterjesztésű fájlt az Arduino IDE segítségével. Az Eszközök -> Alaplap menüpontban válasszuk ki a használt alaplap típusát, valamint a portot amelyen keresztül csatlakoztattuk a számítógéphez. Kattintsunk a feltöltés gombra. 
+Csatlakoztassuk a mikrokontrollert a számítógéphez. Nyissuk meg a letöltött mappában található ’.ino’ kiterjesztésű fájlt az Arduino IDE segítségével. Az Eszközök -> Alaplap menüpontban válasszuk ki a használt alaplap típusát, valamint a portot amelyen keresztül csatlakoztattuk a számítógéphez. Kattintsunk a feltöltés gombra. 
 
-Amint elkészül a feltöltés az IDE jelzi, ezek után az alaplapot leválaszthatjuk. Utolsó lépésként helyezzük el a mikrokontrollert a roboton, majd csatlakoztassuk hozzá a shield-et, ezek után a robot működőképes.
+Amint elkészül a feltöltés az IDE jelzi, ezek után az alaplapot leválaszthatjuk. A telepítés után helyezzük el a mikrokontrollert az alvázon és csatlakoztassuk hozzá a shield-et.
+
+Utolsó lépésként a felhelyezett akkumulátor tartóba helyezzük el a 2 db 18650-es akkumulátort ügyelve a pólusok helyességére, majd a kapcsoló kapcsolásával lássuk el energiával az alaplapot, így elindítva a robotot.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{images/robot_build/finished_robot}
+	\caption{A kész robot}
+	\label{finished_robot}
+\end{figure}
 \section{A telefonon elvégzendő lépések}
 Mielőtt a robotot vezérelni tudnánk el kell végeznünk néhány lépést.
 \subsection{Az alkalmazás telepítése}
 Mivel az alkalmazás még nem érhető el a PlayStore-on, ezért a telepítést manuálisan kell elvégeznünk. Ennek menete:
-\begin{itemize}
+\begin{enumerate}
 	\item A számítógépről másoljuk a készülékre az 'app-debug.apk' nevű fájlt
 	\item Engedélyezzük a Beállításokban az ismeretlen forrásból származó alkalmazások telepítését
-	\item Nyissuk meg a telefon fájlkezelő programját, majd keressük ki és futassuk a fájlt.
+	\item Nyissuk meg a telefon fájlkezelő programját, majd keressük ki és futtassuk a fájlt.
 	\item A megjelenő üzenetetnél válasszuk a 'Telepítés' lehetőséget
 	\item Az installálás közben felugró 'PlayProtect' üzenetkor válasszuk a 'Telepítés mégis' opciót
 	\item Amennyiben megkapjuk az 'Alkalmazás telepítve' üzenetet a telepítés sikeres volt, használhatjuk az alkalmazást
-\end{itemize}
+\end{enumerate}
 
 Fontos megjegyezni, hogy a sikertelen telepítés főbb okai a következők lehetnek:
 \begin{itemize}
@@ -651,26 +671,48 @@ Az alkalmazás indítását követően a kezdőképernyő fogad minket (lásd \r
 
 Miután kiválasztottuk a HC-05-ös szenzort a listából a ,,Követés'', ,,Irányítás'' és ,,Log'' gombok valamelyikét megnyomva a telefon csatlakozik a robothoz.
 
-Amennyiben a ,,Log'' gombot választjuk az applikáció a Naplózási képernyőre navigál minket, ahol az első futtatás alkalmával engedélyt kell adnunk az applikációnak a tárhely eléréséhez. Ha ezt nem tesszük meg a Naplófájlt nem fogjuk tudni menteni mindaddig, amíg az engedélyt meg nem adjuk.
+Amennyiben a ,,Log'' gombot választjuk az applikáció a Naplózási képernyőre navigál minket, ahol az első futtatás alkalmával engedélyt kell adnunk az applikációnak a tárhely eléréséhez. Ha ezt nem tesszük meg a Naplófájlt nem fogjuk tudni menteni mindaddig, amíg az engedélyt meg nem adjuk. Az engedély megadása után az applikáció összes funkciója használható.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\columnwidth]{images/app_screen/permission_grant}
 	\caption{Engedélyadás}
 	\label{grant_permission}
 \end{figure}
+\chapter{Összegzés és továbbfejlesztés}\label{fejezet_8}
+\emph{,,Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live'' -- John Woods}
+\section{Összegzés}
+A projekt jelenlegi állapotában a \ref{vágyálom}~fejezetben megfogalmazottaknak eleget tettem, vagyis a robot képes egy előre megadott pálya követésére, a követés közben észlelt akadály(ok) kikerülésére és a pálya újbóli megtalálására. A robot továbbá irányítható egy telefonnal, valamint a telefonon keresztül el tudjuk érni a robot által vezetett naplófájlt és ezt a telefonra menthetjük.
 
-Ezek után az applikáció minden funkciója használható.
+A végtermékkel sikerült egy olyan könnyen módosítható projektet megvalósítanom, mely különböző életkorú és programozási tapasztalattal rendelkező diákok oktatására és ismereteik bővítésére is alkalmas, valamint hobbi felhasználók részére sem bonyolult.
+
+Bár a végtermék teljes, szoftveres és hardveres fejlesztés is lehetséges, a továbbiakban ezekről olvashatunk.
+\section{Hardverre vonatkozó fejlesztés}
+Ahogy \az{\ref{jelenlegi_helyzet}~fejezetben} is olvasható az éles kanyarok alkalmanként hibásan kerülnek bevételre. Ennek megoldását nyújthatja, ha a vonal érzékelésére másfajta szenzort használunk (pl.: digitális vonalkövető szenzor), mely pontosabban képes érzékelni a pálya vonalában végbemenő változást.
+Lehetséges megoldási módszer a motorok más formában való kezelése az IR szenzorról kapott jelzéskor (nagyobb nyomaték azokra a motorokra melyeknek előre kell mozdulni).
+
+További hardver fejlesztés lehet egy kamera beépítése a robot elejére és ezt felhasználva az irányításért felelős okostelefonon élő képet kaphatunk arról, hogy a robot éppen merre jár. Ennek segítségével a telefonnal való irányításkor nincs szükség arra, hogy a robotot ténylegesen lássuk, hanem a kamera képére hivatkozva ki tudjuk kerülni az akadályokat, valamint egy jobb felhasználói élményt biztosít. Ehhez szükséges egy olyan telefon, amely kellő hardverrel rendelkezik egy ilyen program futtatásához, valamint a külső akkumulátor is gyorsabban fog merülni.
+\section{Android szoftverre vonatkozó fejlesztés}
+A szoftverben két nagy fejlesztési lehetőségre lettem figyelmes:
+\begin{itemize}
+	\item Logolás fejlesztése (hardver fejlesztése is szükséges)
+	\item Súgó felület bővítése
+\end{itemize}
+Amennyiben beépítésre kerül a robotra egy giroszkóp meg lehet mondani, hogy az egyes kanyarok elvégzésekor a robot milyen szögben fordult jobbra/balra, illetve az is, hogy a felületben milyen változás történik (a robot emelkedőn halad felfele, vagy lejtőn lefele).
+
+Ezeket az adatokat felhasználva el lehet készíteni egy statisztikát, valamint automata követéskor a kanyarodások közötti időeltérés és a kanyarok szögének ismeretében a pálya vizualizálása is lehetségessé válhat.
+
+További fejlesztési lehetőség a felhasználói útmutató implementálása az alkalmazás Súgó felületére, ugyanis ha a felhasználó nincs birtokában az említett dokumentumnak (\ref{fejezet_7}.~fejezet) a robot összeszerelésekor nem tudhatja, hogy az adott szenzort/motort hova kell csatlakoztatnia..
+\section{A hardver biztosítására vonatkozó fejlesztés}
+A projekt jelenlegi állapotában fedetlenül található meg az összes szenzor, kábel, motor és a mikrokontroller is, ezért fennáll az esélye annak, hogy valamely komponens megsérül, ezzel meggátolva a robot megfelelő működését.
+
+A komponensek biztosítására lehetséges egy olyan váz megtervezése és 3D nyomtatása, mely védelmet biztosít a hardver elemeinek, illetve így egy olyan kinézetet lehet adni a robotnak, amilyet a felhasználó elképzel.
 \begin{thebibliography}{1}
-	\bibitem{Wikipedia_Arduino}  \textsc{\url{https://hu.wikipedia.org/wiki/Arduino}}
+	\bibitem{Arduino} \textsc{Harsányi Réka -- Juhász Márton András: Fizikai számítástechnika: elektronikai alapok és Arduino programozás}
+	\bibitem{CPP} \textsc{Lapteva Natalia -- Tóth Bertalan: Programozzunk C++ nyelven}
+	\bibitem{Java} \textsc{Nagy Gusztáv -- Java programozás}
+	\bibitem{Android}	\textsc{Fehér Krisztián: Alkalmazásfejlesztés Android Stúdió rendszerben}
 	\bibitem{Arduino IDE} \textsc{\url{https://www.arduino.cc/en/Guide/Environment}}
-	\bibitem{Wikipedia_CPP}
-	\textsc{\url{https://hu.wikipedia.org/wiki/C\%2B\%2B}}
-	\bibitem{Wikipedia_Android}
-	\textsc{\url{https://hu.wikipedia.org/wiki/Android\_(operációs\_rendszer)}}
-	\bibitem{Wikipedia_Android_Studio}
-	\textsc{\url{https://hu.wikipedia.org/wiki/Android\_Studio}}
-	\bibitem{Wikipedia_Java}
-	\textsc{\url{https://hu.wikipedia.org/wiki/Java\_(programozási\_nyelv)}}
+	\bibitem{NAT} \textsc{\url{https://www.oktatas.hu/kozneveles/kerettantervek/2020\_nat}}
 	\bibitem{Ultrahang_Szenzor}
 	\textsc{\url{https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6}}
 	\bibitem{Bluetooth_active}
