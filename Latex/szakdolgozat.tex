@@ -67,7 +67,7 @@ A fejlesztés megkezdése előtt szükséges volt kiválasztanom azon hardverele
 
 Miután a hardverelemeket kiválasztottam, szükségem volt egy alaplapra is, mely a robot központi része lesz. A választásom az Arduino UNO-ra esett, mivel ez rendelkezik megfelelő számú be- és kimenettel, valamint a motorok vezérléséhez használt shield-el is kompatibilis.
 
-Az UNO egy ATmega328P mikrokontrollerrel van felszerelve, valamint 32 KB Flash memóriával rendelkezik, melyben a feltöltött program tárolódik. Csatlakozók szempontjából 6db analóg és 14db digitális tüske, valamint egy USB port található rajta (a kiosztást az \ref{uno_pins}~ábrán láthatjuk).
+Az UNO egy ATmega328P mikrokontrollerrel van felszerelve, valamint 32 KB Flash memóriával rendelkezik, melyben a feltöltött program tárolódik. Csatlakozók szempontjából 6 db analóg és 14 db digitális tüske, valamint egy USB port található rajta (a kiosztást az \ref{uno_pins}~ábrán láthatjuk).
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{images/arduino/Uno_Pins}
@@ -417,18 +417,18 @@ A kód egyszeri kiküldését a lenyomott gombhoz tartozó 'onClickListener' has
 Az iránykód folyamatos küldéséhez az 'onClickListener' helyett 'onTouchListenert' kell használni. Az utóbbinál a gombtól kapott 'MotionEvent' alapján tudjuk eldönteni, hogy az adott gomb jelenleg le van-e nyomva (ACTION\_DOWN) vagy sem (ACTION\_UP). Ameddig a gomb nyomva van az 'mBTSocket.getOutputStream().write()' metódus segítségével az iránykódot küldjük a robotnak, majd mikor felengedésre kerül a gomb ugyanezen metódussal egyszeri alkalommal küldünk adatot.
 \lstinputlisting[caption=Kód küldése telefonról\label{command_sending}]{codes/android/Commandsend.java}
 \section{Motorok kezelése}
-A roboton található 4db villanymotor és 1db szervo motor kezelésére egy motorvezérlő panelt használtam, mely L293D típusú motorvezérlőt tartalmaz. A kódban minden motort külön kell példányosítani.
+A roboton található 4 db villanymotor és 1 db szervo motor kezelésére egy motorvezérlő panelt használtam, mely L293D típusú motorvezérlőt tartalmaz. A kódban minden motort külön kell példányosítani.
 \lstinputlisting[caption=Motorok kezelése\label{motor-shield}]{codes/arduino/motor-shield.ino}
 
-A kódban láthatóan a 4db villanymotor példányosításakor meg kell adni, hogy a panelen melyik csatlakozóhoz vannak kötve, valamint a típust is.
+A kódban láthatóan a 4 db villanymotor példányosításakor meg kell adni, hogy a panelen melyik csatlakozóhoz vannak kötve, valamint a típust is.
 
-Ezen felül a panelhez szükséges behivatkozni az 'AFMotor.h' könyvtárat, illetve az 1db szervo motor kezeléséhez szükséges a 'Servo.h' könyvtár is.
+Ezen felül a panelhez szükséges behivatkozni az 'AFMotor.h' könyvtárat, illetve az 1 db szervo motor kezeléséhez szükséges a 'Servo.h' könyvtár is.
 
-Miután a 4db villanymotor példányosítása megtörtént, megtesszük ezt az 1db szervo motorral is. A program 'setup()' részében a 'myservo.attach()' utasítással tudjuk megadni, hogy melyik port felel ezért a motorért. -- Jelen esetben ez a digitális 10-es port lesz.
+Miután a 4 db villanymotor példányosítása megtörtént, megtesszük ezt az 1 db szervo motorral is. A program 'setup()' részében a 'myservo.attach()' utasítással tudjuk megadni, hogy melyik port felel ezért a motorért. -- Jelen esetben ez a digitális 10-es port lesz.
 
-Amennyiben ezek megtörténtek a szervo motort a 'myservo.write()' utasításban paraméterként megadott értékkel tudjuk forgatni 0-180° között, a 4db villanymotort pedig \az{\ref{forward}~kódban} látható módon tudjuk kezelni itt paraméterként a motorok forgásának sebességét kell megadnunk. -- 'FORWARD' helyett használhatunk 'BACKWARD' parancsot, hogy hátra forgassuk a motort, illetve 'RELEASE' parancsot a motorok leállítására. 
+Amennyiben ezek megtörténtek a szervo motort a 'myservo.write()' utasításban paraméterként megadott értékkel tudjuk forgatni 0-180° között, a 4 db villanymotort pedig \az{\ref{forward}~kódban} látható módon tudjuk kezelni itt paraméterként a motorok forgásának sebességét kell megadnunk. -- 'FORWARD' helyett használhatunk 'BACKWARD' parancsot, hogy hátra forgassuk a motort, illetve 'RELEASE' parancsot a motorok leállítására. 
 
-Az egyes irányokhoz írt metódusok csak a 4db villanymotor forgásának irányában különböznek, illetve kanyarodáskor két paraméterre van szükség, melyek azt konkretizálják, hogy a motorok milyen sebességgel forognak előre és hátra, megálláskor pedig nincs szükség paraméterre, ugyanis ekkor a motorok sebessége 0.
+Az egyes irányokhoz írt metódusok csak a 4 db villanymotor forgásának irányában különböznek, illetve kanyarodáskor két paraméterre van szükség, melyek azt konkretizálják, hogy a motorok milyen sebességgel forognak előre és hátra, megálláskor pedig nincs szükség paraméterre, ugyanis ekkor a motorok sebessége 0.
 \lstinputlisting[caption=Előrehaladás\label{forward}]{codes/arduino/forward.ino}
 \section{Akadályok érzékelése}
 Annak érdekében, hogy a robot ne ütközzön akadálynak a kijelölt pálya követése közben a szervo motorra egy tartóelem segítségével felhelyeztem egy HC-04 típusú ultrahang szenzort, mely két részből áll, egy bemenetből és egy kimenetből. A bemenet olvasása az Echo tüskén, a kimenet írása pedig a Trig tüskén megy végbe. Alábbiakban ennek működését fogom ismertetni.
@@ -711,17 +711,17 @@ A komponensek biztosítására lehetséges egy olyan váz megtervezése és 3D n
 	\bibitem{CPP} \textsc{Lapteva Natalia -- Tóth Bertalan: Programozzunk C++ nyelven}
 	\bibitem{Java} \textsc{Nagy Gusztáv -- Java programozás}
 	\bibitem{Android}	\textsc{Fehér Krisztián: Alkalmazásfejlesztés Android Stúdió rendszerben}
-	\bibitem{Arduino IDE} \textsc{\url{https://www.arduino.cc/en/Guide/Environment}}
-	\bibitem{NAT} \textsc{\url{https://www.oktatas.hu/kozneveles/kerettantervek/2020\_nat}}
+	\bibitem{Arduino IDE} \textsc{\url{https://www.arduino.cc/en/Guide/Environment}}\\Megtekintés: 2021.04.10.
+	\bibitem{NAT} \textsc{\url{https://www.oktatas.hu/kozneveles/kerettantervek/2020\_nat}}\\Megtekintés: 2021.04.11.
 	\bibitem{Ultrahang_Szenzor}
-	\textsc{\url{https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6}}
+	\textsc{\url{https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6}}\\Megtekintés: 2020.10.22.
 	\bibitem{Bluetooth_active}
-	\textsc{\url{https://stackoverflow.com/questions/7672334/how-to-check-if-bluetooth-is-enabled-programmatically}}
+	\textsc{\url{https://stackoverflow.com/questions/7672334/how-to-check-if-bluetooth-is-enabled-programmatically}}\\Megtekintés: 2021.01.28.
 	\bibitem{Bluetooth_enable}
-	\textsc{\url{https://stackoverflow.com/questions/3806536/how-to-enable-disable-bluetooth-programmatically-in-android}}
+	\textsc{\url{https://stackoverflow.com/questions/3806536/how-to-enable-disable-bluetooth-programmatically-in-android}}\\Megtekintés: 2021.01.28
 	\bibitem{Bluetooth_connect}
-	\textsc{\url{https://stackoverflow.com/questions/5171248/programmatically-connect-to-paired-bluetooth-device}}
+	\textsc{\url{https://stackoverflow.com/questions/5171248/programmatically-connect-to-paired-bluetooth-device}}\\Megtekintés: 2021.01.28.
 	\bibitem{Data_Recieve}
-	\textsc{\url{https://stackoverflow.com/questions/45140098/how-to-send-receive-messages-via-bluetooth-android-studio}}
+	\textsc{\url{https://stackoverflow.com/questions/45140098/how-to-send-receive-messages-via-bluetooth-android-studio}}\\Megtekintés: 2021.03.11.
 \end{thebibliography}
 \end{document}

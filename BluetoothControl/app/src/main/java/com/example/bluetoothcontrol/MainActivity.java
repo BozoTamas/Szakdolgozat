@@ -33,10 +33,10 @@ public class MainActivity extends Activity {
     private Button devices, follow, control, help, log;
     private ListView listView;
     private BluetoothAdapter mBTAdapter;
-    private static final int BT_ENABLE_REQUEST = 10;
-    private static final int SETTINGS = 20;
-    private UUID mDeviceUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private int mBufferSize = 50000; //Default
+    private static final int BT_ENABLE_REQUEST = 10;//Az engedélyhez szükséges adat
+    private static final int SETTINGS = 20;//Az engedélyhez szükséges adat
+    private UUID mDeviceUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); //Alap UUID
+    private int mBufferSize = 50000; //Alap buffer méret
     public static final String DEVICE_EXTRA = "com.example.bluetoothcontrolapp.SOCKET";
     public static final String DEVICE_UUID = "com.example.bluetoothcontrolapp.uuid";
     private static final String DEVICE_LIST = "com.example.bluetoothcontrolapp.devicelist";
@@ -50,30 +50,34 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        control = (Button) findViewById(R.id.control);
-        devices = (Button) findViewById(R.id.devices);
-        follow = (Button) findViewById(R.id.follow);
-        help = (Button) findViewById(R.id.help);
-        log = (Button) findViewById(R.id.log);
+        control = findViewById(R.id.control);
+        devices = findViewById(R.id.devices);
+        follow = findViewById(R.id.follow);
+        help = findViewById(R.id.help);
+        log = findViewById(R.id.log);
 
-        listView = (ListView) findViewById(R.id.listview);
+        control.setEnabled(false);
+        follow.setEnabled(false);
+        log.setEnabled(false);
+
+        listView = findViewById(R.id.listview);
 
         if (savedInstanceState != null) {
-            ArrayList<BluetoothDevice> list = savedInstanceState.getParcelableArrayList(DEVICE_LIST);
+            ArrayList<BluetoothDevice> list = savedInstanceState.getParcelableArrayList(DEVICE_LIST); //Ha már egyszer megjelenítettük a listát, akkor nem kell újra megnyomnunk a gombot
             if (list != null) {
-                initList(list);
+                initList(list); //Ha már van lista létrehozva, megjelenítjük
                 MyAdapter adapter = (MyAdapter) listView.getAdapter();
                 int selectedIndex = savedInstanceState.getInt(DEVICE_LIST_SELECTED);
                 if (selectedIndex != -1) {
                     adapter.setSelectedIndex(selectedIndex);
-                    follow.setEnabled(true);
                 }
+
             } else {
-                initList(new ArrayList<BluetoothDevice>());
+                initList(new ArrayList<>());
             }
 
         } else {
-            initList(new ArrayList<BluetoothDevice>());
+            initList(new ArrayList<>());
         }
         devices.setOnClickListener(new View.OnClickListener() {
 
@@ -185,15 +189,14 @@ public class MainActivity extends Activity {
         Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
-    private void initList(List<BluetoothDevice> objects) {
+    private void initList(List<BluetoothDevice> objects) { //A lista feltöltése
         final MyAdapter adapter = new MyAdapter(getApplicationContext(), R.layout.list_item, R.id.lstContent, objects);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setSelectedIndex(position);
-                follow.setEnabled(true);
+                adapter.setSelectedIndex(position); //A kiválaszott listaelem
             }
         });
     }
@@ -227,7 +230,7 @@ public class MainActivity extends Activity {
     private class MyAdapter extends ArrayAdapter<BluetoothDevice> {
         private int selectedIndex;
         private Context context;
-        private int selectedColor = Color.parseColor("#abcdef");
+        private int selectedColor = Color.parseColor("#ffcccb");
         private List<BluetoothDevice> myList;
 
         public MyAdapter(Context ctx, int resource, int textViewResourceId, List<BluetoothDevice> objects) {
@@ -237,7 +240,7 @@ public class MainActivity extends Activity {
             selectedIndex = -1;
         }
 
-        public void setSelectedIndex(int position) {
+        public void setSelectedIndex(int position) { //A kiválasztott elem indexe
             selectedIndex = position;
             notifyDataSetChanged();
         }
@@ -265,13 +268,9 @@ public class MainActivity extends Activity {
             TextView tv;
         }
 
-        public void replaceItems(List<BluetoothDevice> list) {
+        public void replaceItems(List<BluetoothDevice> list) { //Ha a program háttérben való futása közben új Bluetooth eszközt párosítunk az alkalmazás újbóli használatakor frissül a lista
             myList = list;
             notifyDataSetChanged();
-        }
-
-        public List<BluetoothDevice> getEntireList() {
-            return myList;
         }
 
         @Override
@@ -289,32 +288,18 @@ public class MainActivity extends Activity {
                 holder = (ViewHolder) vi.getTag();
             }
 
-            if (selectedIndex != -1 && position == selectedIndex) {
+            if (selectedIndex != -1 && position == selectedIndex) { //Ha kiválasztunk egy elemet a listából aktiváljuk a navigálógombokat, valamint megváltoztatjuk a háttérszínét
                 holder.tv.setBackgroundColor(selectedColor);
+                control.setEnabled(true);
+                follow.setEnabled(true);
+                log.setEnabled(true);
             } else {
                 holder.tv.setBackgroundColor(Color.WHITE);
             }
             BluetoothDevice device = myList.get(position);
             holder.tv.setText(device.getName() + "\n " + device.getAddress());
-
             return vi;
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
-                startActivityForResult(intent, SETTINGS);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

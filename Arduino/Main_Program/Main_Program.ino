@@ -17,19 +17,19 @@ AF_DCMotor rightRear(4, MOTOR12_1KHZ); //M4 port
 
 Servo myservo; //Szervo motor példányosítása
 
-SoftwareSerial myBluetooth(2,13);
+SoftwareSerial myBluetooth(2,13); //Példányosítjuk a Bluetooth modul csatlakozását.
 
 long duration, distance, leftObstacle, rightObstacle, obstacleDistance; //Távolság meghatározásához szükséges változók
 
 long int data, newData; //A bluetooth modulról beolvasott adatok
 
-String logFile = "";
+String logFile = ""; //A naplófájl tárolására szolgáló változó
 
 bool obstacleDetected, lineNotFound; //Akadály kikerülésekor használt logikai változók
 
 void setup() {
 
-  myBluetooth.begin(9600);
+  myBluetooth.begin(9600); //A Bluetooth működési sávszélessége
   
   myservo.attach(9); //Lefoglaljuk a szervo-nak a Digitális 9-es portot
 
@@ -46,22 +46,22 @@ void setup() {
 
 void loop(){
   
-  while(myBluetooth.available() == 0);
+  while(myBluetooth.available() == 0); //Várunk, míg nincs a Bluetooth-on csatlakozás
 
   data = myBluetooth.parseInt();
 
-  if(data == 222){
+  if(data == 222){ //Ha megkapjuk az automata követés kódját ez a rész fut
     logEvent("_Automata követés elkezdődött! ");
     do{
       
       distance = measureDistance();
 
-      if(newData != 'E'){
-        if(distance < 10){
+      if(newData != 'E'){ //Ha a telefonon szüneteltetjük a követés folyamatát a robot megáll
+        if(distance < 10){ //Annak vizsgálata, hogy van-e akadály a robot előtt
           logEvent("_Akadály érzékelve! ");
           stopAction();
           delay(100);
-          ObstacleAvoidance();
+          ObstacleAvoidance(); //Kiketüljük az akadályt
         }
         else{
           if(digitalRead(leftIRSensor)==0 && digitalRead(rightIRSensor)==0){
@@ -90,7 +90,7 @@ void loop(){
         do{
           stopAction();       
           newData = myBluetooth.read();
-        }while(newData != 'S' && newData != 'B');
+        }while(newData != 'S' && newData != 'B'); //Mindaddig szünetel a követés, amíg a felhasználó újra nem indítja azt, vagy ki nem lép a képernyőről
         if(newData == 'S'){
           logEvent("_Követés újraindítva! ");
         }
@@ -99,7 +99,7 @@ void loop(){
     logEvent("_Követés felfüggesztve! ");
     stopAction();
   }
-  else if(data == 111){
+  else if(data == 111){ //Ha megkapjuk az irányítás kódját ez a rész fut
     logEvent("_Irányítás elkezdődött! ");
     do{
       data = myBluetooth.read();
@@ -130,7 +130,7 @@ void loop(){
     }while(data != 'E');
     logEvent("_Irányítás felfüggesztve! ");
   }
-  else if(data = 333){
+  else if(data = 333){ //Ha megkapjuk a naplózási folyamat kódját ez a rész fut
     do{
       data = myBluetooth.read();
       switch(data){
@@ -203,7 +203,7 @@ void followObstacle(){
   obstacleDistance = measureDistance();
   do{
     forwardAction(110);
-    if(measureDistance() <= obstacleDistance + 5 ){ //Mindaddig haladunk előre, amíg az akadály +- 5cm-re található.
+    if(measureDistance() <= obstacleDistance + 5 ){ //Mindaddig haladunk előre, amíg az akadályt érzékeljük
       obstacleDetected = true;
     }
     else{
@@ -232,50 +232,50 @@ void reFindObstacle(){
 
 void avoidObstacleToRight(){   //Akadály kikerülése jobbra
   rightAction(200,200);
-  delay(600);
+  delay(600); //Jobbra fordul a robot 90°-ot
   stopAction();
   delay(50);
-  myservo.write(180);
+  myservo.write(180); //Balra fordítjuk az ultrahang szenzort, hogy követni tudjuk az akadályt
   followObstacle();
   forwardAction(110);
-  delay(650);
+  delay(650); //Ha megtaláltuk előre mozdítjuk a robotot, hogy ne ütközzünk az akadálynak
   leftAction(200,200);
   delay(550);
-  reFindObstacle();
+  reFindObstacle(); //Újra megkeressük az akadályt
   followObstacle();
   forwardAction(110);
   delay(200);
-  leftAction(200,200);
+  leftAction(200,200); //Ha újra megkerestük és követtük az akadályt visszafordul a robot, hogy meg tudja találni a vonalat
   delay(300);
   myservo.write(90);
   delay(50);
-  reFindLine();
+  reFindLine(); //Megkeressük a vonalat
 }
 
 void avoidObstacleToLeft(){ //Akadály kikerülése balra
   leftAction(200,200);
-  delay(600);
+  delay(600); //Balra fordul a robot 90°-ot
   stopAction();
   delay(50);
-  myservo.write(0);
+  myservo.write(0); //Jobbra fordítjuk az ultrahang szenzort, hogy követni tudjuk az akadályt
   followObstacle();
   forwardAction(110);
-  delay(650);
+  delay(650); //Ha megtaláltuk előre mozdítjuk a robotot, hogy ne ütközzünk az akadálynak
   rightAction(200,200);
   delay(550);
-  reFindObstacle();
+  reFindObstacle(); //Újra megkeressük az akadályt
   followObstacle();
   forwardAction(110);
   delay(200);
-  rightAction(200,200);
+  rightAction(200,200); //Ha újra megkerestük és követtük az akadályt visszafordul a robot, hogy meg tudja találni a vonalat
   delay(300);
   myservo.write(90);
   delay(50);
-  reFindLine();
+  reFindLine(); //Megkeressük a vonalat
 }
 
 
-void reFindLine(){
+void reFindLine(){ //A vonalat úgy találjuk meg, hogy a robot előrehalad addig, míg valamely infravörös szenzor nem ad le jelzést
   lineNotFound = true;
   do{
     forwardAction(110);
@@ -283,12 +283,12 @@ void reFindLine(){
       lineNotFound = true;
     }
     else if(digitalRead(leftIRSensor)==0 && !digitalRead(rightIRSensor)==0){
-      leftAction(110,130);
+      leftAction(110,130); //Ha a jobb szenzor jelez balra kell fordulni, hogy az eredeti irányba kövessük a vonalat
       delay(300);
       lineNotFound = false;
     }
     else if(!digitalRead(leftIRSensor)==0 && digitalRead(rightIRSensor)==0){
-      rightAction(110,130);
+      rightAction(110,130); //Ha a bal szenzor jelez jobbra kell fordulni, hogy az eredeti irányba kövessük a vonalat
       delay(300);
       lineNotFound = false;
     }
@@ -352,7 +352,7 @@ void stopAction() {
   leftRear.setSpeed(0);
 }
 
-void testAction(){
+void testAction(){ //A motorok tesztelésére szolgáló rész
   for(int i = 0; i <= 180; i++){
     myservo.write(i);
     delay(10);

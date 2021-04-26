@@ -33,16 +33,15 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class LogActivity extends Activity {
-    private UUID mDeviceUUID;
-    private BluetoothSocket mBTSocket;
+    private BluetoothDevice mDevice; //Azon eszköz adatai, melyhez csatlakozni szeretnénk
+    private UUID mDeviceUUID; //Azon eszköz adatai, melyhez csatlakozni szeretnénk
+    private BluetoothSocket mBTSocket; //A csatlakoztatott eszközök közötti feladatok ellátására szolgál
     private ReadInput mReadThread = null;
 
     private boolean mIsBluetoothConnected = false;
 
     private static String File_name;
     private String displayedLog = "";
-
-    private BluetoothDevice mDevice;
 
     final static String logCode = "333";
     final static char getLog = 'G';
@@ -271,7 +270,7 @@ public class LogActivity extends Activity {
 
         settingsAlert.setCancelable(false);
         settingsAlert.setTitle("Hozzáférés megtagadva!");
-        settingsAlert.setMessage("Beállítások -> Alkalmazások -> RobotControlApp -> Engedélyek");
+        settingsAlert.setMessage("Beállítások -> Alkalmazások -> BluetoothControl -> Engedélyek");
 
         settingsAlert.setPositiveButton("Megadtam az engedélyt!", new DialogInterface.OnClickListener() {
             @Override
@@ -327,7 +326,7 @@ public class LogActivity extends Activity {
         logEmptyAlert.show();
     }
 
-    private class ReadInput implements Runnable {
+    private class ReadInput implements Runnable { //A Bluetooth-on bejövő adat fogadása
 
         private boolean bStop = false;
         private Thread t;
@@ -339,25 +338,25 @@ public class LogActivity extends Activity {
 
         public boolean isRunning() {
             return t.isAlive();
-        }
+        } //Akkor használjuk, ha a képernyőről elnavigálunk.
 
         @Override
         public void run() {
-            InputStream inputStream;
+            InputStream inputStream; //A bejövő adat fogadására szolgáló példány
 
             try {
                 inputStream = mBTSocket.getInputStream();
                 while (!bStop) {
-                    byte[] buffer = new byte[256];
+                    byte[] buffer = new byte[1024];
                     if (inputStream.available() > 0) {
                         inputStream.read(buffer);
                         int i;
 
                         for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
-                            displayedLog = new String(buffer, 0, i);
+                            displayedLog = new String(buffer, 0, i); //A bejövő adatot karakterenként fogadjuk és csatoljuk hozzá a String-hez
                         }
-                        displayedLog = displayedLog.replaceAll("_", "\n" + "> ");
-                        logTextView.setText(displayedLog);
+                        displayedLog = displayedLog.replaceAll("_", "\n" + "> "); //A fogadott adatot formázzuk megjelenítés előtt
+                        logTextView.setText(displayedLog); //A formázott adatot megjelenítjük
                     }
                     t.sleep(500);
                 }
@@ -381,12 +380,12 @@ public class LogActivity extends Activity {
 
             if (mReadThread != null) {
                 mReadThread.stop();
-                while (mReadThread.isRunning()) ;
+                while (mReadThread.isRunning()); //Mielőtt elhagynánk a képernyőt befejezzük a bejövő adat olvasását.
                 mReadThread = null;
             }
 
             try {
-                mBTSocket.close();
+                mBTSocket.close(); //A socketet bezárjuk a képernyő elhagyásakor
             } catch (IOException e) {
                 e.printStackTrace();
             }

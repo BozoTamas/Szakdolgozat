@@ -37,7 +37,7 @@ public class AutoFollowActivity extends Activity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { //A Bluetooth kapcsolódás, valamint adat küldés és fogadás működéséhez tartozó kommentek a 'LogActivity-ben találhatók'
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auto_follow);
 
