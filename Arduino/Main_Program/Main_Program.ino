@@ -63,22 +63,19 @@ void loop(){
           delay(100);
           ObstacleAvoidance(); //Kiketüljük az akadályt
         }
-        else{
-          if(digitalRead(leftIRSensor)==0 && digitalRead(rightIRSensor)==0){
-            forwardAction(100);
+        else{ //Itt azért nem a checkPause() metódust használtam, mert itt el kell tudnunk dönteni, hogy a felhasználó újra inítja a követés folyamatát, vagy ki akar lépni belőle
+          if(digitalRead(leftIRSensor)==0 && digitalRead(rightIRSensor)==0){ //ha ezt a chekPause()-ban oldottam meg a robot esetenként rossz értéket kapott és kilépett a folyamatból
+            forwardAction(100);												                       //mikor újra akartuk indítani a követést.
             newData = myBluetooth.read();
           }
-  
           else if(digitalRead(leftIRSensor)==0 && !digitalRead(rightIRSensor)==0){
             rightAction(100,130);
             newData = myBluetooth.read();
           }
-  
           else if(!digitalRead(leftIRSensor)==0 && digitalRead(rightIRSensor)==0){
             leftAction(100,130);
             newData = myBluetooth.read();
           }
-  
           else if(!digitalRead(leftIRSensor)==0 && !digitalRead(rightIRSensor)==0){
             stopAction();
             newData = myBluetooth.read();
@@ -147,14 +144,14 @@ void loop(){
   }
 }
 
-void checkPause(){
+void checkPause(){ //A követés szüneteltetése.
   newData = myBluetooth.read();
   if(newData == 'E'){
     logEvent("_Követés szüneteltetve.");
     do{
       stopAction();       
       newData = myBluetooth.read();
-    }while(newData != 'S'); //Mindaddig szünetel a követés, amíg a felhasználó újra nem indítja azt, vagy ki nem lép a képernyőről
+    }while(newData != 'S');
     if(newData == 'S'){
       logEvent("_Követés újraindítva! ");
     }
