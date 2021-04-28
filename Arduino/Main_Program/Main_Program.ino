@@ -147,6 +147,19 @@ void loop(){
   }
 }
 
+void checkPause(){
+  newData = myBluetooth.read();
+  if(newData == 'E'){
+    logEvent("_Követés szüneteltetve.");
+    do{
+      stopAction();       
+      newData = myBluetooth.read();
+    }while(newData != 'S'); //Mindaddig szünetel a követés, amíg a felhasználó újra nem indítja azt, vagy ki nem lép a képernyőről
+    if(newData == 'S'){
+      logEvent("_Követés újraindítva! ");
+    }
+  }
+}
 
 //Az UH szenzor működéséhez szükséges metódus
 long measureDistance(){
@@ -209,6 +222,7 @@ void followObstacle(){
     else{
       obstacleDetected = false;
     }
+    checkPause();
   }while(obstacleDetected);
   obstacleDistance=0; //Kinullázzuk az értéket a hibalehetőségek csökkentésére
 }
@@ -226,6 +240,7 @@ void reFindObstacle(){
     else{
       obstacleDetected = false;
     }
+    checkPause();
   }while(!obstacleDetected);
   obstacleDistance = 0;
 }
@@ -292,6 +307,7 @@ void reFindLine(){ //A vonalat úgy találjuk meg, hogy a robot előrehalad addi
       delay(300);
       lineNotFound = false;
     }
+    checkPause();
   }while(lineNotFound);
   logEvent("_Akadály kikerülve! ");
 }

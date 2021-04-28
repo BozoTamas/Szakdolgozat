@@ -1,4 +1,4 @@
-#include <AFMotor.h>
+#include <AFMotor.h> //A shield könyvtára
 #include <Servo.h>
 
 AF_DCMotor rightFront(1, MOTOR12_1KHZ); //M1 port
